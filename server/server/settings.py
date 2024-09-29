@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'users',
     'menus',
+    'photography',
     'cloudinary',
     "corsheaders",
     'rest_framework',
