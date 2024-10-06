@@ -21,3 +21,17 @@ class Photography(models.Model):
 
     def __str__(self):
         return self.title
+    
+class Category(models.Model):
+    name = models.CharField(max_length=100)
+    description = models.TextField(blank=True)
+    
+    def __str__(self):
+        return self.name
+    
+class CategoryPhotography(models.Model):
+    photography = models.ForeignKey(Photography, on_delete=models.CASCADE)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    
+    def __str__(self):
+        return f'{self.photography.title} - {self.category.name}'

@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'users',
     'menus',
     'photography',
+    'search',
     'cloudinary',
     "corsheaders",
     'rest_framework',

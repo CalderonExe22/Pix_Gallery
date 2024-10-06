@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link} from "react-router-dom";
 import axiosApi from "../../services/axiosApi";
+import Search from '../Search/Search'
 export default function Navbar() {
 
     const [userMenus, setUserMenus] = useState([])
@@ -30,6 +31,7 @@ export default function Navbar() {
                     <li key={userMenu.name}><Link to={userMenu.url}>{userMenu.name}</Link></li>
                 ))}
             </ul>
+            <Search />
         </nav>
     )
 }
