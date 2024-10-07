@@ -1,0 +1,16 @@
+
+.navbar
+{
+    @apply fixed top-0 left-0 w-full flex justify-between items-center gap-16 z-0;
+    padding: 15px 30px 15px 30px;
+}
+
+.itemsNav
+{
+    @apply flex justify-evenly w-full gap-11; 
+}
+
+.logo
+{
+    @apply flex justify-evenly items-center w-full font-medium text-2xl;
+}

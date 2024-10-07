@@ -30,7 +30,8 @@ export default function Register() {
     return (
         <>
             <div>
-                <form onSubmit={handleSubmit(onSubmit)}>
+                <form  className="flex flex-col gap-11 p-20 bg-indigo-300 rounded-xl" onSubmit={handleSubmit(onSubmit)}>
+                <h1 className="text-center font-medium text-3xl">Registrarse</h1>
                     <Input
                         label="Nombre de usuario"
                         type="text"

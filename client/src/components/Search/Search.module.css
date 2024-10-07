@@ -1,0 +1,33 @@
+.search
+{
+    @apply flex w-full relative;
+}
+
+.contain_search
+{
+    @apply flex w-full bg-white p-3;
+}
+
+.input_search
+{
+    @apply flex w-full p-1 rounded-xl;
+}
+
+.result_search
+{
+    @apply absolute top-14 left-0 w-full rounded-xl z-10;
+    max-height: 400px; 
+    overflow-y: auto;
+    transition: 300ms ease-in-out;
+    padding: 10px 10px 10px 10px;
+}
+
+.content_result
+{
+    @apply flex;
+}
+
+.overlay {
+    @apply fixed inset-0 bg-black bg-opacity-50 -z-20; 
+    transition: opacity 0.3s ease-in-out;
+}

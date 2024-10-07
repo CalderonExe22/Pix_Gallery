@@ -30,7 +30,8 @@ export default function Login() {
         }
     }
     return (    
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form className="flex flex-col gap-11 p-20 bg-indigo-300 rounded-xl" onSubmit={handleSubmit(onSubmit)}>
+            <h1 className="text-center font-medium text-3xl">Iniciar secion</h1>
             <Input
                 label="Email"
                 type="email"
