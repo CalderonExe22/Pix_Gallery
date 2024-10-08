@@ -8,10 +8,9 @@ class UserSerializer(ModelSerializer):
         fields = ['id', 'email', 'username'] 
 
 class SerializerPhotography(ModelSerializer):
-    user = UserSerializer(read_only=True)
     class Meta:
         model = Photography
-        fields = ['id','user', 'title', 'description', 'image', 'precio', 'is_free', 'created_at']
+        fields = ['id', 'title', 'description', 'image', 'precio', 'is_free','is_public', 'created_at']
     
     def validate(self, data):
         if data['is_free'] and data.get('precio', 0) > 0:

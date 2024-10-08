@@ -3,11 +3,7 @@ import dayjs from 'dayjs'
 import { jwtDecode } from "jwt-decode"
 
 const axiosApi = axios.create({
-    baseURL : 'http://127.0.0.1:8000/api/',
-    timeout: 5000, // Tiempo máximo de espera para una solicitud
-    headers: {
-    'Content-Type': 'application/json',  // Tipo de contenido predeterminado
-    }
+    baseURL : 'http://127.0.0.1:8000/api/'
 })
 
 const refreshToken = async () => {
@@ -48,7 +44,7 @@ axiosApi.interceptors.request.use(
     async config => {
         const accessToken = await getAccessToken()
         if(accessToken){
-            config.headers.Authorization = `Bearer ${accessToken}` 
+            config.headers['Authorization'] = `Bearer ${accessToken}`; 
         }
         return config
     },

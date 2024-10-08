@@ -15,7 +15,7 @@
 
 .result_search
 {
-    @apply absolute top-14 left-0 w-full rounded-xl z-10;
+    @apply absolute top-14 left-0 w-full rounded-xl z-10  bg-white;
     max-height: 400px; 
     overflow-y: auto;
     transition: 300ms ease-in-out;

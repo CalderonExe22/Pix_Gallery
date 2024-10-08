@@ -1,7 +1,7 @@
 
 .navbar
 {
-    @apply fixed top-0 left-0 w-full flex justify-between items-center gap-16 z-0;
+    @apply fixed top-0 left-0 w-full flex justify-between items-center gap-16 z-0 bg-white;
     padding: 15px 30px 15px 30px;
 }
 

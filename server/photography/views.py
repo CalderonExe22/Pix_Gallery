@@ -11,7 +11,7 @@ class IsOwner(BasePermission):
 class PhotographyAPIView(ModelViewSet):
     queryset = Photography.objects.all()
     serializer_class = SerializerPhotography
-    permission_classes = [IsAuthenticated, IsOwner]
+    permission_classes = (IsAuthenticated,)
     
     def get_queryset(self):
         user_param = self.request.query_params.get('user', None)

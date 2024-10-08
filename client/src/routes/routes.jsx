@@ -3,6 +3,7 @@ import App from '../App';  // Ajusta el path según tu estructura
 import Home from '../pages/Home/Home';
 import Login from '../pages/Login/Login';
 import Register from '../pages/Register/Register';
+import Create from '../pages/Create/Create';
 
 const router = createBrowserRouter([
     {
@@ -20,6 +21,10 @@ const router = createBrowserRouter([
             {
                 path: '/register',
                 element: <Register />
+            },
+            {
+                path: '/crear',
+                element: <Create />
             }
         ]
     },
