@@ -21,8 +21,8 @@ export default function Login() {
             if(response.status === 200){
                 localStorage.setItem('accessToken', response.data.tokens.access)
                 localStorage.setItem('refreshToken', response.data.tokens.refresh)
-                window.location.reload()
                 navigate('/')
+                window.location.reload()
                 console.log('login exitoso!!')
             }
         } catch (error) {

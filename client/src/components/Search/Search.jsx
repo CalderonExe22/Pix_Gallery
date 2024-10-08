@@ -46,14 +46,14 @@ export default function Search() {
                 <div className={style.result_search}>
                     <h3 className='font-bold'>Profiles</h3>
                     {results.profiles.map(profile => (
-                        <div className='pt-6 pb-6' key={profile.id}>
+                        <div className='mt-6 mb-6 p-2 transition-colors hover:bg-indigo-300 cursor-pointer' key={profile.id}>
                             <h4>{profile.user}</h4>
                             <p>{profile.bio}</p>
                         </div>
                     ))}
                     <h3 className='font-bold'>Photos</h3>
                     {results.photos.map(photo => (
-                        <div className='pt-6 pb-6' key={photo.id}>
+                        <div className='mt-6 mb-6 p-2 transition-colors hover:bg-indigo-300 cursor-pointer' key={photo.id}>
                             <h4>{photo.title}</h4>
                             <p>{photo.description}</p>
                         </div>
