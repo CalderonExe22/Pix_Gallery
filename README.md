@@ -1,6 +1,6 @@
 ## Guia de Instalación:
 ### Requisitos Previos:
-Asegúrate de tener instalado Git y Node.js. Puedes ejecutar los siguientes comandos en tu terminal:
+Asegúrate de tener instalado Git, Node.js, Python. Puedes ejecutar los siguientes comandos en tu terminal:
 
 * Para verificar la versión de Node.js (Usaremos la versión 10 o superior):
 ``` bash
@@ -10,9 +10,14 @@ node -v
 ``` bash
 git --version
 ```
+* Para verificar la versión de Python:
+``` bash
+py --version
+```
 Si no tienes instalado alguno de estos requisitos, puedes descargarlos e instalarlos desde los siguientes enlaces:
 * [Descargar Node.js](https://nodejs.org/en/download)
 * [Descargar Git](https://git-scm.com/downloads)
+* [Descargar Python](https://www.python.org/downloads/)
 
 ### Instalación del Proyecto
 
@@ -60,6 +65,7 @@ python manage.py runserver
 cd Pix_Gallery/client
 npm run dev
 ```
-12. Verificar si el proyecto esta corriendo correctamente desde la url proporcionada del frontend:
+12. Verificar si el proyecto esta corriendo correctamente desde la url proporcionada del frontend.
+![Captura de pantalla 2024-08-29 160652](https://github.com/user-attachments/assets/b317907b-00a4-486d-9287-10bf251106d9)
 
 
