@@ -66,6 +66,6 @@ cd Pix_Gallery/client
 npm run dev
 ```
 12. Verificar si el proyecto esta corriendo correctamente desde la url proporcionada del frontend.
-![Captura de pantalla 2024-08-29 160652](https://github.com/user-attachments/assets/b317907b-00a4-486d-9287-10bf251106d9)
+![Captura de pantalla 2024-10-08 231408](https://github.com/user-attachments/assets/78b9e330-9ef9-460a-a177-dee8842045c0)
 
 
