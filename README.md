@@ -39,8 +39,10 @@ venv\Scripts\activate
 pip install -r requirements.txt
 ```
 5. Crear una base de datos con el nombre Pix_Gallery:
+
 6. configuración (settings.py) de tu base de datos:
 ![Captura de pantalla 2024-10-08 230043](https://github.com/user-attachments/assets/21084369-d4ba-427e-a060-5cf13f556ab9)
+
 7. Aplica las migraciones de la base de datos:
 ``` bash
 python manage.py migrate
