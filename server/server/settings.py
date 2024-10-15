@@ -86,9 +86,9 @@ WSGI_APPLICATION = 'server.wsgi.application'
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": "Pix_Gallery",
-        "USER": "postgres",
-        "PASSWORD": "1234",
+        "NAME": "Filter",
+        "USER": "jonathan",
+        "PASSWORD": "jonathan1234",
         "HOST": "localhost",
         "PORT": "5432",
     }
@@ -139,9 +139,9 @@ import cloudinary
 import cloudinary.uploader
 import cloudinary.api	
 cloudinary.config( 
-    cloud_name = "dowtoqcra",
-    api_key = "828463778147749",
-    api_secret = "cvfnYtJSScUnn7fhhiopG-1KQ-c",
+    cloud_name = "drtkhsozv",
+    api_key = "392266669129435",
+    api_secret = "ly3qZYpZmAw7kSGslUipCXk3IYE",
     secure=True,
 )
 
