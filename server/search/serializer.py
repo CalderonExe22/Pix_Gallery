@@ -6,7 +6,7 @@ from rest_framework import serializers
 class PhotographySerializer(ModelSerializer): 
     class Meta:
         model = Photography
-        fields = ['id','title','description']
+        fields = ['id','title','description','image']
     
 class ProfileSerializer(ModelSerializer): 
     user = serializers.CharField(source='user.username')

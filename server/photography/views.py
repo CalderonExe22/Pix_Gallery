@@ -22,7 +22,7 @@ class PhotographyAPIView(ModelViewSet):
             except User.DoesNotExist:
                 return Photography.objects.none()  # Si el usuario no existe, devolver un queryset vacío
         else:
-            return Photography.objects.filter(user=self.request.user)
+            return Photography.objects.filter()
     
     def get_permissions(self):
         if self.action in ['retrieve', 'update', 'destroy']:
