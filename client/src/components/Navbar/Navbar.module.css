@@ -1,16 +1,28 @@
 
 .navbar
 {
-    @apply fixed top-0 left-0 w-full flex justify-between items-center gap-16 z-0 bg-white;
-    padding: 15px 30px 15px 30px;
+    @apply fixed top-0 left-0 w-full flex justify-around items-center gap-16 z-20 bg-white text-lg font-medium;
+    padding: 30px 30px 30px 30px;
 }
 
 .itemsNav
 {
-    @apply flex justify-evenly w-full gap-11; 
+    @apply flex items-center gap-11; 
 }
 
 .logo
 {
-    @apply flex justify-evenly items-center w-full font-medium text-2xl;
+    @apply font-medium text-2xl;
+}
+
+.links
+{
+    @apply p-3;
+    box-shadow: inset 0 0 0 0 #3a0ca3;
+    transition: color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+.links:hover
+{
+    color: white;
+    box-shadow: inset 100px 0 0 0 #3a0ca3;
 }
