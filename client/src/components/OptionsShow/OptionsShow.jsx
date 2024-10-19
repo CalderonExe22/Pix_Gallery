@@ -30,7 +30,7 @@ export default function OptionsSearch({results}) {
                                         <span>{photo.title}</span> 
                                         <span>{photo.description}</span> 
                                     </div>
-                                    <img className={style.image} src={'https://res.cloudinary.com/dowtoqcra/'+photo.image} />
+                                    <img className={style.image} src={'https://res.cloudinary.com/drtkhsozv/'+photo.image} />
                                 </div>
                             ))} 
                         </>
@@ -43,7 +43,7 @@ export default function OptionsSearch({results}) {
                                         <span>{profile.user}</span> 
                                     </div>
                                     {profile.profile_photo ? (
-                                        <img className={style.image} src={'https://res.cloudinary.com/dowtoqcra/'+profile.image} />
+                                        <img className={style.image} src={'https://res.cloudinary.com/drtkhsozv/'+profile.image} />
                                     ):(
                                         <img src="https://res.cloudinary.com/dowtoqcra/image/upload/v1729264496/wbtownzvwkokccchbbto.webp" alt="sinfotodeperfil" />
                                     )}
@@ -60,7 +60,7 @@ export default function OptionsSearch({results}) {
                                         <span>{category.title}</span> 
                                         <span>{category.description}</span> 
                                     </div>
-                                    <img className={style.image} src={'https://res.cloudinary.com/dowtoqcra/'+category.image} />
+                                    <img className={style.image} src={'https://res.cloudinary.com/drtkhsozv/'+category.image} />
                                 </div>
                             ))} 
                         </>

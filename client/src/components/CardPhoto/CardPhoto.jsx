@@ -2,7 +2,7 @@ import style from "./CardPhoto.module.css";
 import PropTypes from "prop-types";
 
 export default function CardPhoto({url,title,isLarge}) {
-    const URL = 'https://res.cloudinary.com/dowtoqcra/'
+    const URL = 'https://res.cloudinary.com/drtkhsozv/'
 
     return (
         <div className={`${style.containerPhoto} ${isLarge ? style.large : style.small}`}>

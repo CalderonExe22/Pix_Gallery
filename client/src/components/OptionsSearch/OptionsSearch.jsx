@@ -31,7 +31,7 @@ export default function OptionsSearch({results}) {
                             ))}
                         </div>
                         {item.image && (
-                            <img className={style.image} src={'https://res.cloudinary.com/dowtoqcra/'+item.image} alt={item.title || 'Image'} />
+                            <img className={style.image} src={'https://res.cloudinary.com/drtkhsozv/'+item.image} alt={item.title || 'Image'} />
                         )}
                     </div>
                 ))}

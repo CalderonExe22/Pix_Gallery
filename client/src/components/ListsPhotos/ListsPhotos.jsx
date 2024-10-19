@@ -1,19 +1,8 @@
-import { useEffect, useState } from 'react'
-import style from './ListsPhotos.module.css'
-import axiosApi from '../../services/axiosApi'
-import CardPhoto from '../CardPhoto/CardPhoto'
+import style from './ListsPhotos.module.css';
+import CardPhoto from '../CardPhoto/CardPhoto';
+import PropTypes from 'prop-types';
 
-export default function ListsPhotos() {
-
-    const [photos, setPhotos] = useState([])
-    const fetchPhotos = async () => {
-        const response = await axiosApi.get('photos/photography/')
-        setPhotos(response.data)
-    }
-    useEffect(()=>{
-        fetchPhotos()
-    },[])
-    
+export default function ListPhotos({ photos }) {
     return (
         <div className={style.containerPhotos}>
             {photos.map((photo, index) => (
@@ -25,5 +14,16 @@ export default function ListsPhotos() {
                 />
             ))}
         </div>
-    )
+    );
 }
+
+// Validación de props con PropTypes
+ListPhotos.propTypes = {
+    photos: PropTypes.arrayOf(
+        PropTypes.shape({
+            id: PropTypes.number.isRequired,
+            title: PropTypes.string,
+            image: PropTypes.string.isRequired,
+        })
+    ).isRequired,
+};

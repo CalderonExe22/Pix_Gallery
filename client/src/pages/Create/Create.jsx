@@ -1,11 +1,27 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axiosApi from "../../services/axiosApi";
 
 export default function Create() {
+
+  const [categories, setCategories] = useState([]);
+
+  useEffect(() => {
+    const getCategories = async () => {
+      try {
+        const response = await axiosApi.get('photos/category/');
+        setCategories(response.data);
+      } catch (error) {
+        console.log('Error al obtener las categorías:', error);
+      }
+    };
+    getCategories();
+  }, []);
+
   const [formData, setFormData] = useState({
     title: '',
     description: '',
     precio: 0,
+    category: '',
     is_free: true,
     is_public: true, // Añadir is_public aquí
     image: null // La imagen se maneja como archivo, no como string
@@ -31,6 +47,7 @@ export default function Create() {
     const data = new FormData();
     data.append('title', formData.title);
     data.append('description', formData.description);
+    data.append('category', formData.category);
     data.append('image', formData.image); // Importante: añadir la imagen al FormData
     data.append('precio', formData.precio); // Añadir el campo precio
     data.append('is_free', formData.is_free); // Añadir el campo is_free
@@ -73,6 +90,17 @@ export default function Create() {
           placeholder="Precio"
           required
         />
+        <select 
+          id="category" 
+          name="category"
+          onChange={handleChange}
+          required
+        >
+          <option value="">Selecciona una categoría</option>
+          {categories.map(category => (
+            <option key={category.id} value={category.id}>{category.name}</option>
+          ))}
+        </select>
         <label>
           <input 
             type="checkbox" 
