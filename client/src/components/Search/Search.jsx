@@ -1,23 +1,35 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import axiosApi from '../../services/axiosApi'
 import style from './Search.module.css'
+import OptionsShow from '../OptionsShow/OptionsShow'
 
 export default function Search() {
 
     const [query, setQuery] = useState('')
-    const [results, setResults] = useState({ profiles: [], photos: []})
+    const [results, setResults] = useState([])
     //const [loading, setLoading] = useState(false);
     const [isSearching, setIsSearching] = useState(false)
+    const [showInputSearch,setShowInputSearch] = useState(false)
+    
+    const searchRef = useRef(null)
+    const handleSearchClick  = () => {
+        setShowInputSearch(!showInputSearch)
+    }
+
+    const handleClickOutside = (e) => {
+        if(searchRef.current && !searchRef.current.contains(e.target)){
+            setShowInputSearch(false)
+        }
+    }
 
     const fetchSearch = async (searchQuery) => {
         if(searchQuery.length > 0){
             //setLoading(true)
             setIsSearching(true)
-            document.body.style.backgroundColor = ''
             try {
                 const response = await axiosApi.get(`search/global-search/?q=${searchQuery}`)
                 setResults(response.data);
-            } catch (error) {
+            } catch (error) { 
                 console.log('Error fetching results:', error) 
             }
             //setLoading(false);
@@ -26,40 +38,44 @@ export default function Search() {
             setResults({ profiles: [], photos: [] })
         }
     }
-
     useEffect(() => {
+        
         fetchSearch(query);
-    }, [query]);
+
+        if (showInputSearch) {
+            document.addEventListener('mousedown', handleClickOutside);
+        } else {
+            document.removeEventListener('mousedown', handleClickOutside);
+        }
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, [query,showInputSearch]);
 
     return (
-        <div className={style.search}>
-            <div className={style.contain_search}>
-                <input
-                    className={style.input_search}
-                    type="text"
-                    value={query}
-                    onChange={(e) => setQuery(e.target.value)}
-                    placeholder="Search..."
-                />  
-            </div>
-            {isSearching && (         
-                <div className={style.result_search}>
-                    <h3 className='font-bold'>Profiles</h3>
-                    {results.profiles.map(profile => (
-                        <div className='mt-6 mb-6 p-2 transition-colors hover:bg-indigo-300 cursor-pointer' key={profile.id}>
-                            <h4>{profile.user}</h4>
-                            <p>{profile.bio}</p>
+        <>
+            <div className={`${style.overlay} ${showInputSearch ? style.show : ''}`}></div>
+            <div ref={searchRef}>
+                <button className={style.links} onClick={handleSearchClick}>
+                    <i className="fa-solid fa-search"></i> <span> Buscar </span>
+                </button>
+                <div className={`${style.search} ${showInputSearch ? style.show : ''}`}>
+                    <form className={style.container_search}>
+                        <input 
+                            type="search"
+                            value={query}
+                            onChange={(e) => setQuery(e.target.value)}
+                            placeholder="Buscar..."
+                            className={style.inputSearch}
+                        />
+                    </form>
+                    {isSearching && (
+                        <div className={`${style.results} ${isSearching && showInputSearch ? style.showResults : ''}`}>
+                            <OptionsShow  results={results}/>
                         </div>
-                    ))}
-                    <h3 className='font-bold'>Photos</h3>
-                    {results.photos.map(photo => (
-                        <div className='mt-6 mb-6 p-2 transition-colors hover:bg-indigo-300 cursor-pointer' key={photo.id}>
-                            <h4>{photo.title}</h4>
-                            <p>{photo.description}</p>
-                        </div>
-                    ))}
+                    )}
                 </div>
-            )}
-        </div>
+            </div>
+        </>
     )
 }

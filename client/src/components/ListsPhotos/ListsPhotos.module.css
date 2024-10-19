@@ -1,0 +1,8 @@
+.containerPhotos{
+    @apply w-full grid gap-5;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* Esto ajustará automáticamente las columnas según el espacio disponible */
+    grid-auto-rows: 10px; /* Esto hace que cada fila sea de 10px, permitiendo que las imágenes se expandan en múltiplos de 10 */
+    padding: 12px 72px 32px;
+}
+
+

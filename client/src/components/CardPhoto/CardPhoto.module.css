@@ -1,0 +1,19 @@
+.containerPhoto {
+    @apply relative overflow-hidden bg-gray-200 rounded-2xl; 
+}
+
+.image{
+    @apply object-cover w-full h-full;
+}
+
+.icons{
+    @apply absolute z-10 top-0 left-0;
+}
+
+.large {
+    grid-row-end: span 20; /* Ajuste de tamaño grande */
+}
+
+.small {
+    grid-row-end: span 15; /* Ajuste de tamaño pequeño */
+}
