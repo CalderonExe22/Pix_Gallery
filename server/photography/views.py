@@ -1,4 +1,4 @@
-from rest_framework.permissions import IsAuthenticated, BasePermission
+from rest_framework.permissions import IsAuthenticated, BasePermission, AllowAny
 from rest_framework.viewsets import ModelViewSet
 from .models import *
 from users.models import User
@@ -11,7 +11,7 @@ class IsOwner(BasePermission):
 class PhotographyAPIView(ModelViewSet):
     queryset = Photography.objects.all()
     serializer_class = SerializerPhotography
-    permission_classes = (IsAuthenticated,)
+    #permission_classes = (IsAuthenticated,)
     
     def get_queryset(self):
         user_param = self.request.query_params.get('user', None)
@@ -28,7 +28,7 @@ class PhotographyAPIView(ModelViewSet):
         if self.action in ['retrieve', 'update', 'destroy']:
             self.permission_classes = [IsAuthenticated, IsOwner]
         else:
-            self.permission_classes = [IsAuthenticated]
+            self.permission_classes = [AllowAny]
         return super().get_permissions()
 
     def perform_create(self, serializer):
