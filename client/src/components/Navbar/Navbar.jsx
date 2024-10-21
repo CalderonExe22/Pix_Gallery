@@ -1,13 +1,27 @@
-import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import axiosApi from "../../services/axiosApi";
-import Search from '../Search/Search'
-import style from './Navbar.module.css'
+import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import axiosApi from '../../services/axiosApi';
+import Search from '../Search/Search';
+import style from './Navbar.module.css';
 
 export default function Navbar() {
-    const [userMenus, setUserMenus] = useState([])
-    const [IsAutenticated, setIsAutenticated] = useState(false)
-    
+
+    const [IsAutenticated, setIsAutenticated] = useState(false);
+
+    useEffect(() => {
+        const accessToken = localStorage.getItem('accessToken');
+        accessToken ? setIsAutenticated(true) : setIsAutenticated(false);
+    }, [IsAutenticated])
+
+    const menuPublic = [
+        {name: 'Home', url: '/'},
+    ]
+
+    const menuAutenticated = [
+        {name: 'Home', url: '/'},
+        {name: 'Create', url: '/crear'},
+    ]
+
     const handleLogout = async ()=>{
         try{
             const response = await axiosApi.post('users/logout/', {
@@ -22,33 +36,14 @@ export default function Navbar() {
             console.log('failed logout',error)
         }
     }
-    
-    useEffect(()=>{
-        const fetchMenu = async () => {
-            try {
-                const tokenAccess = localStorage.getItem('accessToken')
-                if(tokenAccess){
-                    const response = await axiosApi.get('menus/authenticated-menu/')
-                    setUserMenus(response.data)
-                    setIsAutenticated(true)
-                }else{
-                    const response = await axiosApi.get('menus/public-menu/ ')
-                    setUserMenus(response.data)
-                }
-            } catch (error) {
-                console.log('error al cargar el menu', error)
-            }
-        }
-        fetchMenu()
-    },[]) 
-    
+
     return (
         <nav className={style.navbar}> 
             <ul className={style.itemsNav}>
                 <li className={style.logo}>
                     <h1>PG</h1>
                 </li>
-                {userMenus.map((menu) => (
+                {(IsAutenticated ? menuAutenticated : menuPublic).map((menu) => (
                     <li key={menu.name}><Link className={style.links} to={menu.url}>{menu.name}</Link></li>
                 ))}
             </ul>
@@ -58,33 +53,33 @@ export default function Navbar() {
                 </li>
                 {IsAutenticated ? (
                     <>
-                    <li>
-                        <Link>
-                            <i className="fa-solid fa-bell text-2xl"></i>
-                        </Link>
-                    </li>
-                    <li>
-                        <Link>
-                            <i className="fa-solid fa-heart text-2xl"></i>
-                        </Link>
-                    </li>
-                    <li>
-                        <Link>
-                            <i className="fa-solid fa-user text-2xl"></i>
-                        </Link>
-                    </li>
-                    <li>
-                        <button onClick={handleLogout}>Logout</button>
-                    </li>
+                        <li>
+                            <Link>
+                                <i className="fa-solid fa-bell text-2xl"></i>
+                            </Link>
+                        </li>
+                        <li>
+                            <Link>
+                                <i className="fa-solid fa-heart text-2xl"></i>
+                            </Link>
+                        </li>
+                        <li>
+                            <Link>
+                                <i className="fa-solid fa-user text-2xl"></i>
+                            </Link>
+                        </li>
+                        <li>
+                            <button onClick={handleLogout} className={style.links}>Logout</button>
+                        </li>
                     </>
-                ):(
+                ) : (
                     <>
-                    <li>
-                        <Link to='/login'>Sing in</Link>
-                    </li>
-                    <li>
-                        <Link to='/register'>Sing up</Link>
-                    </li>
+                        <li>
+                            <Link to='/login' className={style.links}>Login</Link>
+                        </li>
+                        <li>
+                            <Link to='/register' className={style.links}>Register</Link>
+                        </li>
                     </>
                 )}
             </ul>
