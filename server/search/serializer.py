@@ -17,4 +17,4 @@ class ProfileSerializer(ModelSerializer):
 class CategorySerializer(ModelSerializer):
     class Meta:
         model = Category
-        fields = ['id','name']
+        fields = ['id','name', 'image', 'description']

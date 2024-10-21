@@ -29,13 +29,14 @@ export default function Search() {
             try {
                 const response = await axiosApi.get(`search/global-search/?q=${searchQuery}`)
                 setResults(response.data);
+                console.log(response.data);
             } catch (error) { 
                 console.log('Error fetching results:', error) 
             }
             //setLoading(false);
         }else {
             setIsSearching(false)
-            setResults({ profiles: [], photos: [] })
+            setResults({ profiles: [], photos: [], categories: [] })
         }
     }
     useEffect(() => {

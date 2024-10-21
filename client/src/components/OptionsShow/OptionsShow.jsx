@@ -52,16 +52,14 @@ export default function OptionsSearch({results}) {
                             ))} 
                         </>
                     )}
-                    {showOptions === 'Categorias' && (
+                    {showOptions === 'categories' && (
                         <>
                             {results.categories.map((category) => (
                                 <div key={category.id} className={style.options}>  
                                     <div className={style.optionsText}>
-                                        <span>{category.title}</span> 
-                                        <span>{category.description}</span> 
+                                        <span>{category.name}</span>
                                     </div>
-                                    <img className={style.image} src={'https://res.cloudinary.com/drtkhsozv/'+category.image} />
-                                </div>
+                                    <img alt={category.name} className={style.image} src={'https://res.cloudinary.com/drtkhsozv/'+category.image} />                                </div>
                             ))} 
                         </>
                     )}

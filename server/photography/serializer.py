@@ -31,7 +31,7 @@ class SerializerPhotography(ModelSerializer):
 class CategorySerializer(ModelSerializer):
     class Meta:
         model = Category
-        fields = ['id', 'name', 'description']
+        fields = ['id', 'name', 'description', 'image']
 
 class CategoryPhotographySerializer(ModelSerializer):
     class Meta:
