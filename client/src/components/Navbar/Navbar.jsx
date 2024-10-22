@@ -7,6 +7,7 @@ import style from './Navbar.module.css'
 export default function Navbar() {
     const [userMenus, setUserMenus] = useState([])
     const [IsAutenticated, setIsAutenticated] = useState(false)
+    const [user, setUser] = useState([])
     
     const handleLogout = async ()=>{
         try{
@@ -20,6 +21,15 @@ export default function Navbar() {
             window.location.reload()
         }catch(error){
             console.log('failed logout',error)
+        }
+    }
+
+    const userInfo = async () => {
+        try {
+            const response = await axiosApi.get('users/user/')
+            setUser(response.data)
+        } catch (error) {
+            console.error(error)
         }
     }
     
@@ -40,8 +50,9 @@ export default function Navbar() {
             }
         }
         fetchMenu()
+        userInfo()
     },[]) 
-    
+    console.log(user)
     return (
         <nav className={style.navbar}> 
             <ul className={style.itemsNav}>
@@ -51,6 +62,15 @@ export default function Navbar() {
                 {userMenus.map((menu) => (
                     <li key={menu.name}><Link className={style.links} to={menu.url}>{menu.name}</Link></li>
                 ))}
+                {user.has_portafolio ? (
+                    <li>
+                        <Link className={style.links} to={`/portafolio/${user.portafolio_id}`} >Portafolio</Link>
+                    </li>
+                ):(
+                    <li>
+                        <Link className={style.links} to='/create-portafolio' >Portafolio</Link>
+                    </li>
+                )}
             </ul>
             <ul className={style.itemsNav}>
                 <li>

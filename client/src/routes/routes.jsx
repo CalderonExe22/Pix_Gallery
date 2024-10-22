@@ -33,7 +33,7 @@ const router = createBrowserRouter([
                 element: <CreatePortafolio />
             },
             {
-                path: '/portafolio',
+                path: '/portafolio/:id',
                 element: <Portafolio />
             },
         ]

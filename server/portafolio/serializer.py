@@ -14,9 +14,10 @@ class PortafolioCollectionSerializer(serializers.ModelSerializer):
 class PortafolioSerializer(serializers.ModelSerializer):
     existing_photos = serializers.PrimaryKeyRelatedField(queryset=Photography.objects.all(), many=True, required=False, write_only=True)
     existing_collections = serializers.PrimaryKeyRelatedField(queryset=Collection.objects.all(), many=True, required=False, write_only=True)
+    collections = CollectionSerializer(many=True, read_only=True)
     class Meta: 
         model = Portafolio
-        fields = ['id', 'name','description', 'is_public', 'existing_photos', 'existing_collections']
+        fields = ['id', 'name','description','collections', 'is_public', 'existing_photos', 'existing_collections']
         
     def create(self, validated_data):
         existing_photos = validated_data.pop('existing_photos', [])

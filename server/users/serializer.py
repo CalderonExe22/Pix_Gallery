@@ -1,14 +1,24 @@
 from .models import *
+from portafolio.models import Portafolio
 import re
 from rest_framework import serializers
 from rest_framework.serializers import ModelSerializer
 from django.contrib.auth import authenticate
 
 class UserSerializer(ModelSerializer):
+    has_portafolio = serializers.SerializerMethodField()
+    portafolio_id = serializers.SerializerMethodField()
     class Meta: 
         model = User
-        fields = ['id','email','username', 'first_name', 'last_name']
-        
+        fields = ['id','email','username','has_portafolio','portafolio_id', 'first_name', 'last_name']
+
+    def get_has_portafolio(self, obj):
+        return Portafolio.objects.filter(user=obj).exists()
+    
+    def get_portafolio_id(self, obj):
+        portafolio = Portafolio.objects.filter(user=obj).first()  # Obtiene el primer portafolio
+        return portafolio.id if portafolio else None  
+    
 class ProfileSerializer(ModelSerializer):
     class Meta: 
         model = Profile
