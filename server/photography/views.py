@@ -1,8 +1,8 @@
 from rest_framework.permissions import IsAuthenticated, BasePermission
 from rest_framework.viewsets import ModelViewSet
-from .models import Photography
+from .models import *
 from users.models import User
-from .serializer import SerializerPhotography
+from .serializer import *
 
 class IsOwner(BasePermission):
     def has_object_permission(self, request, view, obj):
@@ -34,3 +34,7 @@ class PhotographyAPIView(ModelViewSet):
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
         
+class CollectionsAPIView(ModelViewSet):
+    queryset = Collection.objects.all()
+    serializer_class = CollectionSerializer
+    permission_classes = (IsAuthenticated,)

@@ -7,6 +7,5 @@ export default function Home() {
         <div className={style.home_container}>
             <ListsPhotos />
         </div>
-        
     )
 }

@@ -4,6 +4,8 @@ import Home from '../pages/Home/Home';
 import Login from '../pages/Login/Login';
 import Register from '../pages/Register/Register';
 import Create from '../pages/Create/Create';
+import CreatePortafolio from '../pages/CreatePortafolio/CreatePortafolio';
+import Portafolio from '../pages/Portafolio/Portafolio'
 
 const router = createBrowserRouter([
     {
@@ -25,7 +27,15 @@ const router = createBrowserRouter([
             {
                 path: '/crear',
                 element: <Create />
-            }
+            },
+            {
+                path: '/create-portafolio',
+                element: <CreatePortafolio />
+            },
+            {
+                path: '/portafolio',
+                element: <Portafolio />
+            },
         ]
     },
 ])

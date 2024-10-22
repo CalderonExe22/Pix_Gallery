@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'menus',
     'photography',
     'search',
+    'portafolio',
     'cloudinary',
     "corsheaders",
     'rest_framework',

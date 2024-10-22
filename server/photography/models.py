@@ -36,3 +36,14 @@ class CategoryPhotography(models.Model):
     
     def __str__(self):
         return f'{self.photography.title} - {self.category.name}'
+    
+class Collection(models.Model):
+    name = models.CharField(max_length=100)
+    description = models.TextField(blank=True)
+    def __str__(self):
+        return self.name
+    
+class CollectionPhotography(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    photography = models.ForeignKey(Photography, on_delete=models.CASCADE)
+    collection = models.ForeignKey(Collection, on_delete=models.CASCADE)

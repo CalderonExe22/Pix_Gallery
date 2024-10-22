@@ -1,11 +1,16 @@
-from rest_framework.serializers import ModelSerializer, ValidationError
-from .models import Photography
+from rest_framework.serializers import ModelSerializer, ValidationError, ListSerializer
+from .models import *
 from users.models import User
 
-class UserSerializer(ModelSerializer):
+class CollectionSerializer(ModelSerializer):
     class Meta:
-        model = User
-        fields = ['id', 'email', 'username'] 
+        model = Collection
+        fields = ['id','name','description']
+        
+class CollectionPhotographySerializer(ModelSerializer):
+    class Meta:
+        model = CollectionPhotography
+        fields = ['id','user','photography','collection']
 
 class SerializerPhotography(ModelSerializer):
     class Meta:
@@ -18,3 +23,4 @@ class SerializerPhotography(ModelSerializer):
         if not data['is_free'] and (data.get('precio') is None or data['precio'] <= 0):
             raise ValidationError("Las fotos no gratuitas deben tener un precio mayor que 0.")
         return data
+    
