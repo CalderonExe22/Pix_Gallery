@@ -44,14 +44,6 @@ export default function Portafolio() {
               <h3>{collection.name}</h3>
               <p>{collection.description}</p>
               <h4>Fotos en esta colección:</h4>
-              <ul>
-                {collection.photographies.map((photo) => (
-                  <li key={photo.id}>
-                    <img src={photo.image} alt={photo.title} />
-                    <p>{photo.title}</p>
-                  </li>
-                ))}
-              </ul>
             </li>
           ))}
         </ul>

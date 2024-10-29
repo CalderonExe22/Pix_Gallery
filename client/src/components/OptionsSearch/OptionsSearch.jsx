@@ -30,8 +30,8 @@ export default function OptionsSearch({results}) {
                                 <p key={field}>{item[field]}</p>  
                             ))}
                         </div>
-                        {item.image && (
-                            <img className={style.image} src={'https://res.cloudinary.com/dowtoqcra/'+item.image} alt={item.title || 'Image'} />
+                        {item.image || item.profile_photo && (
+                            <img className={style.image} src={'https://res.cloudinary.com/dowtoqcra/'+item.image || item.profile_photo} alt={item.title || 'Image'} />
                         )}
                     </div>
                 ))}

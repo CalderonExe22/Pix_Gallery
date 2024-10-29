@@ -4,7 +4,6 @@ import axiosApi from '../../services/axiosApi'
 import CardPhoto from '../CardPhoto/CardPhoto'
 
 export default function ListsPhotos() {
-
     const [photos, setPhotos] = useState([])
     const fetchPhotos = async () => {
         const response = await axiosApi.get('photos/photography/')

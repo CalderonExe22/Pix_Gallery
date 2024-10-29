@@ -51,7 +51,6 @@ export default function Search() {
             document.removeEventListener('mousedown', handleClickOutside);
         };
     }, [query,showInputSearch]);
-
     return (
         <>
             <div className={`${style.overlay} ${showInputSearch ? style.show : ''}`}></div>

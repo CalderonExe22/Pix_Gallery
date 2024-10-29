@@ -2,15 +2,6 @@ from rest_framework.serializers import ModelSerializer, ValidationError, ListSer
 from .models import *
 from users.models import User
 
-class CollectionSerializer(ModelSerializer):
-    class Meta:
-        model = Collection
-        fields = ['id','name','description']
-        
-class CollectionPhotographySerializer(ModelSerializer):
-    class Meta:
-        model = CollectionPhotography
-        fields = ['id','user','photography','collection']
 
 class SerializerPhotography(ModelSerializer):
     class Meta:
@@ -24,3 +15,13 @@ class SerializerPhotography(ModelSerializer):
             raise ValidationError("Las fotos no gratuitas deben tener un precio mayor que 0.")
         return data
     
+class CollectionSerializer(ModelSerializer):
+    class Meta:
+        model = Collection
+        fields = ['id','name','description','photos']
+        
+class CollectionPhotographySerializer(ModelSerializer):
+    photography = SerializerPhotography()
+    class Meta:
+        model = CollectionPhotography
+        fields = ['photography']

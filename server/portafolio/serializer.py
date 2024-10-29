@@ -14,11 +14,24 @@ class PortafolioCollectionSerializer(serializers.ModelSerializer):
 class PortafolioSerializer(serializers.ModelSerializer):
     existing_photos = serializers.PrimaryKeyRelatedField(queryset=Photography.objects.all(), many=True, required=False, write_only=True)
     existing_collections = serializers.PrimaryKeyRelatedField(queryset=Collection.objects.all(), many=True, required=False, write_only=True)
-    collections = CollectionSerializer(many=True, read_only=True)
+    collections = CollectionSerializer(source='collectionphotography_set', many=True, read_only=True)
     class Meta: 
         model = Portafolio
         fields = ['id', 'name','description','collections', 'is_public', 'existing_photos', 'existing_collections']
-        
+
+    # Cambia el método para definir `collections` como una propiedad
+    def to_representation(self, instance):
+        representation = super().to_representation(instance)
+        representation['collections'] = self.get_collections(instance)
+        return representation
+
+    def get_collections(self, obj):
+        # Acceder a las colecciones reales a través de la relación intermedia 'PortafolioCollection'
+        portafolio_collections = obj.portafoliocollection_set.all()
+        # Obtener las colecciones reales
+        collections = [pc.collection for pc in portafolio_collections]
+        return CollectionSerializer(collections, many=True).data
+    
     def create(self, validated_data):
         existing_photos = validated_data.pop('existing_photos', [])
         existing_colections = validated_data.pop('existing_collections', [])

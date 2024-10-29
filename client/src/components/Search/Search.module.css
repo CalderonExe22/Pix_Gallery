@@ -8,7 +8,7 @@
 }
 
 .overlay {
-    @apply fixed top-32 left-0 w-full opacity-0;
+    @apply fixed top-36 left-0 w-full opacity-0;
     visibility: hidden;
     height: calc(100% - 120px);
     background-color: rgba(0, 0, 0, 0.5); 

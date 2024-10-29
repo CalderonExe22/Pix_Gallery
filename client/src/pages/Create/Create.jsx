@@ -45,65 +45,67 @@ export default function Create() {
   };
 
   return (
-    <form className="flex flex-col gap-11 p-20 bg-indigo-300 rounded-xl" onSubmit={handleSubmit}>
-        <h1 className="text-center font-medium text-3xl">Subir fotografia</h1>
-        <input 
-          type="text" 
-          id="title" 
-          name="title"
-          onChange={handleChange} 
-          value={formData.title}
-          placeholder="Título"
-          required
-        />
-        <input 
-          type="text" 
-          id="description" 
-          name="description" 
-          onChange={handleChange} 
-          value={formData.description}
-          placeholder="Descripción"
-        />
-        <input 
-          type="number" 
-          id="precio" 
-          name="precio"
-          onChange={handleChange}
-          value={formData.precio}
-          placeholder="Precio"
-          required
-        />
-        <label>
+    <div className="flex justify-center items-center w-full h-full">
+      <form className="flex flex-col gap-11 p-20 bg-indigo-300 rounded-xl" onSubmit={handleSubmit}>
+          <h1 className="text-center font-medium text-3xl">Subir fotografia</h1>
           <input 
-            type="checkbox" 
-            id="is_free" 
-            name="is_free"
-            checked={formData.is_free}
-            onChange={(e) => setFormData({ ...formData, is_free: e.target.checked })}
+            type="text" 
+            id="title" 
+            name="title"
+            onChange={handleChange} 
+            value={formData.title}
+            placeholder="Título"
+            required
           />
-          Gratis
-        </label>
-        <label>
           <input 
-            type="checkbox" 
-            id="is_public" 
-            name="is_public"
-            checked={formData.is_public}
-            onChange={(e) => setFormData({ ...formData, is_public: e.target.checked })}
+            type="text" 
+            id="description" 
+            name="description" 
+            onChange={handleChange} 
+            value={formData.description}
+            placeholder="Descripción"
           />
-          Pública
-        </label>
-        <input 
-          type="file" 
-          id="image" 
-          name="image" 
-          onChange={handleImageChange} 
-          accept="image/*"
-          required
-        />
-        <button type="submit">
-          Subir fotografía
-        </button>
-    </form>
+          <input 
+            type="number" 
+            id="precio" 
+            name="precio"
+            onChange={handleChange}
+            value={formData.precio}
+            placeholder="Precio"
+            required
+          />
+          <label>
+            <input 
+              type="checkbox" 
+              id="is_free" 
+              name="is_free"
+              checked={formData.is_free}
+              onChange={(e) => setFormData({ ...formData, is_free: e.target.checked })}
+            />
+            Gratis
+          </label>
+          <label>
+            <input 
+              type="checkbox" 
+              id="is_public" 
+              name="is_public"
+              checked={formData.is_public}
+              onChange={(e) => setFormData({ ...formData, is_public: e.target.checked })}
+            />
+            Pública
+          </label>
+          <input 
+            type="file" 
+            id="image" 
+            name="image" 
+            onChange={handleImageChange} 
+            accept="image/*"
+            required
+          />
+          <button type="submit">
+            Subir fotografía
+          </button>
+      </form>
+    </div>
   );
 }

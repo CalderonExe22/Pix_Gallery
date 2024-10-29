@@ -57,10 +57,25 @@ export default function OptionsSearch({results}) {
                             {results.categories.map((category) => (
                                 <div key={category.id} className={style.options}>  
                                     <div className={style.optionsText}>
-                                        <span>{category.title}</span> 
+                                        <span>{category.name}</span> 
                                         <span>{category.description}</span> 
                                     </div>
-                                    {/*<img className={style.image} src={'https://res.cloudinary.com/dowtoqcra/'+category.image} />*/}
+                                    {<img className={style.image} src={'https://res.cloudinary.com/drtkhsozv/'+category.image} />}
+                                </div>
+                            ))} 
+                        </>
+                    )}
+                    {showOptions === 'collections' && (
+                        <>
+                            {results.collections.map((collection) => (
+                                <div key={collection.id} className={style.options}>  
+                                    <div className={style.optionsText}>
+                                        <span>{collection.name}</span> 
+                                        <span>{collection.description}</span> 
+                                    </div>
+                                    {(collection.photos).length > 0 && (
+                                        <img src={collection.photos[0].photography.image} alt={collection.photos[2].title} />
+                                    )}
                                 </div>
                             ))} 
                         </>

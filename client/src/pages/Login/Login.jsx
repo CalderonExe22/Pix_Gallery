@@ -1,34 +1,29 @@
 import { useForm } from "react-hook-form";
-import axiosApi from "../../services/axiosApi";
+import { useDispatch } from "react-redux";
 import Input from "../../components/Input/Input";
 import { useNavigate } from "react-router-dom";
+import { loginUser } from "../../features/auth/authThunk";
 
 export default function Login() {
+    const navigate = useNavigate()
+    const dispatch = useDispatch()
+
     const {
         register,
         handleSubmit,
         formState: {errors}
     } = useForm()
 
-    const navigate = useNavigate()
-
     const onSubmit = async (data) => {
-        try {
-            const response = await axiosApi.post('users/login/',{
-                email: data.email,
-                password: data.password
-            }) 
-            if(response.status === 200){
-                localStorage.setItem('accessToken', response.data.tokens.access)
-                localStorage.setItem('refreshToken', response.data.tokens.refresh)
-                navigate('/')
-                window.location.reload()
-                console.log('login exitoso!!')
-            }
-        } catch (error) {
-            console.log('error en el login', error)
+        const response = await dispatch(loginUser(data))
+        if (loginUser.fulfilled.match(response)) {  
+            navigate('/');
+            window.location.reload()
+        } else {
+            console.error('Error en el login:', response.error?.message || 'Error desconocido');
         }
     }
+
     return (   
         <div className="flex justify-center items-center h-full">
             <form className="flex flex-col gap-11 p-20 bg-indigo-300 rounded-xl" onSubmit={handleSubmit(onSubmit)}>

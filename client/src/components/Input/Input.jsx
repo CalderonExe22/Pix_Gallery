@@ -1,6 +1,6 @@
 import {PropTypes} from 'prop-types'
 
-function Input ({ label, type, name, register, errors, required, validationRules }) {
+export default function Input ({ label, type, name, register, errors, required, validationRules }) {
     return (
         <div className='flex flex-col'>
             <label htmlFor={name}>{label}:</label>
@@ -20,7 +20,6 @@ function Input ({ label, type, name, register, errors, required, validationRules
     );
 };
 
-export default Input;
 
 Input.propTypes = {
     label: PropTypes.string,

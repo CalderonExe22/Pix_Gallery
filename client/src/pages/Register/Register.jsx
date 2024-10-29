@@ -1,8 +1,13 @@
 import Input from "../../components/Input/Input"
 import {useForm} from "react-hook-form"
-import axiosApi from "../../services/axiosApi";
+import { useDispatch } from "react-redux";
+import { registerUser } from "../../features/auth/authThunk";
+import { useNavigate } from "react-router-dom";
 
 export default function Register() {
+
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
     const { 
         register,
         getValues,
@@ -11,25 +16,16 @@ export default function Register() {
     } = useForm();
 
     const onSubmit = async (data) => {
-        console.log(data)
-        try {
-            const response = await axiosApi.post('users/register/',{
-                username: data.username,
-                email: data.email,
-                password1: data.password1,
-                password2: data.password2
-            })
-            if(response.status === 201){
-                console.log('registro exitoso!!')
-            }
-        } catch (error) {
-            console.log('sucedio un error durante el registro', error)
+        const response = await dispatch(registerUser(data))
+        if(response){
+            navigate('/')
+            window.location.reload()
         }
     }
-    
+
     return (
         <>
-            <div>
+            <div className="flex justify-center items-center h-full w-full">
                 <form  className="flex flex-col gap-11 p-20 bg-indigo-300 rounded-xl" onSubmit={handleSubmit(onSubmit)}>
                 <h1 className="text-center font-medium text-3xl">Registrarse</h1>
                     <Input
