@@ -59,3 +59,17 @@ export const registerUser = createAsyncThunk(
         }
     }
 ) 
+
+export const userData = createAsyncThunk(
+    'auth/userData',
+    async(_, {rejectWithValue}) => {
+        try {
+            const response = await axiosApi.get('users/user/')
+            if(response.data){
+                return response.data
+            }
+        } catch (error) {
+            return rejectWithValue(error.response?.data || 'Error en recuperar datos del usuario')
+        }
+    }
+)

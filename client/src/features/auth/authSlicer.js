@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { loginUser, logoutUser, registerUser } from "./authThunk";
+import { loginUser, logoutUser, registerUser, userData } from "./authThunk";
 
 const authSlice = createSlice({
     name: "auth",
@@ -47,6 +47,13 @@ const authSlice = createSlice({
                 state.user = null
                 state.isLoading = false
             })
+            .addCase(userData.fulfilled, (state, action) => {
+                state.user = action.payload
+                state.isLoggedIn = true;
+            })
+            .addCase(userData.rejected, (state, action) => {
+                state.error = action.payload;
+            });
     }
 })
 export const { IsAuthenticated } = authSlice.actions

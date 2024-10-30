@@ -1,7 +1,7 @@
 from zeep import Client
 
 def list_countries():
-    client = Client('http://webservices.oorsprong.org/websamples.countryinfo/CountryInfoService.wso?WSDL')
+    client = Client('http://webservices.oorsprong.org/websamples.countryinfo/CountryInfoService.wso')
     response = client.service.ListOfCountryNamesByName()
     
     # Procesar la respuesta en una lista de diccionarios

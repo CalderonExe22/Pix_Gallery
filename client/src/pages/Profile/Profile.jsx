@@ -1,9 +1,15 @@
 import { useEffect, useState } from "react"
 import axiosApi from "../../services/axiosApi"
+import { useDispatch, useSelector } from "react-redux"
+import { userData } from "../../features/auth/authThunk"
 
 
 export default function Profile() {
+    const user = useSelector((state) => state.auth.user)
     const [profile, setProfile] = useState([])
+    console.log(user)
+    const dispatch = useDispatch();
+    
     const feachProfile = async () =>{
         try {
             const response = await axiosApi.get('profile/profile/')
@@ -16,7 +22,8 @@ export default function Profile() {
     }
     useEffect(()=>{
         feachProfile()
-    },[])
+        dispatch(userData());
+    },[dispatch])
     console.log(profile)
     return (
         <div className="flex justify-center items-center h-full">
@@ -37,7 +44,7 @@ export default function Profile() {
                     </div>
                 </div>
                 <div className="flex flex-col justify-center items-center gap-3">
-                    <span className="font-semibold">@{profile.name}</span>
+                    <span className="font-semibold">@{user.username}</span>
                     <span className="font-semibold">{profile.bio}</span>
                     <span className="font-semibold"><i className="fa-solid fa-location-dot"></i> {profile.country}</span>
                 </div>
