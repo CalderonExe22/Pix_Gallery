@@ -18,17 +18,10 @@ export default function Profile() {
             console.log(error)
         }
     }
-    const feachUser = async () => {
-        try {
-            await dispatch(userData())
-        } catch (error) {
-            console.error(error)
-        }
-    }
     useEffect(()=>{
         feachProfile()
-        feachUser()
-    },[])
+        dispatch(userData())
+    },[dispatch])
     return (
         <div className="flex justify-center items-center h-full">
             <section className="flex flex-col items-center gap-4">
