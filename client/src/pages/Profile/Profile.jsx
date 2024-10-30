@@ -3,13 +3,11 @@ import axiosApi from "../../services/axiosApi"
 import { useDispatch, useSelector } from "react-redux"
 import { userData } from "../../features/auth/authThunk"
 
-
 export default function Profile() {
+    const dispatch = useDispatch()
     const user = useSelector((state) => state.auth.user)
     const [profile, setProfile] = useState([])
-    console.log(user)
-    const dispatch = useDispatch();
-    
+
     const feachProfile = async () =>{
         try {
             const response = await axiosApi.get('profile/profile/')
@@ -20,11 +18,17 @@ export default function Profile() {
             console.log(error)
         }
     }
+    const feachUser = async () => {
+        try {
+            await dispatch(userData())
+        } catch (error) {
+            console.error(error)
+        }
+    }
     useEffect(()=>{
         feachProfile()
-        dispatch(userData());
-    },[dispatch])
-    console.log(profile)
+        feachUser()
+    },[])
     return (
         <div className="flex justify-center items-center h-full">
             <section className="flex flex-col items-center gap-4">
@@ -44,7 +48,15 @@ export default function Profile() {
                     </div>
                 </div>
                 <div className="flex flex-col justify-center items-center gap-3">
-                    <span className="font-semibold">@{user.username}</span>
+                    {user ? (
+                        <>
+                            <span className="font-semibold">@{user.username}</span>
+                            <span className="font-semibold">{user.email}</span>
+                            {/* Otros datos del usuario */}
+                        </>
+                    ) : (
+                        <div>Cargando datos del usuario...</div>
+                    )}
                     <span className="font-semibold">{profile.bio}</span>
                     <span className="font-semibold"><i className="fa-solid fa-location-dot"></i> {profile.country}</span>
                 </div>

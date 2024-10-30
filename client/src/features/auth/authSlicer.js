@@ -47,13 +47,18 @@ const authSlice = createSlice({
                 state.user = null
                 state.isLoading = false
             })
+            .addCase(userData.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
             .addCase(userData.fulfilled, (state, action) => {
-                state.user = action.payload
-                state.isLoggedIn = true;
+                state.loading = false;
+                state.user = action.payload; // Guardamos los datos del usuario en el estado
             })
             .addCase(userData.rejected, (state, action) => {
+                state.loading = false;
                 state.error = action.payload;
-            });
+            })
     }
 })
 export const { IsAuthenticated } = authSlice.actions

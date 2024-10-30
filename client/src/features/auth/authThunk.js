@@ -65,9 +65,7 @@ export const userData = createAsyncThunk(
     async(_, {rejectWithValue}) => {
         try {
             const response = await axiosApi.get('users/user/')
-            if(response.data){
-                return response.data
-            }
+            return response.data
         } catch (error) {
             return rejectWithValue(error.response?.data || 'Error en recuperar datos del usuario')
         }
