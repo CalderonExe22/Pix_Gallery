@@ -14,5 +14,5 @@ export const privateRoutes = [
     {
         name: 'Portafolio',
         path: '/create-portafolio'
-    }
+    },
 ]

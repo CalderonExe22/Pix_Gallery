@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     'photography',
     'search',
     'portafolio',
+    'soap',
+    'user_profile',
     'cloudinary',
     "corsheaders",
     'rest_framework',

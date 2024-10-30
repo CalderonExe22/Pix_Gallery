@@ -14,7 +14,10 @@ class User(AbstractUser):
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    bio = models.TextField(blank=True)
+    name = models.CharField(max_length=100,blank=True, null=True)
+    last_name = models.CharField(max_length=100,blank=True, null=True)
+    bio = models.TextField(blank=True, null=True)
+    country = models.CharField(max_length=100, blank=True, null=True)
     profile_photo = CloudinaryField('image')
     website = models.URLField(blank=True)
     

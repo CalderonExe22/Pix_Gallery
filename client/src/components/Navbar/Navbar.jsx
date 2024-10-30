@@ -51,7 +51,7 @@ export default function Navbar() {
                             </Link>
                         </li>
                         <li>
-                            <Link>
+                            <Link to='/Perfil'>
                                 <i className="fa-solid fa-user text-2xl"></i>
                             </Link>
                         </li>

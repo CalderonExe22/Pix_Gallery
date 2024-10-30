@@ -1,5 +1,7 @@
 /* eslint-disable react-refresh/only-export-components */
 import { lazy } from "react";
+import EditProfile from '../pages/Profile/EditProfile/EditProfile'
+import Profile from "../pages/Profile/Profile";
 
 const Home = lazy(()=> import('../pages/Home/Home'))
 const Login = lazy(()=> import('../pages/Login/Login'))
@@ -13,37 +15,41 @@ const routes = [
         path: '',
         element:<Home />,
         isProtected: false,
-        label: 'Inicio'
     },
     {
         path: '/login',
         element:<Login />,
         isProtected: false,
-        label: 'Iniciar secion'
     },
     {
         path: '/register',
         element: <Register />,
         isProtected: false,
-        label: 'Registrarse'
     },
     {
         path: '/crear',
         element: <Create />,
         isProtected: true,
-        label: 'Crear'
     },
     {
         path: '/create-portafolio',
         element: <CreatePortafolio />,
         isProtected: true,
-        label: 'Portafolio'
     },
     {
         path: '/portafolio/:id',
         element: <Portafolio />,
         isProtected: true,
-        label: 'Portafolio'
+    },
+    {
+        path: '/Perfil',
+        element: <Profile />,
+        isProtected: true,
+    },
+    {
+        path: '/editar-perfil',
+        element: <EditProfile />,
+        isProtected: true,
     },
 ]
 

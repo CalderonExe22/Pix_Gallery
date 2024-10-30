@@ -23,5 +23,7 @@ urlpatterns = [
     path('api/menus/', include('menus.urls')),
     path('api/photos/', include('photography.urls')),
     path('api/search/', include('search.urls')),
-    path('api/portafolio/', include('portafolio.urls'))
+    path('api/portafolio/', include('portafolio.urls')),
+    path('api/countries/',include('soap.urls')),
+    path('api/profile/', include('user_profile.urls'))
 ]
