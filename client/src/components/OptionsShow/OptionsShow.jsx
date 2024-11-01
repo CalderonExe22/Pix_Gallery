@@ -74,7 +74,7 @@ export default function OptionsSearch({results}) {
                                         <span>{collection.description}</span> 
                                     </div>
                                     {(collection.photos).length > 0 && (
-                                        <img src={collection.photos[0].photography.image} alt={collection.photos[2].title} />
+                                        <img src={collection.photos[0].photography.image_url} alt={collection.photos[2].title} />
                                     )}
                                 </div>
                             ))} 

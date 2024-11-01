@@ -2,7 +2,8 @@
 import { lazy } from "react";
 import EditProfile from '../pages/Profile/EditProfile/EditProfile'
 import Profile from "../pages/Profile/Profile";
-
+import Upload from "../pages/Photos/Upload";
+import ShowPhoto from "../pages/Photos/showPhoto/showPhoto";
 const Home = lazy(()=> import('../pages/Home/Home'))
 const Login = lazy(()=> import('../pages/Login/Login'))
 const Register = lazy(()=> import('../pages/Register/Register'))
@@ -49,6 +50,16 @@ const routes = [
     {
         path: '/editar-perfil',
         element: <EditProfile />,
+        isProtected: true,
+    },
+    {
+        path: '/subir-foto',
+        element: <Upload />,
+        isProtected: true,
+    },
+    {
+        path: '/ver-foto/:id',
+        element: <ShowPhoto />,
         isProtected: true,
     },
 ]

@@ -19,7 +19,7 @@ export default function ListsPhotos() {
                 <CardPhoto 
                     key={photo.id} 
                     title={photo.title} 
-                    url={photo.image} 
+                    url={photo.image_url} 
                     isLarge={index % 2 === 0}
                 />
             ))}

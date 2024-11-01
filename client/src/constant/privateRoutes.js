@@ -4,9 +4,13 @@ export const privateRoutes = [
         path: '/'
     },
     {
+        name: 'Subir foto',
+        path: '/subir-foto'
+    },/*
+    {
         name: 'Subir',
         path: '/crear'
-    },    
+    },    */
     {
         name: 'Portafolio',
         path: '/Portafolio'
@@ -15,4 +19,5 @@ export const privateRoutes = [
         name: 'Portafolio',
         path: '/create-portafolio'
     },
+
 ]

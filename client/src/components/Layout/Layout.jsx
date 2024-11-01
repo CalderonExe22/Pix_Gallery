@@ -6,7 +6,9 @@ export default function Layout() {
             <header>
                 <Navbar />
             </header>
-            <Outlet />
+            <section className="flex flex-col justify-center items-center h-full w-full">
+                <Outlet />
+            </section>
         </main>
     )
 }
