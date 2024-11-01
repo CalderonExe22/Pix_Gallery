@@ -1,12 +1,17 @@
-from rest_framework.serializers import ModelSerializer, ValidationError, ListSerializer
+from rest_framework.serializers import ModelSerializer, ValidationError
+from rest_framework import serializers
 from .models import *
 from users.models import User
 
 
 class SerializerPhotography(ModelSerializer):
+    image_url = serializers.SerializerMethodField()
     class Meta:
         model = Photography
-        fields = ['id', 'title', 'description', 'image', 'precio', 'is_free','is_public', 'created_at']
+        fields = ['id', 'title', 'description', 'image','image_url', 'precio', 'is_free','is_public', 'created_at']
+    
+    def get_image_url(self, obj):
+        return obj.image.url if obj.image else None
     
     def validate(self, data):
         if data['is_free'] and data.get('precio', 0) > 0:
