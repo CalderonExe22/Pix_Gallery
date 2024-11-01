@@ -34,7 +34,10 @@ class PhotographyAPIView(ModelViewSet):
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
         
-class CollectionsAPIView(ModelViewSet):
-    queryset = Collection.objects.all()
-    serializer_class = CollectionSerializer
-    permission_classes = (IsAuthenticated,)
+class CategoryAPIView(ModelViewSet):
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer
+
+class CategoryPhotographyAPIView(ModelViewSet):
+    queryset = CategoryPhotography.objects.all()
+    serializer_class = CategoryPhotographySerializer

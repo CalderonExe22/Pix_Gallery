@@ -6,9 +6,10 @@ from users.models import User
 
 class SerializerPhotography(ModelSerializer):
     image_url = serializers.SerializerMethodField()
+    category = serializers.IntegerField(write_only=True)
     class Meta:
         model = Photography
-        fields = ['id', 'title', 'description', 'image','image_url', 'precio', 'is_free','is_public', 'created_at']
+        fields = ['id', 'title', 'description', 'image','image_url','category', 'precio', 'is_free','is_public', 'created_at']
     
     def get_image_url(self, obj):
         return obj.image.url if obj.image else None
@@ -20,6 +21,13 @@ class SerializerPhotography(ModelSerializer):
             raise ValidationError("Las fotos no gratuitas deben tener un precio mayor que 0.")
         return data
     
+    def create(self, validated_data):
+        category_id = validated_data.pop('category')
+        category = Category.objects.get(id=category_id)
+        photography = Photography.objects.create(**validated_data)
+        CategoryPhotography.objects.create(category=category, photography=photography)
+        return photography
+    
 class CollectionSerializer(ModelSerializer):
     class Meta:
         model = Collection
@@ -30,3 +38,14 @@ class CollectionPhotographySerializer(ModelSerializer):
     class Meta:
         model = CollectionPhotography
         fields = ['photography']
+
+
+class CategorySerializer(ModelSerializer):
+    class Meta:
+        model = Category
+        fields = ['id', 'name', 'description', 'image']
+
+class CategoryPhotographySerializer(ModelSerializer):
+    class Meta:
+        model = CategoryPhotography
+        fields = ['id', 'photography', 'category']
