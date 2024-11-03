@@ -17,3 +17,7 @@
 .small {
     grid-row-end: span 15; /* Ajuste de tamaño pequeño */
 }
+
+.payment{
+    @apply absolute z-10 bottom-0 right-0;
+}

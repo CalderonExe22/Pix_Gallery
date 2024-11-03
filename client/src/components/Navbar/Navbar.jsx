@@ -8,9 +8,21 @@ export default function Navbar() {
 
     const [IsAutenticated, setIsAutenticated] = useState(false);
 
+    const [user, setUser] = useState([]);
+
     useEffect(() => {
+        
+        const userInfo = async () => {
+            try {
+                const response = await axiosApi.get('users/user/')
+                setUser(response.data)
+            } catch (error) {
+                console.error(error)
+            }
+        }
         const accessToken = localStorage.getItem('accessToken');
         accessToken ? setIsAutenticated(true) : setIsAutenticated(false);
+        accessToken && userInfo();
     }, [IsAutenticated])
 
     const menuPublic = [
@@ -20,6 +32,7 @@ export default function Navbar() {
     const menuAutenticated = [
         {name: 'Home', url: '/'},
         {name: 'Create', url: '/crear'},
+        (user.has_portafolio ? {name: 'Portafolio', url: '/portafolio/' + user.portafolio_id} : {name: 'Portafolio', url: '/create-portafolio'}),
     ]
 
     const handleLogout = async ()=>{
@@ -64,7 +77,7 @@ export default function Navbar() {
                             </Link>
                         </li>
                         <li>
-                            <Link>
+                            <Link to="/Perfil">
                                 <i className="fa-solid fa-user text-2xl"></i>
                             </Link>
                         </li>

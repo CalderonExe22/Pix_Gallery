@@ -40,6 +40,11 @@ INSTALLED_APPS = [
     'users',
     'photography',
     'search',
+    'portafolio',
+    'collections',
+    'payments',
+    'soap',
+    'user_profile',
     'cloudinary',
     "corsheaders",
     'rest_framework',
@@ -85,7 +90,7 @@ WSGI_APPLICATION = 'server.wsgi.application'
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": "Pix_Gallery_Exe",
+        "NAME": "Pix_Gallery_MP",
         "USER": "jonathan",
         "PASSWORD": "jonathan1234",
         "HOST": "localhost",

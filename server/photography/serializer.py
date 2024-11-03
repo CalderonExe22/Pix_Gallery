@@ -1,6 +1,6 @@
 from rest_framework import serializers
-from rest_framework.serializers import ModelSerializer, ValidationError
-from .models import Photography, Category, CategoryPhotography
+from rest_framework.serializers import ModelSerializer, ValidationError, ListSerializer
+from .models import *
 from users.models import User
 
 class UserSerializer(ModelSerializer):
@@ -12,13 +12,13 @@ class SerializerPhotography(ModelSerializer):
     category = serializers.IntegerField(write_only=True)
     class Meta:
         model = Photography
-        fields = ['id', 'title', 'description','category', 'image', 'precio', 'is_free','is_public', 'created_at']
+        fields = ['id', 'title', 'description','category', 'image', 'price', 'is_free','is_public', 'created_at']
     
     def validate(self, data):
-        if data['is_free'] and data.get('precio', 0) > 0:
-            raise ValidationError("Las fotos gratuitas no deben tener un precio.")
-        if not data['is_free'] and (data.get('precio') is None or data['precio'] <= 0):
-            raise ValidationError("Las fotos no gratuitas deben tener un precio mayor que 0.")
+        if data['is_free'] and data.get('price', 0) > 0:
+            raise ValidationError("Las fotos gratuitas no deben tener un price.")
+        if not data['is_free'] and (data.get('price') is None or data['price'] <= 0):
+            raise ValidationError("Las fotos no gratuitas deben tener un price mayor que 0.")
         return data
     
     def create(self, validated_data):
@@ -37,3 +37,13 @@ class CategoryPhotographySerializer(ModelSerializer):
     class Meta:
         model = CategoryPhotography
         fields = ['id', 'photography', 'category']
+
+class CollectionSerializer(ModelSerializer):
+    class Meta:
+        model = Collection
+        fields = ['id','name','description']
+        
+class CollectionPhotographySerializer(ModelSerializer):
+    class Meta:
+        model = CollectionPhotography
+        fields = ['id','user','photography','collection']

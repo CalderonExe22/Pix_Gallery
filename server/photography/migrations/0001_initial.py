@@ -22,7 +22,7 @@ class Migration(migrations.Migration):
                 ('title', models.CharField(max_length=100)),
                 ('description', models.TextField(blank=True)),
                 ('image', cloudinary.models.CloudinaryField(max_length=255, verbose_name='image')),
-                ('precio', models.DecimalField(decimal_places=2, max_digits=10, null=True)),
+                ('price', models.DecimalField(decimal_places=2, max_digits=10, null=True)),
                 ('is_free', models.BooleanField(default=True)),
                 ('is_public', models.BooleanField(default=True)),
                 ('created_at', models.DateTimeField(auto_now_add=True)),

@@ -41,3 +41,8 @@ class CategoryAPIView(ModelViewSet):
 class CategoryPhotographyAPIView(ModelViewSet):
     queryset = CategoryPhotography.objects.all()
     serializer_class = CategoryPhotographySerializer
+
+class CollectionsAPIView(ModelViewSet):
+    queryset = Collection.objects.all()
+    serializer_class = CollectionSerializer
+    permission_classes = (IsAuthenticated,)

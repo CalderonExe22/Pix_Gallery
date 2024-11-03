@@ -21,5 +21,9 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/users/', include('users.urls')),
     path('api/photos/', include('photography.urls')),
-    path('api/search/', include('search.urls'))
+    path('api/search/', include('search.urls')),
+    path('api/portafolio/', include('portafolio.urls')),
+    path('api/payments/', include('payments.urls')),
+    path('api/profile/', include('user_profile.urls')),
+    path('api/countries/', include('soap.urls')),
 ]

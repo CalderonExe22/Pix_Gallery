@@ -4,6 +4,11 @@ import Home from '../pages/Home/Home';
 import Login from '../pages/Login/Login';
 import Register from '../pages/Register/Register';
 import Create from '../pages/Create/Create';
+import CreatePortafolio from '../pages/CreatePortafolio/CreatePortafolio';
+import Portafolio from '../pages/Portafolio/Portafolio';
+import Profile from '../pages/Profile/Profile';
+import EditProfile from '../pages/Profile/EditProfile/EditProfile';
+import Payments from '../pages/Payment/Payments';
 
 const router = createBrowserRouter([
     {
@@ -25,7 +30,29 @@ const router = createBrowserRouter([
             {
                 path: '/crear',
                 element: <Create />
-            }
+            },
+            {
+                path: '/create-portafolio',
+                element: <CreatePortafolio />
+            },
+            {
+                path: '/portafolio/:id',
+                element: <Portafolio />
+            },
+            {
+                path: '/Perfil',
+                element: <Profile />,
+                isProtected: true,
+            },
+            {
+                path: '/editar-perfil',
+                element: <EditProfile />,
+                isProtected: true,
+            },
+            {
+                path: '/payments',
+                element: <Payments />
+            },
         ]
     },
 ])

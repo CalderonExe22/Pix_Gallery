@@ -4,7 +4,9 @@ import style from './OptionsShow.module.css'
 
 export default function OptionsSearch({results}) {
     const keys = Object.keys(results)
+    
     const [showOptions, setShowOptions] = useState(keys[1]); // Estado para mostrar/ocultar opciones
+
     return (
         <div className="flex flex-col gap-10 mt-10 w-full">
             <div className={style.optionsButtons}>
@@ -30,7 +32,7 @@ export default function OptionsSearch({results}) {
                                         <span>{photo.title}</span> 
                                         <span>{photo.description}</span> 
                                     </div>
-                                    <img className={style.image} src={'https://res.cloudinary.com/drtkhsozv/'+photo.image} />
+                                    <img className={style.image} src={ photo.image.replace('image/upload/', '')} />
                                 </div>
                             ))} 
                         </>

@@ -29,38 +29,40 @@ export default function Login() {
             console.log('error en el login', error)
         }
     }
-    return (    
-        <form className="flex flex-col gap-11 p-20 bg-indigo-300 rounded-xl" onSubmit={handleSubmit(onSubmit)}>
-            <h1 className="text-center font-medium text-3xl">Iniciar secion</h1>
-            <Input
-                label="Email"
-                type="email"
-                name="email"
-                register={register}
-                errors={errors} 
-                required='Este campo es obligatorio'
-                validationRules={{
-                    parent:{
-                        value: /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/,
-                        message: 'Formato de email incorrecto'
-                    }
-                }}
-            />
-            <Input
-                label="Contraseña"
-                type="password"
-                name="password"
-                register={register}
-                errors={errors}
-                required='Este campo es obligatorio'
-                validationRules={{ 
-                    minLength:{
-                        value: 8,
-                        message: 'La contraseña debe ser mayor a 8 caracteres'
-                    }
-                }}
-            />
-            <button type="submit">Enviar</button>
-        </form>
+    return (   
+        <div className="flex justify-center items-center h-full">
+            <form className="flex flex-col gap-11 p-20 bg-indigo-300 rounded-xl" onSubmit={handleSubmit(onSubmit)}>
+                <h1 className="text-center font-medium text-3xl">Iniciar secion</h1>
+                <Input
+                    label="Email"
+                    type="email"
+                    name="email"
+                    register={register}
+                    errors={errors} 
+                    required='Este campo es obligatorio'
+                    validationRules={{
+                        parent:{
+                            value: /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/,
+                            message: 'Formato de email incorrecto'
+                        }
+                    }}
+                />
+                <Input
+                    label="Contraseña"
+                    type="password"
+                    name="password"
+                    register={register}
+                    errors={errors}
+                    required='Este campo es obligatorio'
+                    validationRules={{ 
+                        minLength:{
+                            value: 8,
+                            message: 'La contraseña debe ser mayor a 8 caracteres'
+                        }
+                    }}
+                />
+                <button type="submit">Enviar</button>
+            </form>
+        </div> 
     )
 }

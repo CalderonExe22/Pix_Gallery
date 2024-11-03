@@ -1,7 +1,9 @@
 from django.contrib import admin
-from .models import Photography, Category, CategoryPhotography
+from .models import *
 # Register your models here.
 
 admin.site.register(Photography)
 admin.site.register(Category)
 admin.site.register(CategoryPhotography)
+admin.site.register(Collection)
+admin.site.register(CollectionPhotography)

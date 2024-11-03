@@ -7,10 +7,10 @@ export default function ListPhotos({ photos }) {
         <div className={style.containerPhotos}>
             {photos.map((photo, index) => (
                 <CardPhoto 
-                    key={photo.id} 
-                    title={photo.title} 
-                    url={photo.image} 
-                    isLarge={index % 2 === 0}
+                key={photo.id} 
+                photo={photo}
+                url={photo.image.replace('image/upload/', '')} 
+                isLarge={index % 2 === 0}
                 />
             ))}
         </div>
@@ -24,6 +24,7 @@ ListPhotos.propTypes = {
             id: PropTypes.number.isRequired,
             title: PropTypes.string,
             image: PropTypes.string.isRequired,
+            price: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
         })
     ).isRequired,
 };

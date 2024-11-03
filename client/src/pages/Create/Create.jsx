@@ -20,7 +20,7 @@ export default function Create() {
   const [formData, setFormData] = useState({
     title: '',
     description: '',
-    precio: 0,
+    price: 0,
     category: '',
     is_free: true,
     is_public: true, // Añadir is_public aquí
@@ -49,7 +49,7 @@ export default function Create() {
     data.append('description', formData.description);
     data.append('category', formData.category);
     data.append('image', formData.image); // Importante: añadir la imagen al FormData
-    data.append('precio', formData.precio); // Añadir el campo precio
+    data.append('price', formData.price); // Añadir el campo price
     data.append('is_free', formData.is_free); // Añadir el campo is_free
     data.append('is_public', formData.is_public); // Añadir el campo is_public
     
@@ -83,10 +83,10 @@ export default function Create() {
         />
         <input 
           type="number" 
-          id="precio" 
-          name="precio"
+          id="price" 
+          name="price"
           onChange={handleChange}
-          value={formData.precio}
+          value={formData.price}
           placeholder="Precio"
           required
         />
