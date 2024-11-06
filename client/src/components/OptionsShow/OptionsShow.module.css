@@ -1,0 +1,44 @@
+.optionsButtons{
+    @apply flex justify-start items-center text-base mt-6 gap-4;
+}
+
+.buttons{
+    @apply pt-2 pb-2 ps-3 pe-3 border border-black transition-colors;
+}
+
+.buttons.activeButton{
+    @apply bg-[#E1C23A];
+}
+
+.conteinerOptions{
+    @apply grid gap-9 justify-center overflow-hidden overflow-y-auto w-full;
+    grid-template-columns: repeat(auto-fill, 250px); /* Ancho de 200px para cada columna */
+    grid-auto-rows: 300px; /* Alto de 300px para cada fila */
+    height: 400px ;
+}
+
+.options{
+    @apply relative w-full h-full;
+}
+
+.optionsText{
+    @apply absolute flex flex-col justify-center items-center text-center bottom-0 left-0 h-full w-full text-white z-10 opacity-0 transition-opacity hover:opacity-100;
+}
+
+.image{
+    @apply object-cover w-full h-full -z-10;
+    transition: transform 0.3s ease-in-out;
+}
+
+.options::before {
+    @apply absolute top-0 left-0 w-full h-full opacity-0 z-0;
+    content: '';
+    background-color: rgba(0, 0, 0, 0.6);
+    transition: opacity 0.5s ease;
+}
+
+
+.options:hover::before {
+    opacity: 1; 
+}
+

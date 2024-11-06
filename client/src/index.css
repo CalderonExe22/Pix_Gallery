@@ -1,0 +1,14 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body, html{
+  margin: 0;
+  padding: 0;
+  font-family: "Montserrat", system-ui; 
+  height: 100%;
+}
+
+main{
+  @apply flex flex-col items-center gap-14 w-full h-full justify-center;
+}
