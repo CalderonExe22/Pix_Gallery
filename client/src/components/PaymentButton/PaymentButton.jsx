@@ -7,6 +7,7 @@ function PaymentButton({ onPayment }) {
             const response = await axiosApi.post('payments/create_preference/', {
                 title: onPayment.title,
                 price: parseFloat(onPayment.price),
+                id_photo: onPayment.id,
             });
 
             const preference = response.data;
@@ -17,9 +18,9 @@ function PaymentButton({ onPayment }) {
             script.dataset.preferenceId = preference.id;
             document.body.appendChild(script);
             
-            console.log(preference)
+            //console.log(preference)
             //console.log(preference.response.sandbox_init_point);
-            //window.location.href = preference.response.sandbox_init_point;
+            window.location.href = preference.response.init_point;
         } catch (error) {
             console.error('Error al crear la preferencia de pago:', error);
         }
@@ -48,6 +49,7 @@ PaymentButton.propTypes = {
     onPayment: PropTypes.shape({
         title: PropTypes.string.isRequired,
         price: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+        id: PropTypes.number.isRequired,
     }).isRequired,
 };
 

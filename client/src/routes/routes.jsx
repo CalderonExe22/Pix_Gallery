@@ -8,7 +8,12 @@ import CreatePortafolio from '../pages/CreatePortafolio/CreatePortafolio';
 import Portafolio from '../pages/Portafolio/Portafolio';
 import Profile from '../pages/Profile/Profile';
 import EditProfile from '../pages/Profile/EditProfile/EditProfile';
-import Payments from '../pages/Payment/Payments';
+import PaymentsHistorial from '../pages/Payment/PaymentsHistorial';
+import PaymentSuccess from '../pages/Payment/PaymentSuccess';
+import PaymentFailure from '../pages/Payment/PaymentFailure';
+import PaymentPending from '../pages/Payment/PaymentPending';
+import Upload from '../pages/Photos/Upload';
+import ShowPhoto from '../pages/Photos/ShowPhoto/ShowPhoto';
 
 const router = createBrowserRouter([
     {
@@ -50,9 +55,29 @@ const router = createBrowserRouter([
                 isProtected: true,
             },
             {
-                path: '/payments',
-                element: <Payments />
+                path:'/payments/success/',
+                element: <PaymentSuccess />
             },
+            {
+                path:'/payments/failure/',
+                element: <PaymentFailure />
+            },
+            {
+                path:'/payments/pending/',
+                element: <PaymentPending />
+            },
+            {
+                path: '/payments/historial',
+                element: <PaymentsHistorial />
+            },
+            {
+                path: 'subir_photo',
+                element: <Upload />
+            },
+            {
+                path: 'ver-foto/:id',
+                element: <ShowPhoto />
+            }
         ]
     },
 ])

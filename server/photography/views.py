@@ -25,7 +25,7 @@ class PhotographyAPIView(ModelViewSet):
             return Photography.objects.filter()
     
     def get_permissions(self):
-        if self.action in ['retrieve', 'update', 'destroy']:
+        if self.action in ['update', 'destroy']:
             self.permission_classes = [IsAuthenticated, IsOwner]
         else:
             self.permission_classes = [AllowAny]

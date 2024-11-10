@@ -31,7 +31,7 @@ export default function Navbar() {
 
     const menuAutenticated = [
         {name: 'Home', url: '/'},
-        {name: 'Create', url: '/crear'},
+        {name: 'Create', url: '/subir_photo'},
         (user.has_portafolio ? {name: 'Portafolio', url: '/portafolio/' + user.portafolio_id} : {name: 'Portafolio', url: '/create-portafolio'}),
     ]
 

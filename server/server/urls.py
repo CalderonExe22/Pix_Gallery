@@ -26,4 +26,8 @@ urlpatterns = [
     path('api/payments/', include('payments.urls')),
     path('api/profile/', include('user_profile.urls')),
     path('api/countries/', include('soap.urls')),
+    path('api/wishlist/', include('wishlist.urls')),
+    path('api/likes/', include('likes.urls')),
+    path('api/comments/', include('comments.urls')),
+    path('api/views/', include('views.urls')),
 ]

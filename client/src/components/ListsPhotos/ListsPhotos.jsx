@@ -9,7 +9,7 @@ export default function ListPhotos({ photos }) {
                 <CardPhoto 
                 key={photo.id} 
                 photo={photo}
-                url={photo.image.replace('image/upload/', '')} 
+                url={photo.image_url} 
                 isLarge={index % 2 === 0}
                 />
             ))}

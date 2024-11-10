@@ -5,17 +5,18 @@ import json
 from rest_framework.viewsets import ModelViewSet
 from .models import Payment
 from .serializer import PaymentSerializer
+from rest_framework.permissions import IsAuthenticated
 
 class PaymentApiView(ModelViewSet):
     queryset = Payment.objects.all()
     serializer_class = PaymentSerializer
-
-    def get_queryset(self):
-        user = self.request.user
-        return Payment.objects.filter(user=user)
+    permission_classes = [IsAuthenticated]
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
+    
+    def get_queryset(self):
+        return Payment.objects.filter(user=self.request.user)
 
 @csrf_exempt # Desactivar proteccion CSRF
 def create_preference(request):
@@ -23,6 +24,7 @@ def create_preference(request):
         data = json.loads(request.body)
         title = data.get("title")
         price = float(data.get('price'))
+        external_reference = data.get('id_photo')
         
         sdk = mercadopago.SDK("APP_USR-4215764096973588-103114-86c962f9d8e4e4e26bb81ea4ccf085a5-2060264761") # Access Token
         preference_data = {
@@ -35,9 +37,9 @@ def create_preference(request):
                 }
             ],
             "back_urls": {
-                "success": "http://localhost:5173/payments",
-                "failure": "http://localhost:5173/payments",
-                "pending": "http://localhost:5173/payments"
+                "success": "http://localhost:5173/payments/success",
+                "failure": "http://localhost:5173/payments/failure",
+                "pending": "http://localhost:5173/payments/pending"
             },
             "payment_methods": {
                 "excluded_payment_methods" : [
@@ -79,6 +81,7 @@ def create_preference(request):
                 ],
                 "installments" : 6
             },
+            "external_reference": external_reference,
             #"purpose": "wallet_purchase",
             #"notification_url": "",
             #"auto_return": "approved",

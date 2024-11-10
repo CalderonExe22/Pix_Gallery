@@ -6,13 +6,17 @@ from users.models import User
 class UserSerializer(ModelSerializer):
     class Meta:
         model = User
-        fields = ['id', 'email', 'username'] 
+        fields = ['id', 'email', 'username']
 
 class SerializerPhotography(ModelSerializer):
     category = serializers.IntegerField(write_only=True)
+    image_url = serializers.SerializerMethodField()
     class Meta:
         model = Photography
-        fields = ['id', 'title', 'description','category', 'image', 'price', 'is_free','is_public', 'created_at']
+        fields = ['id', 'title', 'description', 'image','image_url','category', 'price', 'is_free','is_public', 'created_at']
+
+    def get_image_url(self, obj):
+        return obj.image.url if obj.image else None
     
     def validate(self, data):
         if data['is_free'] and data.get('price', 0) > 0:
