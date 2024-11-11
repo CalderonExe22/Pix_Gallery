@@ -2,8 +2,9 @@ import { useEffect, useRef, useState } from "react"
 import { useParams } from "react-router-dom"
 import axiosApi from "../../../services/axiosApi"
 import NewComment from "../../../components/Comments/NewComment"
-import Wishlist from "../../../components/Wishlist/Wishlist"
+import Wishlist from "../../../components/Wishlist/NewWishList"
 import LikeButton from "../../../components/Likes/LikeButton"
+import style from "./ShowPhoto.module.css"
 
 export default function ShowPhoto() {
 
@@ -54,14 +55,20 @@ export default function ShowPhoto() {
         <div className="grid grid-cols-3 justify-center items-center">
             {photo ? (
                 <>
-                    <div className="col-span-2 ms-7 me-7 h-[400px] w-[400px]">
-                        <img className="object-cover w-full h-full" src={photo.image_url} alt={photo.title} />
-                        <Wishlist photoId={photo.id} />
-                        <LikeButton photoId={photo.id} />
+                    <div className="col-span-2 ms-7 me-7">
+                        <div className={style.containerPhoto}>
+                            <img className={style.image} src={photo.image_url} alt={photo.title} />
+                            <div className={style.wishlist}>
+                                <Wishlist photoId={photo.id} />
+                            </div>
+                            <div className={style.like}>
+                                <LikeButton photoId={photo.id} />
+                            </div>
+                        </div>
                     </div>
                     <div className="col-span-1 flex flex-col gap-10 ms-7 me-7">
                         <h1 className="text-4xl">{photo.title}</h1>
-                        <h1>{photo.description}</h1>
+                        <p>{photo.description}</p>
                         <NewComment photoId={photo.id} />
                     </div>
                 </>

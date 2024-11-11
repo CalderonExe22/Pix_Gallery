@@ -1,0 +1,31 @@
+.containerPhoto {
+    @apply relative overflow-hidden bg-gray-200 rounded-2xl h-[500px] w-[500px];
+}
+
+.image {
+    @apply object-cover w-full h-full;
+}
+
+.icons {
+    @apply absolute z-10 top-0 left-0;
+}
+
+.wishlist {
+    @apply absolute z-10 bottom-0 right-0;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.containerPhoto:hover .wishlist {
+    opacity: 1;
+}
+
+.like {
+    @apply absolute z-10 bottom-0 left-0;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.containerPhoto:hover .like {
+    opacity: 1;
+}

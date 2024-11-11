@@ -20,7 +20,7 @@ class Photography(models.Model):
         super().save(*args, **kwargs)
 
     def __str__(self):
-        return self.title
+        return f'{self.user.username} - {self.title}'
     
 class Category(models.Model):
     name = models.CharField(max_length=100)

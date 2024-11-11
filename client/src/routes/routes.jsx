@@ -14,6 +14,7 @@ import PaymentFailure from '../pages/Payment/PaymentFailure';
 import PaymentPending from '../pages/Payment/PaymentPending';
 import Upload from '../pages/Photos/Upload';
 import ShowPhoto from '../pages/Photos/ShowPhoto/ShowPhoto';
+import WishList from '../pages/WishList/WishList';
 
 const router = createBrowserRouter([
     {
@@ -71,12 +72,16 @@ const router = createBrowserRouter([
                 element: <PaymentsHistorial />
             },
             {
-                path: 'subir_photo',
+                path: '/subir_photo',
                 element: <Upload />
             },
             {
-                path: 'ver-foto/:id',
+                path: '/ver-foto/:id',
                 element: <ShowPhoto />
+            },
+            {
+                path: '/wishlist',
+                element: <WishList />
             }
         ]
     },

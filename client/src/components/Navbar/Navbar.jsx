@@ -72,7 +72,7 @@ export default function Navbar() {
                             </Link>
                         </li>
                         <li>
-                            <Link>
+                            <Link to="/wishlist">
                                 <i className="fa-solid fa-heart text-2xl"></i>
                             </Link>
                         </li>

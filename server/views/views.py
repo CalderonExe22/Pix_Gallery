@@ -32,7 +32,7 @@ class ViewApiView(viewsets.ModelViewSet):
 
     def get_permissions(self):
         if self.action in ['retrieve','update', 'destroy', 'get_user_views']:
-            self.permission_classes = [IsAuthenticated]
+            self.permission_classes = [IsAuthenticated, IsOwner]
         elif self.action == 'get_all_views':
             self.permission_classes = [AllowAny]
         else:

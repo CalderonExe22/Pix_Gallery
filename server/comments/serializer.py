@@ -18,6 +18,7 @@ class CommentSerializer(serializers.ModelSerializer):
     def to_representation(self, instance):
         return {
             'id': instance.id,
+            'user': instance.user.username,
             'photo': instance.photo.id,
             'comment': instance.comment,
             'created_at': instance.created_at,

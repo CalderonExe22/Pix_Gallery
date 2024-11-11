@@ -45,9 +45,14 @@ export default function LikeButton({ photoId }) {
     return (
         <div>
             <button 
-                className={`text-white py-2 px-4 rounded ${isInLikes ? 'bg-red-500' : 'bg-blue-500'}`} 
+                className="text-red-500 bg-white text-3xl h-12 w-12 rounded-full hover:text-white hover:bg-red-500" 
                 onClick={() => isInLikes ? handleRemoveToLike() : handleAddToLike()}>
-                {isInLikes ? 'Dislike' : 'Like'}
+                {
+                    isInLikes ? 
+                        <i className="fa-sharp fa-solid fa-heart"></i>
+                    : 
+                        <i className="fa-sharp fa-regular fa-heart"></i>
+                }
             </button>
         </div>
     );
