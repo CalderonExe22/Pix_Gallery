@@ -44,6 +44,11 @@ INSTALLED_APPS = [
     'portafolio',
     'soap',
     'user_profile',
+    'likes',
+    'comments',
+    'views',
+    'user_statistics',
+    'follower',
     'cloudinary',
     "corsheaders",
     'rest_framework',
@@ -140,12 +145,12 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 import cloudinary
 import cloudinary.uploader
-import cloudinary.api	
+import cloudinary.api
+	
 cloudinary.config( 
     cloud_name = "dowtoqcra",
     api_key = "828463778147749",
     api_secret = "cvfnYtJSScUnn7fhhiopG-1KQ-c",
-    secure=True,
 )
 
 AUTH_USER_MODEL = "users.User"

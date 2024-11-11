@@ -1,13 +1,15 @@
 import { useEffect, useState } from 'react';
 import axiosApi from '../../services/axiosApi';
-import { useParams } from 'react-router-dom';
-export default function Portafolio() {
-    const { id } = useParams(); // Obtener el ID del portafolio de la URL
+import PropTypes from "prop-types";
+import CardPhoto from '../../components/Cards/CardPhoto/CardPhoto';
+
+export default function Portafolio({idUser}) {
+    //const { id } = useParams(); // Obtener el ID del portafolio de la URL
     const [portafolio, setPortafolio] = useState(null);
     const [loading, setLoading] = useState(true);
-  
+
     useEffect(() => {
-      const fetchPortafolio = async () => {
+      const fetchPortafolio = async (id) => {
         try {
           const response = await axiosApi.get(`portafolio/portafolios/${id}/`); // Asegúrate de que esta sea la ruta correcta
           setPortafolio(response.data);
@@ -17,9 +19,8 @@ export default function Portafolio() {
           setLoading(false);
         }
       };
-  
-      fetchPortafolio();
-    }, [id]);
+      fetchPortafolio(idUser);
+    }, [idUser]);
   
     if (loading) {
       return <div>Cargando...</div>;
@@ -32,21 +33,28 @@ export default function Portafolio() {
     console.log(portafolio)
   
     return (
-      <div className='flex justify-center items-center h-full w-full'>
-        <h1>{portafolio.name}</h1>
+    <div className='flex flex-col justify-center items-center h-full w-full'>
+      <div className='flex flex-col items-center w-full pt-10 pb-10 gap-5'>
+        <h1 className='font-semibold text-4xl'>{portafolio.name}</h1>
         <p>{portafolio.description}</p>
-        <p>¿Es público? {portafolio.is_public ? 'Sí' : 'No'}</p>
-  
-        <h2>Colecciones</h2>
-        <ul>
-          {portafolio.collections && portafolio.collections.map((collection) => (
-            <li key={collection.id}>
-              <h3>{collection.name}</h3>
-              <p>{collection.description}</p>
-              <h4>Fotos en esta colección:</h4>
-            </li>
-          ))}
-        </ul>
       </div>
-    );
+      {portafolio.collections.map((collection) => (
+        <div className='flex flex-col w-full pt-10 pb-10 gap-5' key={collection.id}>
+          <h1 className='font-semibold text-3xl'>
+            {collection.name}
+          </h1>
+          <p>{collection.description}</p>
+          <div className='grid grid-cols-5 grid-flow-row gap-8'>
+            {collection.photos.map((photo) => (
+              <CardPhoto id={photo.id} key={photo.id} url={photo.image_url} title={photo.title} />
+            ))}
+          </div>
+        </div>
+      ))}
+    </div> 
+    )
+}
+
+Portafolio.propTypes = {
+  idUser: PropTypes.number
 }

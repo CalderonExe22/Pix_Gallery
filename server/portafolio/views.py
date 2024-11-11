@@ -12,15 +12,6 @@ class PortafolioAPIView(ModelViewSet):
     queryset = Portafolio.objects.all()
     serializer_class = PortafolioSerializer
     permission_classes = (IsAuthenticated,)
-    
-    def perform_create(self, serializer):
-        serializer.save(user=self.request.user)
-        return Response(status=status.HTTP_200_OK)
-    
-class PortafolioDetailAPIView(RetrieveAPIView):
-    queryset = Portafolio.objects.all()
-    serializer_class = PortafolioSerializer
-    permission_classes = (IsAuthenticated,)
-
     def get_queryset(self):
-        return super().get_queryset().prefetch_related('portafoliocollection__collection__collectionphotography_set')
+        # Filtramos el portafolio para que solo el usuario autenticado vea su propio portafolio
+        return Portafolio.objects.filter(user=self.request.user)

@@ -35,7 +35,7 @@ export default function Search() {
             //setLoading(false);
         }else {
             setIsSearching(false)
-            setResults({ profiles: [], photos: [] })
+            setResults({ profiles: [], photos: [], })
         }
     }
     useEffect(() => {
@@ -51,6 +51,7 @@ export default function Search() {
             document.removeEventListener('mousedown', handleClickOutside);
         };
     }, [query,showInputSearch]);
+    console.log(results)
     return (
         <>
             <div className={`${style.overlay} ${showInputSearch ? style.show : ''}`}></div>

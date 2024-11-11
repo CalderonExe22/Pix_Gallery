@@ -8,9 +8,18 @@ from django.contrib.auth import authenticate
 class UserSerializer(ModelSerializer):
     has_portafolio = serializers.SerializerMethodField()
     portafolio_id = serializers.SerializerMethodField()
+    profile = serializers.SerializerMethodField()
     class Meta: 
         model = User
-        fields = ['id','email','username','has_portafolio','portafolio_id', 'first_name', 'last_name']
+        fields = ['id','email','username','has_portafolio','portafolio_id', 'first_name', 'last_name','profile']
+
+    def get_profile(self, obj):
+        # Intenta obtener el perfil asociado al usuario
+        try:
+            profile = Profile.objects.get(user=obj)
+            return ProfileSerializer(profile).data
+        except Profile.DoesNotExist:
+            return None
 
     def get_has_portafolio(self, obj):
         return Portafolio.objects.filter(user=obj).exists()
@@ -22,7 +31,7 @@ class UserSerializer(ModelSerializer):
 class ProfileSerializer(ModelSerializer):
     class Meta: 
         model = Profile
-        fields = ['user','bio','profile_photo','website']
+        fields = ['id','name','last_name','bio','country','profile_photo','website']
         
 class UserRegistrationSerializar(ModelSerializer):
     password1 = serializers.CharField(write_only=True, required=True)

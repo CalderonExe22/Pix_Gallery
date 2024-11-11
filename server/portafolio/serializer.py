@@ -12,63 +12,28 @@ class PortafolioCollectionSerializer(serializers.ModelSerializer):
         fields = ['portafolio', 'collection']
     
 class PortafolioSerializer(serializers.ModelSerializer):
-    existing_photos = serializers.PrimaryKeyRelatedField(queryset=Photography.objects.all(), many=True, required=False, write_only=True)
-    existing_collections = serializers.PrimaryKeyRelatedField(queryset=Collection.objects.all(), many=True, required=False, write_only=True)
-    collections = CollectionSerializer(source='collectionphotography_set', many=True, read_only=True)
-    class Meta: 
+    collections = serializers.SerializerMethodField() 
+    existing_collections = serializers.ListField(child=serializers.IntegerField(), write_only=True)  # IDs de colecciones existentes
+    class Meta:
         model = Portafolio
-        fields = ['id', 'name','description','collections', 'is_public', 'existing_photos', 'existing_collections']
+        fields = ['id', 'name', 'description', 'is_public','existing_collections','collections']
 
-    # Cambia el método para definir `collections` como una propiedad
-    def to_representation(self, instance):
-        representation = super().to_representation(instance)
-        representation['collections'] = self.get_collections(instance)
-        return representation
-
-    def get_collections(self, obj):
-        # Acceder a las colecciones reales a través de la relación intermedia 'PortafolioCollection'
-        portafolio_collections = obj.portafoliocollection_set.all()
-        # Obtener las colecciones reales
-        collections = [pc.collection for pc in portafolio_collections]
-        return CollectionSerializer(collections, many=True).data
-    
     def create(self, validated_data):
-        existing_photos = validated_data.pop('existing_photos', [])
-        existing_colections = validated_data.pop('existing_collections', [])
-        collections_data = self.context['request'].data.get('collections')
-        photos_data = self.context['request'].data.get('photos')
-        user = self.context['request'].user
-
-        # Crear el portafolio
-        portafolio = Portafolio.objects.create(**validated_data)
-
-        # Procesar colecciones existentes
-        if existing_colections:
-            for existing_collection in existing_colections:
-                collection_instance = Collection.objects.get(id=existing_collection.id)  # Asegúrate de obtener la instancia correcta
-                PortafolioCollection.objects.create(portafolio=portafolio, collection=collection_instance)
-
-        # Procesar nuevas colecciones
-        if collections_data:
-            collections_data = json.loads(collections_data)
-            for collection_data in collections_data:
-                collection, created = Collection.objects.get_or_create(**collection_data)
+        existing_collection_ids = validated_data.pop('existing_collections', []) 
+        portafolio = Portafolio.objects.create(**validated_data,user=self.context['request'].user)
+        # Asociar colecciones existentes al portafolio
+        for collection_id in existing_collection_ids:
+            try:
+                collection = Collection.objects.get(id=collection_id)
                 PortafolioCollection.objects.create(portafolio=portafolio, collection=collection)
-
-        # Procesar nuevas fotos
-        if photos_data:
-            photos_data = json.loads(photos_data)
-            for index, photo_data in enumerate(photos_data):
-                image = self.context['request'].FILES.get(f'photos[{index}][image]')
-                if image:
-                    cloudinary_response = cloudinary.uploader.upload(image)
-                    photo_data['image'] = cloudinary_response['secure_url']
-                photo, created = Photography.objects.get_or_create(**photo_data, user=user)
-                CollectionPhotography.objects.create(photography=photo, collection=collection, user=user)
-
-        # Asociar fotos existentes a la colección
-        if existing_photos:
-            for photo in existing_photos:  # Aquí ya son objetos Photography
-                CollectionPhotography.objects.create(photography=photo, collection=collection, user=user)
+            except Collection.DoesNotExist:
+                raise serializers.ValidationError(f"Collection with ID {collection_id} does not exist.")
 
         return portafolio
+    
+    def get_collections(self, obj):
+        # Obtener las colecciones asociadas al portafolio a través del modelo intermedio PortafolioCollection
+        portafolio_collections = PortafolioCollection.objects.filter(portafolio=obj)
+        
+        # Serializar las colecciones relacionadas usando el CollectionSerializer
+        return CollectionSerializer([pc.collection for pc in portafolio_collections], many=True).data

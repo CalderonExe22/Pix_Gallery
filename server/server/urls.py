@@ -25,5 +25,10 @@ urlpatterns = [
     path('api/search/', include('search.urls')),
     path('api/portafolio/', include('portafolio.urls')),
     path('api/countries/',include('soap.urls')),
-    path('api/profile/', include('user_profile.urls'))
+    path('api/profile/', include('user_profile.urls')),
+    path('api/likes/', include('likes.urls')),
+    path('api/comments/', include('comments.urls')),
+    path('api/views/', include('views.urls')),
+    path('api/statistics/', include('user_statistics.urls')),
+    path('api/followers/', include('follower.urls'))
 ]

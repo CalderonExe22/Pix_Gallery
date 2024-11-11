@@ -6,6 +6,7 @@ router = DefaultRouter()
 router.register(r'photography',PhotographyAPIView,'photography')
 router.register(r'category',CategoryAPIView,'category')
 router.register(r'category-photography',CategoryPhotographyAPIView,'category-photography')
+router.register(r'collections',CollectionAPIView,'collections')
 urlpatterns = [
     path('', include(router.urls)),
 ]

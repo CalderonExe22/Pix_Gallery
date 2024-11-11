@@ -47,3 +47,6 @@ class CollectionPhotography(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     photography = models.ForeignKey(Photography, on_delete=models.CASCADE)
     collection = models.ForeignKey(Collection, on_delete=models.CASCADE)
+        
+    class Meta:
+        unique_together = ('collection', 'photography', 'user')

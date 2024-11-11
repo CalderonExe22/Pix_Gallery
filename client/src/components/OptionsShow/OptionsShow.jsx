@@ -1,10 +1,16 @@
 import { useState } from "react"
 import PropTypes from "prop-types";
 import style from './OptionsShow.module.css'
+import { useNavigate } from "react-router-dom";
 
 export default function OptionsSearch({results}) {
     const keys = Object.keys(results)
     const [showOptions, setShowOptions] = useState(keys[1]); // Estado para mostrar/ocultar opciones
+    const navigate = useNavigate()
+    const showProfile = (idProfile) => {
+        navigate('/perfil/'+idProfile)
+        location.reload()
+    }
     return (
         <div className="flex flex-col gap-10 mt-10 w-full">
             <div className={style.optionsButtons}>
@@ -38,7 +44,7 @@ export default function OptionsSearch({results}) {
                     {showOptions === 'profiles' && (
                         <>
                             {results.profiles.map((profile) => (
-                                <div key={profile.id} className={style.options}>  
+                                <div key={profile.id} className={style.options} onClick={()=>showProfile(profile.id)}>  
                                     <div className={style.optionsText}>
                                         <span>{profile.user}</span> 
                                     </div>
@@ -74,7 +80,7 @@ export default function OptionsSearch({results}) {
                                         <span>{collection.description}</span> 
                                     </div>
                                     {(collection.photos).length > 0 && (
-                                        <img src={collection.photos[0].photography.image_url} alt={collection.photos[2].title} />
+                                        <img src={collection.photos[0].photography.image_url} alt={collection.photos[0].title} />
                                     )}
                                 </div>
                             ))} 

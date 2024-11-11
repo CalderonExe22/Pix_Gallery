@@ -4,11 +4,12 @@ import EditProfile from '../pages/Profile/EditProfile/EditProfile'
 import Profile from "../pages/Profile/Profile";
 import Upload from "../pages/Photos/Upload";
 import ShowPhoto from "../pages/Photos/showPhoto/showPhoto";
+import UploadPortafolio from "../pages/Portafolio/uploadPortafolio";
+import ShowCollection from "../pages/Photos/ShowCollections/ShowCollection";
 const Home = lazy(()=> import('../pages/Home/Home'))
 const Login = lazy(()=> import('../pages/Login/Login'))
 const Register = lazy(()=> import('../pages/Register/Register'))
 const Create = lazy(()=> import('../pages/Create/Create'))
-const CreatePortafolio = lazy(()=> import('../pages/CreatePortafolio/CreatePortafolio'))
 const Portafolio = lazy(()=> import('../pages/Portafolio/Portafolio'))
 
 const routes = [
@@ -34,7 +35,7 @@ const routes = [
     },
     {
         path: '/create-portafolio',
-        element: <CreatePortafolio />,
+        element: <UploadPortafolio />,
         isProtected: true,
     },
     {
@@ -43,12 +44,12 @@ const routes = [
         isProtected: true,
     },
     {
-        path: '/Perfil',
+        path: '/perfil/:id',
         element: <Profile />,
         isProtected: true,
     },
     {
-        path: '/editar-perfil',
+        path: '/editar-perfil/:id',
         element: <EditProfile />,
         isProtected: true,
     },
@@ -60,6 +61,11 @@ const routes = [
     {
         path: '/ver-foto/:id',
         element: <ShowPhoto />,
+        isProtected: true,
+    },
+    {
+        path: '/ver-coleccion/:id',
+        element: <ShowCollection />,
         isProtected: true,
     },
 ]

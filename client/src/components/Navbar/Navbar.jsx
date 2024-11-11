@@ -5,16 +5,30 @@ import { useSelector } from "react-redux";
 import { privateRoutes } from "../../constant/privateRoutes";
 import { publicRoutes } from "../../constant/publicRoutes";
 import Logout from "../Logout/Logout";
+import { useEffect, useState } from "react";
+import axiosApi from "../../services/axiosApi";
 
 export default function Navbar() {
     const isAuthenticated = useSelector((state) => state.auth.isAuthenticated)
-    const user = 75
-
+    const [user, setUser] = useState(null) 
+    const fetchUser = async () => {
+        try {
+            const response = await axiosApi.get('users/user/')
+            if(response.data){
+                setUser(response.data)
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }
+    useEffect(() => {
+        fetchUser()
+    },[])
     const renderRoutes = (isProtected) => (
         isProtected ? (
-            privateRoutes.filter(isProtected ? privateRoute => privateRoute.path !== '/create-portafolio' : privateRoute => privateRoute.path !== '/portafolio').map((privateRoute) => (
+            privateRoutes.map((privateRoute) => (
                 <li key={privateRoute.name}>
-                    <Link className={style.links} to={privateRoute.path === '/Portafolio' ? privateRoute.path+`/${user}` : privateRoute.path}>{privateRoute.name}</Link>
+                    <Link className={style.links} to={privateRoute.path}>{privateRoute.name}</Link>
                 </li>
             ))
         ) : (
@@ -51,7 +65,7 @@ export default function Navbar() {
                             </Link>
                         </li>
                         <li>
-                            <Link to='/Perfil'>
+                            <Link to={'/perfil/'+user?.id}>
                                 <i className="fa-solid fa-user text-2xl"></i>
                             </Link>
                         </li>

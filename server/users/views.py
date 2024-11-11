@@ -5,6 +5,7 @@ from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.viewsets import ModelViewSet
 # Create your views here.
 
 class UserRegistrationAPIView(GenericAPIView): 
@@ -57,3 +58,7 @@ class UserInfoAPIView(RetrieveAPIView):
     
     def get_object(self):
         return self.request.user
+    
+class UserAPIView(ModelViewSet):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer

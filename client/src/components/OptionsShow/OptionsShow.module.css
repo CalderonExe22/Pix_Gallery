@@ -18,7 +18,7 @@
 }
 
 .options{
-    @apply relative w-full h-full;
+    @apply relative w-full h-full cursor-pointer;
 }
 
 .optionsText{

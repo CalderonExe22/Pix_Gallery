@@ -2,6 +2,7 @@ import style from "./CardPhoto.module.css";
 import PropTypes from "prop-types";
 
 export default function CardPhoto({url,title,isLarge}) {
+    
     return (
         <div className={`${style.containerPhoto} ${isLarge ? style.large : style.small}`}>
             <img src={url} alt={title} className={style.image} />
