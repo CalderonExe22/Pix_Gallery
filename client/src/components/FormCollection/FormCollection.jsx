@@ -4,10 +4,11 @@ import FormPhoto from "../FormPhoto/FormPhoto";
 import PropTypes from 'prop-types';
 import { useEffect, useState } from "react";
 import axiosApi from "../../services/axiosApi";
+import { useNavigate } from "react-router-dom";
 
 export default function FormCollection({ getData ,images = [], indexPhoto = 0 }) {
     const [photosData, setPhotosData] = useState([]);
-
+    const navigate = useNavigate()
     const { register, handleSubmit, control, formState: { errors } } = useForm({
         defaultValues: {
             name: '',
@@ -105,6 +106,8 @@ export default function FormCollection({ getData ,images = [], indexPhoto = 0 })
                 console.log(collectionData)
                 if (collectionResponse.data) {
                     console.log('Colección creada correctamente');
+                    navigate('/ver-colecion/'+collectionResponse.id)
+                    
                 }
             } catch (error) {
                 console.log(error)
