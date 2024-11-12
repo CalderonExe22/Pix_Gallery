@@ -72,8 +72,8 @@ export default function Profile() {
             </div>
             <div className="flex justify-center">
                 <div className="flex gap-5">
-                    <span className="text-4xl font-semibold">{profile.name}</span>
-                    <span className="text-4xl font-semibold">{profile.last_name}</span>
+                    <span className="text-4xl font-semibold">{profile.profile?.name}</span>
+                    <span className="text-4xl font-semibold">{profile.profile?.last_name}</span>
                 </div>
             </div>
             <div className="flex flex-col justify-center items-center gap-3">
@@ -103,7 +103,7 @@ export default function Profile() {
                 <Tabs>
                     <Tab title={'Mis fotografias'}>
                         {photos.length > 0 ? (
-                            <div className="grid grid-cols-5 gap-5 w-full h-full">
+                            <div className="grid grid-cols-4 gap-5 w-full h-full">
                                 {photos.map((photo) => (
                                     <CardPhoto id={photo.id} key={photo.id} url={photo.image_url} title={photo.title} />
                                 ))} 
@@ -114,7 +114,7 @@ export default function Profile() {
                     </Tab>
                     <Tab title={'Mis colecciones'}>
                         {collections.length > 0 ? (
-                        <div className="grid grid-cols-5 gap-8 w-full h-full">
+                        <div className="grid grid-cols-4 gap-8 w-full h-full">
                             {collections.map((collection) => (
                                 <CardCollectionFolden id={collection.id} key={collection.id} photos={collection.photos} />
                             ))}
@@ -135,7 +135,11 @@ export default function Profile() {
                         ) : (
                             <div className="flex flex-col gap-5">
                                 <h1>No tienes portafolio creado</h1>
-                                <a className="p-4 flex justify-center bg-[#b5179e] text-white" href="/create-portafolio">Crea tu portafolios</a>
+                                {
+                                    user.id === parseInt(id) && (
+                                        <a className="p-4 flex justify-center bg-[#b5179e] text-white" href="/create-portafolio">Crea tu portafolios</a>
+                                    )
+                                }
                             </div>
                         )}
                     </Tab>

@@ -102,8 +102,8 @@ export default function FormPortafolio() {
         <div className="grid grid-cols-3 items-center w-full h-full">
             <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col justify-start gap-5">
                 <h1 className="text-4xl">Sube tu portafolio</h1>
-                <Input label='nombre del portafolio' type={'text'} name={'name'} register={register} errors={errors} required={true} />
-                <Input label='Descripcion del portafolio' type={'text'} name={'description'} register={register} errors={errors} required={true} />
+                <Input className={'w-1/2'} label='nombre del portafolio' type={'text'} name={'name'} register={register} errors={errors} required={true} clas />
+                <Input className={'w-1/2'} label='Descripcion del portafolio' type={'text'} name={'description'} register={register} errors={errors} required={true} />
                 <button onClick={handleAddCollections} disabled={!addCollections} className="w-full p-6 flex"><i className="fa-solid fa-plus"></i><h1>Añade tus fotografias</h1></button>
                 <button onClick={handleAddCollections} disabled={addCollections} className="w-full p-6 flex"><i className="fa-solid fa-plus"></i><h1>Añade tus colección</h1></button>
                 <button className="w-[250px]" type='submit'>Subir portafolio</button>

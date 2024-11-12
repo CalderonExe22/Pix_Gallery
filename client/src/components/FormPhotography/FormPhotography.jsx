@@ -4,6 +4,7 @@ import style from './FormPhotography.module.css'
 import axiosApi from "../../services/axiosApi";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import PropTypes from 'prop-types' 
 export default function FormPhotography({image}) {
     const navigate = useNavigate()
     const [categories, setCategories] = useState([]);
@@ -50,9 +51,9 @@ export default function FormPhotography({image}) {
         dataPhoto.append('precio', data.precio); 
         dataPhoto.append('is_free', data.is_free); 
         dataPhoto.append('is_public', data.is_public); 
-        
+        console.log(dataPhoto)
         try {
-        const response = await axiosApi.post('photos/photography/', dataPhoto,{
+            const response = await axiosApi.post('photos/photography/', dataPhoto,{
             headers: {
                 'Content-Type': 'multipart/form-data',
             },
@@ -63,33 +64,22 @@ export default function FormPhotography({image}) {
             console.log('Error al subir la fotografía', error.response ? error.response.data : error.message);
         }
     }
-    console.log(isFree)
+    
     return (
         <form className="flex flex-col gap-5 w-2/3 ms-20 me-20 text-lg" onSubmit={handleSubmit(onSubmit)}>
-            <Input 
-                type="text"
-                name='title'
-                label='Titulo de la fotografia'
-                placeholder='Ingrese titulo de su foto'
-                required={true}
+            <Input type="text" name='title' label='Titulo de la fotografia' placeholder='Ingrese titulo de su foto'required={true}
                 register={register}
                 errors={errors}
                 classNameStyle={style.inputs}
             />
             <Input 
-                type="text"
-                name='description'
-                label='Descripción de la fotografia'
-                placeholder='Ingrese titulo de su foto'
-                required={true}
+                type="text"name='description'label='Descripción de la fotografia'placeholder='Ingrese titulo de su foto'required={true}
                 register={register}
                 errors={errors}
                 classNameStyle={style.inputs}
             />
             <select 
-                id="category" 
-                name="category"
-                {...register('category',{required:true})}
+                id="category" name="category" {...register('category',{required:true})}
                 required
                 >
                 <option value="">Selecciona una categoría</option>
@@ -97,20 +87,12 @@ export default function FormPhotography({image}) {
                     <option key={category.id} value={category.id}>{category.name}</option>
                 ))}
             </select>
-            <Input 
-                label='Es gratis?'
-                type="checkbox"
-                name='is_free'
-                isChecked={isFree}
+            <Input label='Es gratis?' type="checkbox" name='is_free' isChecked={isFree}
                 register={register}
                 errors={errors}
             />
             {isFree === false && (
-                <Input 
-                    type="number"
-                    name='precio'
-                    label='Precio de la fotografia'
-                    placeholder='Ingrese precio de su foto'
+                <Input type="number" name='precio' label='Precio de la fotografia' placeholder='Ingrese precio de su foto'
                     register={register}
                     errors={errors}
                     classNameStyle={style.inputs}
@@ -121,3 +103,6 @@ export default function FormPhotography({image}) {
     )
 }
 
+FormPhotography.propTypes = {
+    image: PropTypes.instanceOf(File),
+}

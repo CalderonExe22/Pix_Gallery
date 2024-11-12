@@ -69,7 +69,7 @@ export default function Profile() {
                     placeholder="Nombre"
                     name="name"
                     type="text"
-                    defaultValue={profileData.name || ""}
+                    defaultValue={profileData.profile?.name || ""}
                     {...register("name")}
                     className="border border-gray-300 rounded-md p-2 mb-2"
                 />
@@ -77,14 +77,14 @@ export default function Profile() {
                     placeholder="Apellido"
                     name="last_name"
                     type="text"
-                    defaultValue={profileData.last_name || ""}
+                    defaultValue={profileData.profile?.last_name || ""}
                     {...register("last_name")}
                     className="border border-gray-300 rounded-md p-2 mb-2"
                 />
                 <textarea
                     placeholder="biografia"
                     name="bio"
-                    defaultValue={profileData.bio || ""}
+                    defaultValue={profileData.profile?.bio || ""}
                     {...register("bio")}
                     className="border border-gray-300 rounded-md p-2 mb-2"
                 />

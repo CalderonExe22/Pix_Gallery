@@ -4,6 +4,7 @@ export default function CardPhoto({id,url, title}) {
     const navigate = useNavigate()
     const showPhoto = (idPhoto) => {
         navigate('/ver-foto/'+idPhoto)
+        location.reload()
     }
     return (
         <div onClick={() => showPhoto(id)} className="relative group w-[300px] h-[350px] overflow-hidden rounded-xl shadow-lg cursor-pointer">

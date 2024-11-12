@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import axiosApi from "../../services/axiosApi";
 import ListPhotos from "../../components/ListsPhotos/ListsPhotos";
 import { useNavigate } from "react-router-dom";
+import Tabs from "../../components/Tabs/Tabs";
+import Tab from "../../components/Tabs/Tab";
 
 export default function WishList() {
 
@@ -52,7 +54,7 @@ export default function WishList() {
     }, [wishlist, photos])
 
     return (
-        <div>
+        <div className="flex justify-center items-center h-full pt-10">
             {
                 loading ? 
                     <h1 className="text-3xl mb-4" >Cargando...</h1>
@@ -64,7 +66,15 @@ export default function WishList() {
                                 <button className="bg-blue-500 text-white px-4 py-2" onClick={handleExplore}>Explorar</button>
                             </div>
                         :
-                            <ListPhotos photos={photosWishlist} />
+                            <Tabs>
+                                <Tab title={'Fotos'}>
+                                    <ListPhotos photos={photosWishlist} />
+                                </Tab>
+                                <Tab title={'Colecciones'}>
+                                    <h1>Aca van las coleccioness</h1>
+                                </Tab>
+                            </Tabs>
+                            
                     )
             }
         </div>

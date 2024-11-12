@@ -1,6 +1,6 @@
 import {PropTypes} from 'prop-types'
 
-function Input ({ label, type, name, register, errors, required, validationRules }) {
+function Input ({ label, type, name, register, errors, required, validationRules, className }) {
     return (
         <div className='flex flex-col'>
             <label htmlFor={name}>{label}:</label>
@@ -14,6 +14,7 @@ function Input ({ label, type, name, register, errors, required, validationRules
                     }
                 )} 
                 autoComplete={name}
+                className={className}
             />
             {errors[name] && <p className='text-red-800'>{errors[name].message}</p>}
         </div>
@@ -36,4 +37,5 @@ Input.propTypes = {
         PropTypes.bool,
     ]),
     errors: PropTypes.object,
+    className: PropTypes.string,
 }

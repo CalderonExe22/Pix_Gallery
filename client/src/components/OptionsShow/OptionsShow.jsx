@@ -1,12 +1,19 @@
 import { useState } from "react"
 import PropTypes from "prop-types";
 import style from './OptionsShow.module.css'
+import { useNavigate } from "react-router-dom";
+import CardPhoto from "../Cards/CardPhoto/CardPhoto";
+import CardCollectionFolden from "../Cards/CardCollection/CardCollectionFolden";
 
 export default function OptionsSearch({results}) {
     const keys = Object.keys(results)
-    
     const [showOptions, setShowOptions] = useState(keys[1]); // Estado para mostrar/ocultar opciones
-
+    const navigate = useNavigate()
+    const showProfile = (idProfile) => {
+        navigate('/perfil/'+idProfile)
+        location.reload()
+    }
+    console.log(results)
     return (
         <div className="flex flex-col gap-10 mt-10 w-full">
             <div className={style.optionsButtons}>
@@ -27,25 +34,19 @@ export default function OptionsSearch({results}) {
                     {showOptions === 'photos' && (
                         <>
                             {results.photos.map((photo) => (
-                                <div key={photo.id} className={style.options}>  
-                                    <div className={style.optionsText}>
-                                        <span>{photo.title}</span> 
-                                        <span>{photo.description}</span> 
-                                    </div>
-                                    <img className={style.image} src={ photo.image.replace('image/upload/', '')} />
-                                </div>
+                                <CardPhoto id={photo?.id} url={photo?.image_url} key={photo?.id} title={photo?.title} width={200} height={250}/>
                             ))} 
                         </>
                     )}
                     {showOptions === 'profiles' && (
                         <>
                             {results.profiles.map((profile) => (
-                                <div key={profile.id} className={style.options}>  
+                                <div key={profile?.id} className={style.options} onClick={()=>showProfile(profile?.user)}>  
                                     <div className={style.optionsText}>
-                                        <span>{profile.user}</span> 
+                                        <span>{profile?.user_name}</span> 
                                     </div>
-                                    {profile.profile_photo ? (
-                                        <img className={style.image} src={'https://res.cloudinary.com/drtkhsozv/'+profile.image} />
+                                    {profile?.profile_photo ? (
+                                        <img className={style.image} src={'https://res.cloudinary.com/dowtoqcra/'+profile?.image} />
                                     ):(
                                         <img src="https://res.cloudinary.com/dowtoqcra/image/upload/v1729264496/wbtownzvwkokccchbbto.webp" alt="sinfotodeperfil" />
                                     )}
@@ -54,14 +55,10 @@ export default function OptionsSearch({results}) {
                             ))} 
                         </>
                     )}
-                    {showOptions === 'categories' && (
+                    {showOptions === 'collections' && (
                         <>
-                            {results.categories.map((category) => (
-                                <div key={category.id} className={style.options}>  
-                                    <div className={style.optionsText}>
-                                        <span>{category.name}</span>
-                                    </div>
-                                    <img alt={category.name} className={style.image} src={'https://res.cloudinary.com/drtkhsozv/'+category.image} />                                </div>
+                            {results.collections.map((collection) => (
+                                <CardCollectionFolden key={collection?.id} photos={collection?.photos} width={200} height={200} id={collection?.id}  />
                             ))} 
                         </>
                     )}
