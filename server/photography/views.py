@@ -14,7 +14,6 @@ class IsOwner(BasePermission):
 class PhotographyAPIView(ModelViewSet):
     queryset = Photography.objects.all()
     serializer_class = SerializerPhotography
-    permission_classes = (IsAuthenticated,)
     
     @action(detail=False, methods=['get'],permission_classes=[AllowAny])
     def get_all_photographies(self, request):
@@ -57,7 +56,6 @@ class PhotographyAPIView(ModelViewSet):
 
 class CollectionAPIView(ModelViewSet):
     serializer_class = CollectionSerializer
-    permission_classes = (IsAuthenticated,)
     queryset = Collection.objects.all()
     
     def create(self, request, *args, **kwargs):
@@ -103,7 +101,7 @@ class CollectionAPIView(ModelViewSet):
         elif self.action == ['all_collections','get_collections_by_user']:
             self.permission_classes = [AllowAny]
         else:
-            self.permission_classes = [IsAuthenticated]
+            self.permission_classes = [AllowAny]
         return super().get_permissions()
 
 

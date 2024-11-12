@@ -56,17 +56,17 @@ export default function Navbar() {
                     <>
                         <li>
                             <Link>
-                                <i className="fa-solid fa-bell text-2xl"></i>
+                                <i className="fa-solid fa-bell text-xl"></i>
                             </Link>
                         </li>
                         <li>
                             <Link>
-                                <i className="fa-solid fa-heart text-2xl"></i>
+                                <i className="fa-solid fa-heart text-xl"></i>
                             </Link>
                         </li>
                         <li>
                             <Link to={'/perfil/'+user?.id}>
-                                <i className="fa-solid fa-user text-2xl"></i>
+                                <i className="fa-solid fa-user text-xl"></i>
                             </Link>
                         </li>
                         <Logout style={style.links} />

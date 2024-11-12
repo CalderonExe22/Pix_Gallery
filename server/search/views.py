@@ -27,7 +27,7 @@ class SearchAPIView(APIView):
             collection_serializer = CollectionSerializer(collections, many=True)
             return Response({
                 'photos':photo_serializer.data,
-                'categories':categories_serializer.data,
+                #'categories':categories_serializer.data,
                 'profiles':profiles_serializer.data,
                 'collections': collection_serializer.data
             }, status=status.HTTP_200_OK)

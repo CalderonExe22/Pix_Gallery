@@ -120,7 +120,9 @@ export default function Profile() {
                         ) : (
                             <div className="flex flex-col gap-5">
                                 <h1>No tienes portafolio creado</h1>
-                                <a className="p-4 flex justify-center bg-[#b5179e] text-white" href="/create-portafolio">Crea tu portafolios</a>
+                                {user?.id === parseInt(id) && (
+                                    <a className="p-4 flex justify-center bg-[#b5179e] text-white" href="/create-portafolio">Crea tu portafolios</a>
+                                )}
                             </div>
                         )}
                     </Tab>

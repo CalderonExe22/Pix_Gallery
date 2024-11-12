@@ -2,6 +2,8 @@ import { useState } from "react"
 import PropTypes from "prop-types";
 import style from './OptionsShow.module.css'
 import { useNavigate } from "react-router-dom";
+import CardPhoto from "../Cards/CardPhoto/CardPhoto";
+import CardCollectionFolden from "../Cards/CardCollection/CardCollectionFolden";
 
 export default function OptionsSearch({results}) {
     const keys = Object.keys(results)
@@ -11,6 +13,7 @@ export default function OptionsSearch({results}) {
         navigate('/perfil/'+idProfile)
         location.reload()
     }
+    console.log(results)
     return (
         <div className="flex flex-col gap-10 mt-10 w-full">
             <div className={style.optionsButtons}>
@@ -31,13 +34,7 @@ export default function OptionsSearch({results}) {
                     {showOptions === 'photos' && (
                         <>
                             {results.photos.map((photo) => (
-                                <div key={photo.id} className={style.options}>  
-                                    <div className={style.optionsText}>
-                                        <span>{photo.title}</span> 
-                                        <span>{photo.description}</span> 
-                                    </div>
-                                    <img className={style.image} src={'https://res.cloudinary.com/dowtoqcra/'+photo.image} />
-                                </div>
+                                <CardPhoto id={photo.id} url={photo.image_url} key={photo.id} title={photo.title} width={200} height={250}/>
                             ))} 
                         </>
                     )}
@@ -58,31 +55,10 @@ export default function OptionsSearch({results}) {
                             ))} 
                         </>
                     )}
-                    {showOptions === 'categories' && (
-                        <>
-                            {results.categories.map((category) => (
-                                <div key={category.id} className={style.options}>  
-                                    <div className={style.optionsText}>
-                                        <span>{category.name}</span> 
-                                        <span>{category.description}</span> 
-                                    </div>
-                                    {<img className={style.image} src={'https://res.cloudinary.com/drtkhsozv/'+category.image} />}
-                                </div>
-                            ))} 
-                        </>
-                    )}
                     {showOptions === 'collections' && (
                         <>
                             {results.collections.map((collection) => (
-                                <div key={collection.id} className={style.options}>  
-                                    <div className={style.optionsText}>
-                                        <span>{collection.name}</span> 
-                                        <span>{collection.description}</span> 
-                                    </div>
-                                    {(collection.photos).length > 0 && (
-                                        <img src={collection.photos[0].photography.image_url} alt={collection.photos[0].title} />
-                                    )}
-                                </div>
+                                <CardCollectionFolden key={collection.id} photos={collection.photos} width={200} height={200} id={collection.id}  />
                             ))} 
                         </>
                     )}

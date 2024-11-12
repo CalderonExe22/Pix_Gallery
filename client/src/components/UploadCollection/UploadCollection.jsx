@@ -49,11 +49,14 @@ export default function UploadCollection({showForm, getData}) {
                         <label className="cursor-pointer flex justify-center items-center w-full h-full z-10" htmlFor="inputCollectionFile">
                             <div className="flex flex-col items-center gap-4">
                                 <i className="fa-solid fa-file-image text-7xl"></i>
-                                <p className="text-2xl font-bold">Sube tu coleccion fotografica</p>
+                                <h1 className="text-4xl font-bold">Sube tu coleccion fotografica</h1>
                                 <p>Se recomiendan archivos .jpg de alta calidad.</p>
-                                <button onClick={showForm} className=""><i className="fa-solid fa-circle-chevron-up text-6xl"></i></button>      
                             </div>
                         </label>
+                        <button onClick={showForm} className="pt-5 pb-5 flex flex-col items-center transition-colors duration-300 hover:bg-[#b5179e] hover:text-white w-full gap-5 rounded-2xl">
+                            <p className="text-xl font-medium">Sube tu fotografia </p>
+                            <i className="fa-solid fa-circle-chevron-up text-6xl"></i>
+                        </button>
                     </div>
                 )}
             </div>
