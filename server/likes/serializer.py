@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from .models import Like
 from photography.models import Photography
+from user_statistics.models import Statistics
 
 class LikeSerializer(serializers.ModelSerializer):
     photo = serializers.IntegerField(write_only=True)
@@ -13,6 +14,9 @@ class LikeSerializer(serializers.ModelSerializer):
         photo = Photography.objects.get(id=photo_id)
         validated_data['photo'] = photo # Se reemplaza el id de la foto por el objeto de la foto
         like = Like.objects.create(**validated_data)
+        user_stats, created = Statistics.objects.get_or_create(user=photo.user)
+        user_stats.likes_count += 1
+        user_stats.save()
         return like
     
     def to_representation(self, instance):

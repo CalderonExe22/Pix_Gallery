@@ -4,6 +4,7 @@ from .serializer import LikeSerializer
 from rest_framework.permissions import IsAuthenticated, BasePermission, AllowAny
 from rest_framework.decorators import action
 from rest_framework.response import Response
+from user_statistics.models import Statistics
 
 # Create your views here.
 
@@ -41,3 +42,11 @@ class LikeApiView(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
+
+    def perform_destroy(self, instance):
+            user_stats = Statistics.objects.get(user=instance.photo.user)
+            if user_stats.likes_count > 0:
+                user_stats.likes_count -= 1
+                user_stats.save()
+            # Eliminar el like
+            instance.delete()

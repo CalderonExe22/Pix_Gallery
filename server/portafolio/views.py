@@ -5,25 +5,13 @@ from rest_framework.viewsets import ModelViewSet
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework import status
-from rest_framework.generics import RetrieveAPIView 
+from rest_framework.generics import RetrieveAPIView
 # Create your views here.
 
 class PortafolioAPIView(ModelViewSet):
     queryset = Portafolio.objects.all()
     serializer_class = PortafolioSerializer
     permission_classes = (IsAuthenticated,)
-    
-    def perform_create(self, serializer):
-        serializer.save(user=self.request.user)
-        return Response(status=status.HTTP_200_OK)
-
-class PortafolioDetailAPIView(RetrieveAPIView):
-    queryset = Portafolio.objects.all()
-    serializer_class = PortafolioSerializer
-    permission_classes = (IsAuthenticated,)
-
     def get_queryset(self):
-        return super().get_queryset().prefetch_related(
-            'portafoliocollection_set__collection', 
-            'portafoliocollection_set__collection__photography_set'
-        )
+        # Filtramos el portafolio para que solo el usuario autenticado vea su propio portafolio
+        return Portafolio.objects.filter(user=self.request.user)

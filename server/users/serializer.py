@@ -8,9 +8,10 @@ from portafolio.models import Portafolio
 class UserSerializer(ModelSerializer):
     has_portafolio = serializers.SerializerMethodField()
     portafolio_id = serializers.SerializerMethodField()
+    profile = serializers.SerializerMethodField(read_only=True)
     class Meta: 
         model = User
-        fields = ['id','email','username','has_portafolio','portafolio_id', 'first_name', 'last_name']
+        fields = ['id','email','username','has_portafolio','portafolio_id', 'first_name', 'last_name', 'profile']
 
     def get_has_portafolio(self, obj):
         return Portafolio.objects.filter(user=obj).exists()
@@ -18,7 +19,15 @@ class UserSerializer(ModelSerializer):
     def get_portafolio_id(self, obj):
         portafolio = Portafolio.objects.filter(user=obj).first()  # Obtiene el primer portafolio
         return portafolio.id if portafolio else None
-        
+    
+    def get_profile(self, obj):
+        # Intenta obtener el perfil asociado al usuario
+        try:
+            profile = Profile.objects.get(user=obj)
+            return ProfileSerializer(profile).data
+        except Profile.DoesNotExist:
+            return None
+    
 class ProfileSerializer(ModelSerializer):
     class Meta: 
         model = Profile

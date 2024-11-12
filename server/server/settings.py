@@ -49,6 +49,8 @@ INSTALLED_APPS = [
     'likes',
     'comments',
     'views',
+    'user_statistics',
+    'follower',
     'cloudinary',
     "corsheaders",
     'rest_framework',
