@@ -4,7 +4,6 @@ import Home from '../pages/Home/Home';
 import Login from '../pages/Login/Login';
 import Register from '../pages/Register/Register';
 import Create from '../pages/Create/Create';
-import CreatePortafolio from '../pages/CreatePortafolio/CreatePortafolio';
 import Portafolio from '../pages/Portafolio/Portafolio';
 import Profile from '../pages/Profile/Profile';
 import EditProfile from '../pages/Profile/EditProfile/EditProfile';
@@ -15,6 +14,8 @@ import PaymentPending from '../pages/Payment/PaymentPending';
 import Upload from '../pages/Photos/Upload';
 import ShowPhoto from '../pages/Photos/ShowPhoto/ShowPhoto';
 import WishList from '../pages/WishList/WishList';
+import UploadPortafolio from '../pages/Portafolio/UploadPortafolio';
+import ShowCollection from '../pages/Photos/ShowCollections/ShowCollection';
 
 const router = createBrowserRouter([
     {
@@ -39,21 +40,11 @@ const router = createBrowserRouter([
             },
             {
                 path: '/create-portafolio',
-                element: <CreatePortafolio />
+                element: <UploadPortafolio />
             },
             {
                 path: '/portafolio/:id',
                 element: <Portafolio />
-            },
-            {
-                path: '/Perfil',
-                element: <Profile />,
-                isProtected: true,
-            },
-            {
-                path: '/editar-perfil',
-                element: <EditProfile />,
-                isProtected: true,
             },
             {
                 path:'/payments/success/',
@@ -82,6 +73,20 @@ const router = createBrowserRouter([
             {
                 path: '/wishlist',
                 element: <WishList />
+            },
+            {
+                path: '/perfil/:id',
+                element: <Profile />,
+                isProtected: true,
+            },
+            {
+                path: '/editar-perfil/:id',
+                element: <EditProfile />,
+                isProtected: true,
+            },
+            {
+                path: '/ver-coleccion/:id',
+                element: <ShowCollection />
             }
         ]
     },

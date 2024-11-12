@@ -13,7 +13,7 @@ export default function Home() {
 
     const getPhotos = async () => {
         try {
-            const response = await axiosApi.get("photos/photography/");
+            const response = await axiosApi.get("photos/photography/get_all_photographies/");
             setPhotos(response.data);
             setFilteredPhotos(response.data);
         } catch (error) {

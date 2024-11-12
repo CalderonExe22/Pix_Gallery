@@ -10,6 +10,8 @@ export default function Navbar() {
 
     const [user, setUser] = useState([]);
 
+    //console.log(user.id)
+
     useEffect(() => {
         
         const userInfo = async () => {
@@ -32,7 +34,6 @@ export default function Navbar() {
     const menuAutenticated = [
         {name: 'Home', url: '/'},
         {name: 'Create', url: '/subir_photo'},
-        (user.has_portafolio ? {name: 'Portafolio', url: '/portafolio/' + user.portafolio_id} : {name: 'Portafolio', url: '/create-portafolio'}),
     ]
 
     const handleLogout = async ()=>{
@@ -72,12 +73,12 @@ export default function Navbar() {
                             </Link>
                         </li>
                         <li>
-                            <Link to="/wishlist">
+                            <Link to="/wishlist/">
                                 <i className="fa-solid fa-heart text-2xl"></i>
                             </Link>
                         </li>
                         <li>
-                            <Link to="/Perfil">
+                            <Link to={"/perfil/"+user?.id}>
                                 <i className="fa-solid fa-user text-2xl"></i>
                             </Link>
                         </li>
