@@ -31,14 +31,14 @@ export default function UploadCollection({showForm, getData}) {
                 {previewCollection.length ? (
                 <div className="grid grid-cols-4 gap-5 h-full w-full">
                         {previewCollection.map((previewCollec, index) => (
-                            <div key={index} onClick={()=>handleImageClick(index)} className="relative cursor-pointer flex w-[200px] h-[250px]">
+                            <div key={index} onClick={()=>handleImageClick(index)} className="relative cursor-pointer flex w-[150px] h-[200px]">
                                 <button className="absolute top-2 right-2 z-20 p-3 font-medium text-3xl text-white" onClick={()=>removeCollectionPhoto(index)}>
                                     <i className="fa-solid fa-xmark"></i>
                                 </button>
                                 <img className="object-cover h-full w-full rounded-md" src={previewCollec} alt="vista-previa" />
                             </div>
                         ))}
-                        <label className="cursor-pointer flex justify-center items-center h-[250px] w-[200px] z-10 bg-gray-200 shadow-lg border-2 border-solid border-black" htmlFor="inputCollectionFile">
+                        <label className="cursor-pointer flex justify-center items-center h-[200px] w-[150px] z-10 bg-gray-200 shadow-lg border-2 border-solid border-black" htmlFor="inputCollectionFile">
                             <input id="inputCollectionFile" className="hidden" type="file" accept="image/*" onChange={handleCollectionChange} multiple />
                             <button><i className="fa-solid fa-plus"></i></button>
                         </label>

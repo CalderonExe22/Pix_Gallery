@@ -14,9 +14,10 @@ class PortafolioCollectionSerializer(serializers.ModelSerializer):
 class PortafolioSerializer(serializers.ModelSerializer):
     collections = serializers.SerializerMethodField() 
     existing_collections = serializers.ListField(child=serializers.IntegerField(), write_only=True)  # IDs de colecciones existentes
+    user = serializers.CharField(source='user.id', read_only=True)
     class Meta:
         model = Portafolio
-        fields = ['id', 'name', 'description', 'is_public','existing_collections','collections']
+        fields = ['id', 'name', 'description', 'is_public','existing_collections','collections','user']
 
     def create(self, validated_data):
         existing_collection_ids = validated_data.pop('existing_collections', []) 

@@ -33,7 +33,7 @@ function Filter({ photos, categories, categoryPhoto, onFilter }) {
                             value={category.id}
                             onChange={() => handleCategoryChange(category.id)}
                             checked={selectedCategories.includes(category.id)}
-                            className="h-10"
+                            className="h-5"
                         />
                         <span>{category.name}</span>
                     </label>

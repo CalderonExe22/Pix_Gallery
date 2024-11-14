@@ -3,11 +3,12 @@ import axiosApi from "../../services/axiosApi"
 import Input from "../Input/Input"
 import { useForm } from "react-hook-form";
 import CardCollectionFolden from "../Cards/CardCollection/CardCollectionFolden";
-
+import { useNavigate } from "react-router-dom";
 export default function FormPortafolio() {
     const [collections, setCollections] = useState([])
     const [photos, setPhotos] = useState([])
     const [addCollections,setAddCollections] = useState(false)
+    const navigate = useNavigate()
     const [selectedPhoto, setSelectPhotos] = useState({
         name: 'Mejores fotografia',
         description: 'Las mejores fotografias del usuario',
@@ -91,6 +92,8 @@ export default function FormPortafolio() {
             const response = await axiosApi.post('portafolio/portafolios/',data)
             if(response.data){
                 console.log('portafolio creados')
+                console.log(response.data)
+                navigate('/perfil/'+response.data.user)
             }
         } catch (error) {
             console.error(error)

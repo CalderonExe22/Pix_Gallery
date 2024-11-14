@@ -33,7 +33,7 @@ export default function Navbar() {
 
     const menuAutenticated = [
         {name: 'Home', url: '/'},
-        {name: 'Create', url: '/subir_photo'},
+        {name: 'Subir', url: '/subir_photo'},
     ]
 
     const handleLogout = async ()=>{

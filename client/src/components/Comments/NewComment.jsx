@@ -44,7 +44,7 @@ export default function NewComment({ photoId }) {
 
     return (
         <div className="p-4 bg-gray-100 rounded-lg shadow-md">
-            <div className="mb-5 p-4 border border-gray-300 bg-white rounded-lg">
+            <div className="mb-5 p-4 border border-gray-300 bg-white rounded-lg h-[250px] overflow-hidden overflow-y-auto">
                 {
                     comments.length === 0 ? 
                     <p className="text-gray-500">Se el primero en agregar un comentario!</p> :

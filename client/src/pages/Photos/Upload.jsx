@@ -11,7 +11,7 @@ export default function Upload() {
     }
 
     return (
-        <div className={`flex flex-col h-[700px] w-full`}>
+        <div className={`flex flex-col h-[500px] w-full`}>
             <div className={`flex justify-center items-center ${show ? 'h-full' : 'h-0 overflow-hidden' } w-full transform transition-all duration-500`}>
                 <UploadPhoto showForm={collectionOrPhotography} />
             </div>
