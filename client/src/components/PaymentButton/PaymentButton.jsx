@@ -20,7 +20,7 @@ function PaymentButton({ onPayment }) {
             
             //console.log(preference)
             //console.log(preference.response.sandbox_init_point);
-            window.location.href = preference.response.init_point;
+            window.location.href = preference.response.sandbox_init_point;
         } catch (error) {
             console.error('Error al crear la preferencia de pago:', error);
         }

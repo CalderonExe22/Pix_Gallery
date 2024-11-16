@@ -82,9 +82,7 @@ def create_preference(request):
                 "installments" : 6
             },
             "external_reference": external_reference,
-            #"purpose": "wallet_purchase",
-            #"notification_url": "",
-            #"auto_return": "approved",
+            "binary_mode": True,
         }
         preference = sdk.preference().create(preference_data)
         return JsonResponse(preference)

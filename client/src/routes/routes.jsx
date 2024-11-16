@@ -10,7 +10,6 @@ import EditProfile from '../pages/Profile/EditProfile/EditProfile';
 import PaymentsHistorial from '../pages/Payment/PaymentsHistorial';
 import PaymentSuccess from '../pages/Payment/PaymentSuccess';
 import PaymentFailure from '../pages/Payment/PaymentFailure';
-import PaymentPending from '../pages/Payment/PaymentPending';
 import Upload from '../pages/Photos/Upload';
 import ShowPhoto from '../pages/Photos/ShowPhoto/ShowPhoto';
 import WishList from '../pages/WishList/WishList';
@@ -53,10 +52,6 @@ const router = createBrowserRouter([
             {
                 path:'/payments/failure/',
                 element: <PaymentFailure />
-            },
-            {
-                path:'/payments/pending/',
-                element: <PaymentPending />
             },
             {
                 path: '/payments/historial',
