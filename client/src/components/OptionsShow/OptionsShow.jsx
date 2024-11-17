@@ -41,9 +41,9 @@ export default function OptionsSearch({results}) {
                     {showOptions === 'profiles' && (
                         <>
                             {results.profiles.map((profile) => (
-                                <div key={profile.id} className={style.options} onClick={()=>showProfile(profile.id)}>  
+                                <div key={profile.id} className={style.options} onClick={()=>showProfile(profile.user)}>  
                                     <div className={style.optionsText}>
-                                        <span>{profile.user}</span> 
+                                        <span>{profile.user_name}</span> 
                                     </div>
                                     {profile.profile_photo ? (
                                         <img className={style.image} src={'https://res.cloudinary.com/dowtoqcra/'+profile.image} />

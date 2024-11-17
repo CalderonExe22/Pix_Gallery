@@ -49,6 +49,8 @@ INSTALLED_APPS = [
     'views',
     'user_statistics',
     'follower',
+    'notification',
+    'analyzeImage',
     'cloudinary',
     "corsheaders",
     'rest_framework',

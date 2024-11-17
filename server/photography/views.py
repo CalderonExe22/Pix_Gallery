@@ -6,6 +6,8 @@ from rest_framework import status
 from .models import *
 from users.models import User
 from .serializer import *
+from follower.models import Follower
+from notification.models import Notification
 
 class IsOwner(BasePermission):
     def has_object_permission(self, request, view, obj):
@@ -42,8 +44,14 @@ class PhotographyAPIView(ModelViewSet):
         return Response(serializer.data, status=status.HTTP_200_OK)
     
     def perform_create(self, serializer):
-        data = serializer.save(user=self.request.user)
-        return Response(data=data)
+        photography = serializer.save(user=self.request.user)
+        followers = Follower.objects.filter(followed=self.request.user)
+        for follower in followers:
+            Notification.objects.create(
+                user= follower.follower,
+                message=f'{self.request.user.username} ha subido una nueva fotografia: {photography.title}'
+            )
+        return Response(data=photography)
     
     def get_permissions(self):
         if self.action in ['retrieve', 'update', 'destroy', 'get_user_photographies']:
@@ -51,7 +59,7 @@ class PhotographyAPIView(ModelViewSet):
         elif self.action == ['get_all_photographies','get_photographies_by_user']:
             self.permission_classes = [AllowAny]
         else:
-            self.permission_classes = [IsAuthenticated]
+            self.permission_classes = [AllowAny]
         return super().get_permissions()
 
 class CollectionAPIView(ModelViewSet):

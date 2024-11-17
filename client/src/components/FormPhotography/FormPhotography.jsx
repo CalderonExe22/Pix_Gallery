@@ -67,6 +67,7 @@ export default function FormPhotography({image}) {
     
     return (
         <form className="flex flex-col gap-5 w-2/3 ms-20 me-20 text-lg" onSubmit={handleSubmit(onSubmit)}>
+            <h1 className="text-4xl">Subir fotografia</h1>
             <Input type="text" name='title' label='Titulo de la fotografia' placeholder='Ingrese titulo de su foto'required={true}
                 register={register}
                 errors={errors}

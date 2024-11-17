@@ -6,6 +6,7 @@ import Upload from "../pages/Photos/Upload";
 import ShowPhoto from "../pages/Photos/showPhoto/showPhoto";
 import UploadPortafolio from "../pages/Portafolio/uploadPortafolio";
 import ShowCollection from "../pages/Photos/ShowCollections/ShowCollection";
+import Notifications from "../pages/notifications/Notifications";
 const Home = lazy(()=> import('../pages/Home/Home'))
 const Login = lazy(()=> import('../pages/Login/Login'))
 const Register = lazy(()=> import('../pages/Register/Register'))
@@ -66,6 +67,11 @@ const routes = [
     {
         path: '/ver-coleccion/:id',
         element: <ShowCollection />,
+        isProtected: true,
+    },
+    {
+        path: '/notificaciones',
+        element: <Notifications />,
         isProtected: true,
     },
 ]

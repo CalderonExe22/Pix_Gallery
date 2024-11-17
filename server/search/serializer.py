@@ -14,10 +14,11 @@ class PhotographySerializer(ModelSerializer):
         return obj.image.url if obj.image else None
     
 class ProfileSerializer(ModelSerializer): 
-    user = serializers.CharField(source='user.username')
+    user = serializers.CharField(source='user.id')
+    user_name = serializers.CharField(source='user.username')
     class Meta:
         model = Profile
-        fields = ['id','user','profile_photo']
+        fields = ['id','user','user_name','profile_photo']
     
 class CategorySerializer(ModelSerializer):
     class Meta:

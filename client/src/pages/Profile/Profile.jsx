@@ -57,8 +57,8 @@ export default function Profile() {
             </div>
             <div className="flex justify-center">
                 <div className="flex gap-5">
-                    <span className="text-4xl font-semibold">{profile.name}</span>
-                    <span className="text-4xl font-semibold">{profile.last_name}</span>
+                    <span className="text-4xl font-semibold">{profile.profile?.name}</span>
+                    <span className="text-4xl font-semibold">{profile.profile?.last_name}</span>
                 </div>
             </div>
             <div className="flex flex-col justify-center items-center gap-3">

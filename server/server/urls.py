@@ -30,5 +30,7 @@ urlpatterns = [
     path('api/comments/', include('comments.urls')),
     path('api/views/', include('views.urls')),
     path('api/statistics/', include('user_statistics.urls')),
-    path('api/followers/', include('follower.urls'))
+    path('api/followers/', include('follower.urls')),
+    path('api/notifications/',include('notification.urls')),
+    path('api/image/',include('analyzeImage.urls'))
 ]
