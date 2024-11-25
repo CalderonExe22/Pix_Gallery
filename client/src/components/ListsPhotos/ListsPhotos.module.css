@@ -1,8 +1,24 @@
-.containerPhotos{
-    @apply w-full grid gap-5;
+.containerGrid{
+    @apply w-full h-full grid gap-5;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* Esto ajustará automáticamente las columnas según el espacio disponible */
-    grid-auto-rows: 10px; /* Esto hace que cada fila sea de 10px, permitiendo que las imágenes se expandan en múltiplos de 10 */
+    grid-auto-rows: 10px; 
+    grid-auto-flow: dense;
     padding: 12px 72px 32px;
 }
 
+.containerGridOrden {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Ajusta el tamaño mínimo de las imágenes */
+    gap: 16px; /* Espacio entre las imágenes */
+}
 
+.containerColumns {
+    column-count: 4; /* Número de columnas */
+    column-gap: 15px; /* Espaciado entre las columnas */
+    padding: 12px 72px 32px;
+}
+
+.containerColumns > div { 
+    break-inside: avoid; /* Evita que los elementos se rompan a mitad de columna */
+    margin-bottom: 15px; /* Espaciado entre las tarjetas */
+}

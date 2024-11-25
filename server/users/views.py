@@ -39,6 +39,7 @@ class UserLoginAPIView(GenericAPIView):
             'refresh' : str(token),
             'access' : str(token.access_token)
         }
+        print(data)
         return Response(data, status=status.HTTP_200_OK)
     
 class UserLogoutAPIView(GenericAPIView):

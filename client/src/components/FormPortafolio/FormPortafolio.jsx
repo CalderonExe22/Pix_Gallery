@@ -99,16 +99,16 @@ export default function FormPortafolio() {
     }
 
     return (
-        <div className="grid grid-cols-3 items-center w-full h-full">
-            <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col justify-start gap-5">
+        <div className="grid grid-cols-3 justify-center items-center w-full h-full">
+            <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col col-span-1 items-start px-20 gap-5">
                 <h1 className="text-4xl">Sube tu portafolio</h1>
                 <Input label='nombre del portafolio' type={'text'} name={'name'} register={register} errors={errors} required={true} />
                 <Input label='Descripcion del portafolio' type={'text'} name={'description'} register={register} errors={errors} required={true} />
-                <button onClick={handleAddCollections} disabled={!addCollections} className="w-full p-6 flex"><i className="fa-solid fa-plus"></i><h1>Añade tus fotografias</h1></button>
-                <button onClick={handleAddCollections} disabled={addCollections} className="w-full p-6 flex"><i className="fa-solid fa-plus"></i><h1>Añade tus colección</h1></button>
+                <button onClick={handleAddCollections} disabled={!addCollections} className="w-[300px] p-6 flex"><i className="fa-solid fa-plus"></i><h1>Añade tus fotografias</h1></button>
+                <button onClick={handleAddCollections} disabled={addCollections} className="w-[300px] p-6 flex"><i className="fa-solid fa-plus"></i><h1>Añade tus colección</h1></button>
                 <button className="w-[250px]" type='submit'>Subir portafolio</button>
             </form>
-            <div className="flex flex-col h-full w-full col-span-2 ">
+            <div className="flex flex-col justify-center items-center h-full w-full col-span-2 ">
                 <div className={`grid grid-cols-3 justify-center items-center ${addCollections?'h-[600px] overflow-y-auto':'h-0 overflow-hidden'} gap-10 transition-all duration-300`}>
                     {collections.map((collection) => (
                         <div onClick={() => handleSelectedCollection(collection.id)} key={collection.id} className={`flex ${selectedCollections.includes(collection.id) ? 'border-2 border-blue-600' : 'opacity-70'} cursor-pointer`}>
@@ -117,11 +117,6 @@ export default function FormPortafolio() {
                     ))}
                 </div>
                 <div className={`relative grid grid-cols-3 justify-center items-center w-full ${addCollections?'h-0 overflow-hidden':'h-[600px] overflow-y-auto'} gap-10 transition-all duration-300`}>
-                    {/*<div className="sticky flex flex-col gap-4 w-full col-span-3 top-0 z-10 bg-white p-5">
-                        <h1 className="text-xl font-semibold">Coleccion mejores fotografias</h1>
-                        <input className="w-1/2" placeholder="Nombre por defecto: Mejores fotografias" type="text" />
-                        <input className="w-1/2" placeholder="Descripcion por defecto: Las mejores fotografias del usuario" type="text" />
-                    </div>*/}
                     {photos.map((photo) => (
                         <div onClick={() => handleSelectedPhoto(photo.id)} key={photo.id} className={`flex gap-4 w-[300px] h-[350px] ${selectedPhoto.photos_input.includes(photo.id) ? 'border-2 border-blue-600' : 'cursor-pointer opacity-70'}`}>
                             <div className="flex h-full w-full">

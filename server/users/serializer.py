@@ -9,9 +9,14 @@ class UserSerializer(ModelSerializer):
     has_portafolio = serializers.SerializerMethodField()
     portafolio_id = serializers.SerializerMethodField()
     profile = serializers.SerializerMethodField()
+    followers_count = serializers.SerializerMethodField()
     class Meta: 
         model = User
-        fields = ['id','email','username','has_portafolio','portafolio_id', 'first_name', 'last_name','profile']
+        fields = ['id','email','username','has_portafolio','portafolio_id','followers_count', 'first_name', 'last_name','profile']
+
+    def get_followers_count(self, obj):
+        # Cuenta los seguidores del usuario utilizando el related_name definido en el modelo Follower
+        return obj.followers.count()
 
     def get_profile(self, obj):
         # Intenta obtener el perfil asociado al usuario

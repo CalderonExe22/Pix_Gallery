@@ -10,5 +10,5 @@ body, html {
 }
 
 main{
-  @apply flex flex-col items-center gap-14 w-full h-full;
+  @apply flex flex-col items-center w-full h-full;
 }

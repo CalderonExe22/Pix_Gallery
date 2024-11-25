@@ -16,6 +16,16 @@ const router = createBrowserRouter([
             ) : (
               <Suspense fallback={<div>Loading...</div>}>{route.element}</Suspense>
             ),
+            children: route.children ?
+            route.children.map(child =>  ({
+              path: child.path,
+              element: child.isProtected ? (
+                <PrivateRoute element={<Suspense fallback={<div>Loading...</div>}>{child.element}</Suspense>} />
+              ) : (
+                <Suspense fallback={<div>Loading...</div>}>{child.element}</Suspense>
+              ),
+            }))
+          : undefined,
           }))
         ]
     },

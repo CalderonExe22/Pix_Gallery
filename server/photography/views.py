@@ -8,6 +8,9 @@ from users.models import User
 from .serializer import *
 from follower.models import Follower
 from notification.models import Notification
+from cloudinary.uploader import destroy
+from rest_framework.views import APIView
+from django.db.models import Count
 
 class IsOwner(BasePermission):
     def has_object_permission(self, request, view, obj):
@@ -16,6 +19,20 @@ class IsOwner(BasePermission):
 class PhotographyAPIView(ModelViewSet):
     queryset = Photography.objects.all()
     serializer_class = SerializerPhotography
+    permission_classes = [IsAuthenticated, IsOwner]
+    
+    @action(detail=True, methods=['patch'], permission_classes = [IsAuthenticated, IsOwner])
+    def toggle_privacy(self, request, pk=None):
+        photography = self.get_object()
+        if photography.user != request.user:
+            return Response({"detail": "No tienes permiso para modificar esta fotografía."}, status=status.HTTP_403_FORBIDDEN)
+        
+        photography.is_public = not photography.is_public
+        photography.save()
+        return Response({
+            "detail": "El estado de privacidad se ha actualizado correctamente.",
+            "is_public": photography.is_public
+        }, status=status.HTTP_200_OK)
     
     @action(detail=False, methods=['get'],permission_classes=[AllowAny])
     def get_all_photographies(self, request):
@@ -39,20 +56,89 @@ class PhotographyAPIView(ModelViewSet):
         except User.DoesNotExist:
             return Response({"detail": "Usuario no encontrado."}, status=status.HTTP_404_NOT_FOUND)
         
-        user_photographies = Photography.objects.filter(user=user, is_public=True)
+        user_photographies = Photography.objects.filter(user=user)
         serializer = self.get_serializer(user_photographies, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
     
     def perform_create(self, serializer):
         photography = serializer.save(user=self.request.user)
         followers = Follower.objects.filter(followed=self.request.user)
-        for follower in followers:
-            Notification.objects.create(
-                user= follower.follower,
-                message=f'{self.request.user.username} ha subido una nueva fotografia: {photography.title}'
-            )
+        can_notification = self.request.data.get('can_notification', "true").lower() == "true"
+        if can_notification :
+            for follower in followers:
+                Notification.objects.create(
+                    user= follower.follower,
+                    message=f'{self.request.user.username} ha subido una nueva fotografia',
+                    photography=photography
+                )
         return Response(data=photography)
     
+    def destroy(self, request, *args, **kwargs):
+        photo = self.get_object()
+        self.check_object_permissions(request, photo)
+        photo.delete()
+        return Response({"detail": "Fotografía eliminada correctamente."}, status=status.HTTP_204_NO_CONTENT)
+    
+    def update(self, request, *args, **kwargs):
+        # Obtener el objeto de la fotografía a actualizar
+        instance = self.get_object()
+
+        # Validar y extraer los datos de entrada (los datos actualizados)
+        validated_data = request.data.copy()
+        
+        tags = validated_data.pop('tags', None)
+        camera = validated_data.pop('camera', None)
+        lens = validated_data.pop('lens', None)
+        focal_length = validated_data.pop('focal_length', None)
+        shutter_speed = validated_data.pop('shutter_speed', None)
+        aperture = validated_data.pop('aperture', None)
+        iso = validated_data.pop('iso', None)
+        category_id = validated_data.pop('category', None)
+        
+        if isinstance(category_id, list):
+            category_id = category_id[0]
+        
+        # Llamamos al `update` original para actualizar los campos de la fotografía
+        for attr, value in validated_data.items():
+            setattr(instance, attr, value)
+
+        # Actualizar la categoría si se pasa un ID de categoría
+        if category_id:
+            # Eliminar la relación anterior
+            instance.categoryphotography_set.all().delete()
+            
+            # Crear la nueva relación con la categoría seleccionada
+            category = Category.objects.get(id=category_id)
+            CategoryPhotography.objects.create(category=category, photography=instance)
+
+        # Actualizar los tags solo si se pasan tags
+        if tags is not None:
+            # Eliminar los tags anteriores si se van a actualizar
+            PhotographyTag.objects.filter(photography=instance).delete()
+            # Crear los nuevos tags
+            for tag_name in tags:
+                tag, created = Tag.objects.get_or_create(name=tag_name)
+                PhotographyTag.objects.create(photography=instance, tag=tag)
+
+        # Actualizar los datos EXIF si se proporcionan
+        if any([camera, lens, focal_length, shutter_speed, aperture, iso]):
+            exif_data = ExifData.objects.get(photography=instance)
+            if camera is not None: exif_data.camera = camera
+            if lens is not None: exif_data.lens = lens
+            if focal_length is not None: exif_data.focal_length = focal_length
+            if shutter_speed is not None: exif_data.shutter_speed = shutter_speed
+            if aperture is not None: exif_data.aperture = aperture
+            if iso is not None: exif_data.iso = iso
+            exif_data.save()
+
+        # Guardar la fotografía actualizada
+        instance.save()
+
+        # Serializar y devolver la respuesta
+        serializer = self.get_serializer(instance)
+        return Response(serializer.data)
+        
+        
     def get_permissions(self):
         if self.action in ['retrieve', 'update', 'destroy', 'get_user_photographies']:
             self.permission_classes = [IsAuthenticated]
@@ -65,14 +151,48 @@ class PhotographyAPIView(ModelViewSet):
 class CollectionAPIView(ModelViewSet):
     serializer_class = CollectionSerializer
     queryset = Collection.objects.all()
+    permission_classes = [IsAuthenticated, IsOwner]
     
     def create(self, request, *args, **kwargs):
+    # Validar los datos recibidos
         serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        self.perform_create(serializer)
-        
-        # Devolvemos la colección creada en la respuesta
+        serializer.is_valid(raise_exception=True) 
+        # Guardar la colección y obtener la instancia del modelo
+        collection = serializer.save()
+        # Crear notificaciones para los seguidores
+        followers = Follower.objects.filter(followed=request.user)
+        for follower in followers:
+            Notification.objects.create(
+                user=follower.follower,
+                message=f'{request.user.username} ha creado una nueva colección',  # Ahora `collection` tiene acceso a sus atributos del modelo
+                collection=collection  # Solo si el modelo `Notification` tiene un campo relacionado con la colección
+            )
+        # Retornar la respuesta con la colección creada
         return Response(serializer.data, status=status.HTTP_201_CREATED)
+    
+    def destroy(self, request, *args, **kwargs):
+        collection = self.get_object()
+        
+        if not CollectionPhotography.objects.filter(collection=collection, user=request.user).exists():
+            return Response({"detail": "No tienes permiso para eliminar esta colección."}, status=status.HTTP_403_FORBIDDEN)
+        
+        collection_photographies = CollectionPhotography.objects.filter(collection=collection)
+        for collection_photo in collection_photographies:
+            photo = collection_photo.photography
+            if photo.image:
+                destroy(photo.image.public_id)
+            collection_photo.delete()
+
+        collection.delete()
+        return Response({"detail": "Colección eliminada con éxito."}, status=status.HTTP_204_NO_CONTENT)
+
+    def update(self, request, *args, **kwargs):
+        partial = kwargs.pop('partial', False)  # Manejar actualizaciones parciales (PATCH)
+        instance = self.get_object()
+        serializer = self.get_serializer(instance, data=request.data, partial=partial)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+        return Response(serializer.data)
     
     @action(detail=False, methods=['get'], permission_classes=[AllowAny])
     def all_collections(self, request):
@@ -103,15 +223,29 @@ class CollectionAPIView(ModelViewSet):
         serializer = CollectionSerializer(user_collections, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
     
+    @action(detail=True, methods=['patch'], permission_classes=[IsAuthenticated])
+    def toggle_privacy(self, request, pk=None):
+        collection = self.get_object()
+        if not CollectionPhotography.objects.filter(collection=collection, user=request.user).exists():
+            return Response({"detail": "No tienes permiso para modificar esta colección."}, status=status.HTTP_403_FORBIDDEN)
+
+        collection.is_public = not collection.is_public
+        collection.save()
+        
+        return Response({
+            "detail": "El estado de privacidad de la colección se ha actualizado correctamente.",
+            "is_public": collection.is_public
+        }, status=status.HTTP_200_OK)
+    
     def get_permissions(self):
         if self.action in ['retrieve', 'update', 'destroy', 'user_collections']:
             self.permission_classes = [IsAuthenticated]
-        elif self.action == ['all_collections','get_collections_by_user']:
+        elif self.action in ['all_collections','get_collections_by_user']:
             self.permission_classes = [AllowAny]
         else:
             self.permission_classes = [AllowAny]
         return super().get_permissions()
-
+    
 
 class CategoryAPIView(ModelViewSet):
     queryset = Category.objects.all()
@@ -120,3 +254,84 @@ class CategoryAPIView(ModelViewSet):
 class CategoryPhotographyAPIView(ModelViewSet):
     queryset = CategoryPhotography.objects.all()
     serializer_class = CategoryPhotographySerializer
+    
+class ExploreView(APIView):
+    permission_classes = [IsAuthenticated]
+    def get(self, request):
+        most_viewed_photos = Photography.objects.filter(is_public=True).annotate(
+            view_count=Count('view')
+        ).order_by('-view_count')[:10]
+        
+        most_liked_photos = Photography.objects.filter(is_public=True).annotate(
+            like_count=Count('like')
+        ).order_by('-like_count')[:10]
+        
+        most_followed_users = User.objects.annotate(
+            follower_count=Count('followers')
+        ).order_by('-follower_count')[:10]
+        
+        most_viewed_collections = Collection.objects.filter(is_public=True).annotate(
+            view_count=Count('view')
+        ).order_by('-view_count')[:10] 
+        
+        most_liked_collections = Collection.objects.filter(is_public=True).annotate(
+            like_count=Count('like')
+        ).order_by('-like_count')[:10]
+        
+        
+        data = {
+            "most_viewed_photos": SerializerPhotography(most_viewed_photos, many=True).data,
+            "most_liked_photos": SerializerPhotography(most_liked_photos, many=True).data,
+            "most_followed_users": UserSerializer(most_followed_users, many=True).data,
+            "most_viewed_collections": CollectionSerializer(most_viewed_collections, many=True).data,
+            "most_liked_collections": CollectionSerializer(most_liked_collections, many=True).data,
+        }
+        
+        return Response(data=data, status=status.HTTP_200_OK)
+
+
+class MostLikedCollectionsView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        most_liked_collections = Collection.objects.filter(is_public=True).annotate(
+            like_count=Count('like')
+        ).order_by('-like_count')[:10]
+
+        data = CollectionSerializer(most_liked_collections, many=True).data
+        return Response(data=data, status=status.HTTP_200_OK)
+
+class MostViewedCollectionsView(APIView):
+    permission_classes = [IsAuthenticated]
+    
+    def get(self, request):
+        most_viewed_collections = Collection.objects.filter(is_public=True).annotate(
+            view_count=Count('view')
+        ).order_by('-view_count')[:10] 
+
+        data = CollectionSerializer(most_viewed_collections, many=True).data
+        return Response(data=data, status=status.HTTP_200_OK)
+
+
+class ExploreMostLikedPhotosView(APIView):
+    permission_classes = [IsAuthenticated]
+    
+    def get(self, request):
+        most_liked_photos = Photography.objects.filter(is_public=True).annotate(
+            like_count=Count('like')
+        ).order_by('-like_count')[:10]
+        
+        data = SerializerPhotography(most_liked_photos, many=True).data
+        return Response(data=data, status=status.HTTP_200_OK)
+
+class ExploreMostViewedPhotosView(APIView):
+    permission_classes = [IsAuthenticated]
+    
+    def get(self, request):
+        most_viewed_photos = Photography.objects.filter(is_public=True).annotate(
+            view_count=Count('view')
+        ).order_by('-view_count')[:10]
+        
+        data = SerializerPhotography(most_viewed_photos, many=True).data
+        return Response(data=data, status=status.HTTP_200_OK)
+    

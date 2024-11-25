@@ -32,5 +32,7 @@ urlpatterns = [
     path('api/statistics/', include('user_statistics.urls')),
     path('api/followers/', include('follower.urls')),
     path('api/notifications/',include('notification.urls')),
-    path('api/image/',include('analyzeImage.urls'))
+    path('api/image/',include('analyzeImage.urls')),
+    path('api/imagga/',include('imagga.urls')),
+    path('api/wishlist/', include('wishlist.urls')),
 ]

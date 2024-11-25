@@ -7,8 +7,9 @@ import axiosApi from "../../services/axiosApi";
 import { useNavigate } from "react-router-dom";
 
 export default function FormCollection({ getData ,images = [], indexPhoto = 0 }) {
-    const [photosData, setPhotosData] = useState([]);
+    const [photosData, setPhotosData] = useState([])
     const navigate = useNavigate()
+    const [categories, setCategories] = useState([])
     const { register, handleSubmit, control, formState: { errors } } = useForm({
         defaultValues: {
             name: '',
@@ -31,8 +32,15 @@ export default function FormCollection({ getData ,images = [], indexPhoto = 0 })
                 category: '',
                 image: image,
                 precio: 0,
+                tags:[],
                 is_free: true,
-                is_public: true
+                is_public: true,
+                camera : '',
+                lens: '',
+                focal_length: 0,
+                shutter_speed: 0,
+                aperture: 0,
+                iso: 0,
             }));
             
             setPhotosData(prevData => [...prevData, ...newPhotosData]);
@@ -51,14 +59,28 @@ export default function FormCollection({ getData ,images = [], indexPhoto = 0 })
             const newData = [...prevData];
             newData[indexPhoto] = {
                 ...newData[indexPhoto],
-                [field]: value
+                [field]: field === 'focal_length' || field === 'shutter_speed' || field === 'iso' || field === 'aperture' ? Number(value) : value,
             };
 
             // Actualiza el campo en `useFieldArray`
             update(indexPhoto, newData[indexPhoto]);
+            console.log(newData)
             return newData;
         });
     };
+
+    const getCategories = async () => {
+        try {
+        const response = await axiosApi.get('photos/category/');
+        setCategories(response.data);
+        } catch (error) {
+        console.log('Error al obtener las categorías:', error);
+        }
+    }
+
+    useEffect(() => {
+        getCategories()
+    }, [])
 
     const onSubmit = async (data) => {
         const photosIncomplete = data.photos.some(photo => (
@@ -75,6 +97,7 @@ export default function FormCollection({ getData ,images = [], indexPhoto = 0 })
                 const formData = new FormData();
                 formData.append('name', data.name);
                 formData.append('description', data.description);
+                formData.append('category', data.category);
                 const photoUploadPromises  = data.photos.map(async photo => {
                     const dataPhoto = new FormData();
                     dataPhoto.append('title', photo.title);
@@ -84,6 +107,18 @@ export default function FormCollection({ getData ,images = [], indexPhoto = 0 })
                     dataPhoto.append('precio', photo.precio); 
                     dataPhoto.append('is_free', photo.is_free); 
                     dataPhoto.append('is_public', photo.is_public); 
+                    dataPhoto.append('can_notification', false)
+                    
+                    photo.tags.forEach((tag) => {
+                        dataPhoto.append('tags', tag)
+                    });
+            
+                    dataPhoto.append('camera', photo.camera || '')
+                    dataPhoto.append('lens', photo.lens || '')
+                    dataPhoto.append('focal_length', photo.focal_length || '')
+                    dataPhoto.append('shutter_speed', photo.shutter_speed || '')
+                    dataPhoto.append('aperture', photo.aperture || '')
+                    dataPhoto.append('iso', photo.iso || '')
                     console.log(dataPhoto)
                     
                     const response = await axiosApi.post('photos/photography/', dataPhoto,{
@@ -99,6 +134,7 @@ export default function FormCollection({ getData ,images = [], indexPhoto = 0 })
                 const collectionData = {
                     name: data.name,
                     description: data.description,
+                    category: data.category,
                     photos_input: createdPhotos.map(photo => photo.id)  // Solo manda los IDs
                 };
                 
@@ -106,7 +142,7 @@ export default function FormCollection({ getData ,images = [], indexPhoto = 0 })
                 console.log(collectionData)
                 if (collectionResponse.data) {
                     console.log('Colección creada correctamente');
-                    navigate('/ver-colecion/'+collectionResponse.id)
+                    navigate('/ver-coleccion/'+collectionResponse.data.id)
                     
                 }
             } catch (error) {
@@ -127,6 +163,7 @@ export default function FormCollection({ getData ,images = [], indexPhoto = 0 })
                     required={true}
                     register={register}
                     errors={errors}
+                    classNameStyle="w-full"
                 />
                 <Input 
                     type="text"
@@ -136,7 +173,20 @@ export default function FormCollection({ getData ,images = [], indexPhoto = 0 })
                     required={true}
                     register={register}
                     errors={errors}
+                    classNameStyle="w-full"
                 />
+                <div className="flex flex-col gap-3">
+                    <label id="category" htmlFor="category">Seleccione una categoria</label>
+                    <select 
+                        id="category" name="category" {...register('category',{required:true})}
+                        required
+                        >
+                        <option value="">Selecciona una categoría</option>
+                        {categories.map(category => (
+                            <option key={category.id} value={category.id}>{category.name}</option>
+                        ))}
+                    </select>
+                </div>
                 {/* Renderiza el formulario para la imagen indicada por `indexPhoto` */}
                 {photosData.length > indexPhoto && (
                     <>

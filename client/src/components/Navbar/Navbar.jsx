@@ -7,6 +7,8 @@ import { publicRoutes } from "../../constant/publicRoutes";
 import Logout from "../Logout/Logout";
 import { useEffect, useState } from "react";
 import axiosApi from "../../services/axiosApi";
+import DropNotifications from "../DropNotifications/DropNotifications";
+import DropProfile from "../DropProfile/DropProfile";
 
 export default function Navbar() {
     const isAuthenticated = useSelector((state) => state.auth.isAuthenticated)
@@ -39,7 +41,6 @@ export default function Navbar() {
             ))
         )
     );
-
     return (
         <nav className={style.navbar}> 
             <ul className={style.itemsNav}>
@@ -55,21 +56,16 @@ export default function Navbar() {
                 {isAuthenticated ? (
                     <>
                         <li>
-                            <Link>
-                                <i className="fa-solid fa-bell text-xl"></i>
-                            </Link>
+                            <DropNotifications />
                         </li>
                         <li>
                             <Link>
-                                <i className="fa-solid fa-heart text-xl"></i>
+                                <i className="fa-solid fa-star text-2xl"></i>
                             </Link>
                         </li>
                         <li>
-                            <Link to={'/perfil/'+user?.id}>
-                                <i className="fa-solid fa-user text-xl"></i>
-                            </Link>
+                            <DropProfile image_profile={user?.profile?.profile_photo} idProfile={user?.id}/>
                         </li>
-                        <Logout style={style.links} />
                     </>
                 ) : (
                     <>

@@ -2,9 +2,10 @@ import { useEffect, useRef, useState } from 'react'
 import axiosApi from '../../services/axiosApi'
 import style from './Search.module.css'
 import OptionsShow from '../OptionsShow/OptionsShow'
+import { useNavigate } from 'react-router-dom'
 
 export default function Search() {
-
+    const navigate = useNavigate()
     const [query, setQuery] = useState('')
     const [results, setResults] = useState([])
     //const [loading, setLoading] = useState(false);
@@ -19,6 +20,14 @@ export default function Search() {
     const handleClickOutside = (e) => {
         if(searchRef.current && !searchRef.current.contains(e.target)){
             setShowInputSearch(false)
+        }
+    }
+
+    const handleSearchSubmit = (e) => {
+        e.preventDefault()
+        if(query.trim()){
+            setShowInputSearch(false)
+            navigate(`/search?q=${query}`)
         }
     }
 
@@ -60,7 +69,7 @@ export default function Search() {
                     <i className="fa-solid fa-search"></i> <span> Buscar </span>
                 </button>
                 <div className={`${style.search} ${showInputSearch ? style.show : ''}`}>
-                    <form className={style.container_search}>
+                    <form className={style.container_search} onSubmit={handleSearchSubmit}>
                         <input 
                             type="search"
                             value={query}

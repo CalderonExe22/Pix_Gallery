@@ -18,7 +18,7 @@ class Profile(models.Model):
     last_name = models.CharField(max_length=100,blank=True, null=True)
     bio = models.TextField(blank=True, null=True)
     country = models.CharField(max_length=100, blank=True, null=True)
-    profile_photo = CloudinaryField('image')
+    profile_photo = CloudinaryField('image', default='https://res.cloudinary.com/dowtoqcra/image/upload/v1729264496/wbtownzvwkokccchbbto.webp')
     website = models.URLField(blank=True)
     
     def __str__(self):

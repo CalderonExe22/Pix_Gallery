@@ -21,16 +21,6 @@ class ImageQualityCheck(APIView):
         
         feedback = {}
         
-        # Nitidez 
-        """blurred_image = cv2.GaussianBlur(gray_image, (3, 3), 0)
-        laplacian_var = cv2.Laplacian(blurred_image, cv2.CV_64F).var()
-        if laplacian_var < 20:
-            feedback['sharpness'] = {"feedback": 'La imagen está borrosa.'}
-        elif laplacian_var > 100:
-            feedback['sharpness'] = {"feedback": "La imagen es muy nítida."}
-        else:
-            feedback['sharpness'] = {"feedback": "La imagen tiene una nitidez aceptable."}"""
-        
         # Formato de imagen (Pillow)
         image_format = Image.open(image_file)
         check_image_format = image_format.format.upper()

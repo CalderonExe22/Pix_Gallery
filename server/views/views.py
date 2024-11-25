@@ -42,11 +42,3 @@ class ViewApiView(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
         
-    def perform_destroy(self, instance):
-        user_stats = Statistics.objects.get(user=instance.photo.user)
-        if user_stats.visits_count > 0:
-            user_stats.comments_count -= 1
-            user_stats.save()
-
-        # Eliminar el comentario
-        instance.delete()

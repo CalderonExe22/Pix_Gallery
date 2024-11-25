@@ -8,6 +8,8 @@ class Statistics(models.Model):
     comments_count = models.PositiveIntegerField(default=0)
     followers_count = models.PositiveIntegerField(default=0)
     following_count = models.PositiveIntegerField(default=0)
-    visits_count = models.PositiveIntegerField(default=0)
+    views_count = models.PositiveIntegerField(default=0)  
+    photos_views_count = models.PositiveIntegerField(default=0)
+    collections_views_count = models.PositiveIntegerField(default=0)
     def __str__(self):
         return f"Estadísticas de {self.user.username}"

@@ -1,5 +1,6 @@
 from rest_framework import viewsets, status
 from .models import Like
+from photography.models import CollectionPhotography
 from .serializer import LikeSerializer
 from user_statistics.models import Statistics
 from rest_framework.permissions import IsAuthenticated, BasePermission, AllowAny
@@ -44,10 +45,17 @@ class LikeApiView(viewsets.ModelViewSet):
         serializer.save(user=self.request.user)
         
     def perform_destroy(self, instance):
-        user_stats = Statistics.objects.get(user=instance.photo.user)
-        if user_stats.likes_count > 0:
+        if instance.photo:
+            user_stats = Statistics.objects.filter(user=instance.photo.user).first()
+        elif instance.collection:
+            collection_photography = CollectionPhotography.objects.filter(collection=instance.collection).first()
+            user_stats = Statistics.objects.get(user=collection_photography.user) if collection_photography else None
+        else:
+            user_stats = None    
+            
+        if user_stats and user_stats.likes_count > 0:
             user_stats.likes_count -= 1
             user_stats.save()
 
-        # Eliminar el like
         instance.delete()
+        

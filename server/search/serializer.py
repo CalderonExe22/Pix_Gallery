@@ -6,9 +6,10 @@ from rest_framework import serializers
 
 class PhotographySerializer(ModelSerializer): 
     image_url = serializers.SerializerMethodField()
+    user = UserSerializer(read_only=True) 
     class Meta:
         model = Photography
-        fields = ['id','title','description','image','image_url']
+        fields = ['id','title','description','image','image_url','user']
         
     def get_image_url(self, obj):
         return obj.image.url if obj.image else None

@@ -1,14 +1,17 @@
 import { useState } from "react";
 import axiosApi from "../../services/axiosApi";
 import PropTypes from "prop-types";
+"use client";
+
+import { Modal } from "flowbite-react";
 
 export default function FeedbackImage({ image }) {
     const [feedbackImage, setFeedbackImage] = useState(null);
-    const [showFeedback, setShowFeedback] = useState(false);
     const [errorMessage, setErrorMessage] = useState(null);
+    const [openModal, setOpenModal] = useState(false)
 
     const feedbackImageFunction = async () => {
-        setShowFeedback(!showFeedback)
+        setOpenModal(true)
         setErrorMessage(null)
         if(feedbackImage === null){
             try {
@@ -24,37 +27,42 @@ export default function FeedbackImage({ image }) {
     };
     console.log(feedbackImage)
     return (
-        <div>
-            {!showFeedback ? (
-                <button disabled={showFeedback} onClick={feedbackImageFunction} className="p-2 bg-[#b5179e] text-white rounded">
-                    Analizar Imagen
-                </button>
-            ) : (
-                <button onClick={() => setShowFeedback(!showFeedback)} className="p-2 bg-[#b5179e] text-white rounded">
-                    Cerrar resultado
-                </button>
-            )}
+        <>
+            <button className="p-2 bg-[#b5179e] text-white font-bold" onClick={feedbackImageFunction}>
+                Analizar Imagen
+            </button>
+            <Modal show={openModal} onClose={() => setOpenModal(false)}>
+                <Modal.Header>Recomendaciones de mejora</Modal.Header>
+                <Modal.Body>
+                <div className={`flex flex-col`}>
+                    {errorMessage && <p className="text-red-500">{errorMessage}</p>}
+                    {feedbackImage ? (
+                        <>
+                            <p>{feedbackImage.format.feedback}</p>
+                            <p>{feedbackImage.resolution.feedback}</p>
+                            <p>{feedbackImage.contrast.feedback}</p>
+                            <p>{feedbackImage.exposure.feedback}</p>
+                            <p>{feedbackImage.illumination.feedback}</p>
+                            <p>{feedbackImage.saturation.feedback}</p>
+                            <p>{feedbackImage.color_balance.feedback}</p>
+                            <p>red: {feedbackImage.color_balance.mean_colors.red}</p>
+                            <p>blue: {feedbackImage.color_balance.mean_colors.blue}</p>
+                            <p>green: {feedbackImage.color_balance.mean_colors.green}</p>
+                        </>
+                    ) : (
+                        !errorMessage && <p>...cargando</p>
+                    )}
+                </div>
+                </Modal.Body>
+                <Modal.Footer>
+                    <button onClick={() => setOpenModal(false)}>I accept</button>
+                    <button color="gray" onClick={() => setOpenModal(false)}>
+                        Decline
+                    </button>
+                </Modal.Footer>
+            </Modal>
             
-            <div className={`flex flex-col ${showFeedback ? 'h-[400px]' : 'h-0 overflow-hidden'} transform transition-all duration-300`}>
-                {errorMessage && <p className="text-red-500">{errorMessage}</p>}
-                {feedbackImage ? (
-                    <>
-                        <p>{feedbackImage.format.feedback}</p>
-                        <p>{feedbackImage.resolution.feedback}</p>
-                        <p>{feedbackImage.contrast.feedback}</p>
-                        <p>{feedbackImage.exposure.feedback}</p>
-                        <p>{feedbackImage.illumination.feedback}</p>
-                        <p>{feedbackImage.saturation.feedback}</p>
-                        <p>{feedbackImage.color_balance.feedback}</p>
-                        <p>red: {feedbackImage.color_balance.mean_colors.red}</p>
-                        <p>blue: {feedbackImage.color_balance.mean_colors.blue}</p>
-                        <p>green: {feedbackImage.color_balance.mean_colors.green}</p>
-                    </>
-                ) : (
-                    !errorMessage && <p>...cargando</p>
-                )}
-            </div>
-        </div>
+        </>
     );
 }
 

@@ -4,8 +4,6 @@ import UploadCollection from "../../components/UploadCollection/UploadCollection
 
 export default function Upload() {
     const [show, setShow ] = useState(true)
-
-
     const collectionOrPhotography = () =>{
         setShow(!show)
     }

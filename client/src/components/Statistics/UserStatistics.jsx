@@ -38,7 +38,9 @@ export default function UserStatistics({ userId }) {
                 <>
                     <p>Likes: {statistics?.likes_count}</p>
                     <p>comentarios: {statistics?.comments_count}</p>
-                    <p>Visitas: {statistics?.visits_count}</p>
+                    <p>Visitas: {statistics?.views_count}</p>
+                    <p>Visitas fotos: {statistics?.photos_views_count}</p>
+                    <p>Visitas colecciones: {statistics?.collections_views_count}</p>
                     <p>seguidores: {statistics?.followers_count}</p>
                     <p>siguiendo: {statistics?.following_count}</p>
                 </>

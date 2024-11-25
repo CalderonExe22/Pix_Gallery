@@ -16,7 +16,7 @@ export default function Tabs({ children }) {
                     return (
                         <button
                             key={index} 
-                            className={`tab-button ${activeTab === index ? 'active' : ''} w-[200px] text-center`}
+                            className={`tab-button ${activeTab === index ? 'border-solid border-b-4 border-[#b5179e]' : ''} w-[200px] text-center`}
                             onClick={() => setActiveTab(index)}
                         >
                             {tab.props.title}
@@ -24,7 +24,7 @@ export default function Tabs({ children }) {
                     );
                 })}
             </div>
-            <div className="flex w-full h-auto pb-20">
+            <div className="flex w-full h-auto pb-20 ps-20 pe-20">
                 {childrenArray[activeTab]}
             </div>
         </div>

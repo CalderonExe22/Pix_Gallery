@@ -11,8 +11,10 @@ export const loginUser = createAsyncThunk(
             }) 
             console.log(response)
             if(response.status === 200){
+                console.log(response.data)
                 localStorage.setItem('accessToken', response.data.tokens.access)
                 localStorage.setItem('refreshToken', response.data.tokens.refresh)
+                localStorage.setItem('userId', response.data.id)
                 return response.data
             }
         } catch (error) {

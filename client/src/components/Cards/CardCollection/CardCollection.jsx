@@ -1,31 +1,98 @@
-import PropTypes from 'prop-types'
-export default function CardCollection({photo}) {
+import PropTypes from 'prop-types';
+import LikeButton from '../../Likes/LikeButton';
+import NewWishList from '../../Wishlist/NewWishList';
+import { useNavigate } from 'react-router-dom';
+import EditCollection from '../../EditCollection/EditCollection';
+import DeleteButton from '../../DeleteButton/DeleteButton';
+import PrivacyButton from '../../PrivacyButton/PrivacyButton';
+
+export default function CardCollection({ collection, show,gridRowEndOption, idUser }) {
+    const navigate = useNavigate()
+
+    const getImages = () => {
+        // Si hay menos de 3 fotos, devuelve todas las disponibles
+        if (collection.photos?.length < 3) {
+            return collection?.photos;
+        }
+        // Si hay 3 o más fotos, devuelve solo las primeras 3
+        return collection?.photos.slice(0, 3);
+    }
+
+    const showCollection = (idCollection) => {
+        navigate('/ver-coleccion/'+idCollection)
+        location.reload()
+    }  
+
+    const images = getImages();
+    
     return (
-        <div className="relative overflow-hidden rounded-lg shadow-lg h-[350px] w-[300px] group">
-            <img 
-                src="https://womantimes.com/wp-content/uploads/2021/11/karsten-winegeart-lQ8WvR54MOU-unsplash-scaled.jpg" 
-                className='absolute top-0 left-0 w-full h-full object-cover transition-transform duration-500 transform z-30 group-hover:-translate-x-2/3'
-                alt=""
-            />
-            <img 
-                src="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcSC4DtHTGprsp7K8u0ZlfSDmIDplvQYH5vniT0I3rpcl6wqBh8b" 
-                className='absolute top-0 left-0 w-full h-full object-cover transition-transform duration-500 transform z-20 group-hover:-translate-x-1/3'
-                alt=""
-            />
-            <img 
-                src="https://www.elmueble.com/medio/2024/10/17/conejo-en-el-campo_b12f5f96_173893247_241017115925_900x900.webp" 
-                className='absolute top-0 left-0 w-full h-full object-cover transition-transform duration-500 transform z-10'
-                alt=""
-            />
-            <div className="absolute z-50 inset-0 bg-black opacity-0 transition-opacity duration-300 group-hover:opacity-50"></div>
-            <div className="absolute bottom-0 left-0 w-full flex items-center justify-center gap-2 pb-4 z-50 transform translate-y-full transition-all duration-300 group-hover:translate-y-0">
-                <span className="text-xs"></span>
-                <button><i className="fa-solid fa-heart"></i></button>
+        <div className="relative overflow-hidden rounded-lg shadow-lg group cursor-pointer h-full w-f" style={{ gridRowEnd: gridRowEndOption ? `span ${Math.floor(Math.random() * 5) + 10}` : '' }}>
+            <div className="absolute z-30 top-0 left-0 w-full flex items-center justify-start gap-2 px-5 pt-4">
+                <div className="flex items-center gap-5 text-white ">
+                    {images?.isPublic ===  false && (
+                        <i className="fa-solid fa-lock"></i>
+                    )}
+                </div>
+            </div>
+            {show && (
+                <div className="absolute z-30 top-0 left-0 w-full flex items-center justify-end gap-2 px-5 pt-4 transform -translate-y-full transition-all duration-300 group-hover:-translate-y-0">
+                    
+                    <div className="flex items-center gap-5 text-white ">
+                        {collection?.user?.id === idUser && (
+                            <>
+                                <EditCollection collectionData={collection} />
+                                <DeleteButton id={collection?.id} type={'collection'}/>
+                                <PrivacyButton id={collection?.id} isPublic={collection?.is_public} type={'collection'} />
+                            </>
+                        )}
+                    </div>
+                
+                </div> 
+            )}
+            <div className='h-full w-full z-50'>
+                {images.map((image, index) => {
+                    const isThreeImages = images.length === 3;
+                    const isTwoImages = images.length === 2;
+                    return (
+                        <img
+                            key={index}
+                            src={image.image_url}
+                            className={`absolute top-0 left-0 w-full h-full object-cover transition-transform duration-500 transform z-${20 - index * 10} ${
+                                isThreeImages
+                                    ? index === 0
+                                        ? "group-hover:-translate-x-2/3"
+                                        : index === 1
+                                        ? "group-hover:-translate-x-1/3"
+                                        : ""
+                                    : isTwoImages && index === 0
+                                    ? "group-hover:-translate-x-1/2" // Solo desplaza la primera imagen si hay 2
+                                    : ""
+                            }`}
+                            alt={image.title}
+                        />
+                    );
+                })}
+            </div>
+            {/* Overlay */}
+            <div  onClick={() => showCollection(collection?.id)} className="absolute z-20 inset-0 bg-black opacity-0 transition-opacity duration-300 group-hover:opacity-50"></div>
+            {/* Content */}
+            <div className="absolute bottom-0 left-0 w-full flex items-center justify-between gap-2 px-4 pb-4 z-30 transform translate-y-full transition-all duration-300 group-hover:translate-y-0">
+                <div className="flex justify-center items-center gap-3">
+                    <img className="object-cover rounded-full cursor-pointer w-8 h-8" src={collection?.user?.profile?.profile_photo} alt="foto de perfil" />
+                    <span className="text-sm font-semibold text-white">{collection?.user?.username}</span>
+                </div>
+                <div className="flex justify-center items-center gap-5 text-white">
+                    <NewWishList id={collection?.id} type="collection" />
+                    <LikeButton id={collection?.id} type="collection" />
+                </div>
             </div>
         </div>
-    )
+    );
 }
 
 CardCollection.propTypes = {
-    photos : PropTypes.array
-}
+    show: PropTypes.bool,
+    gridRowEndOption : PropTypes.bool,
+    idUser : PropTypes.number,
+    collection: PropTypes.object.isRequired, 
+};

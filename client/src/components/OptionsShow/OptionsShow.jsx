@@ -34,7 +34,7 @@ export default function OptionsSearch({results}) {
                     {showOptions === 'photos' && (
                         <>
                             {results.photos.map((photo) => (
-                                <CardPhoto id={photo.id} url={photo.image_url} key={photo.id} title={photo.title} width={200} height={250}/>
+                                <CardPhoto key={photo.id} data={photo} show={false}/>
                             ))} 
                         </>
                     )}

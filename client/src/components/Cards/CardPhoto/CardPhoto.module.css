@@ -1,0 +1,11 @@
+.large {
+    grid-row-end: span 20;
+}
+
+.small {
+    grid-row-end: span 15;
+}
+
+.medium {
+    grid-row-end: span 5;
+}

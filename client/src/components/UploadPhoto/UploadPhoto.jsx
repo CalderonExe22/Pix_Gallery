@@ -22,7 +22,7 @@ export default function UploadPhoto({showForm}) {
 
     return (
         <>
-            <div className="flex justify-center items-center w-full h-full rounded-md  m-20">
+            <div className="flex justify-center items-center w-full h-full rounded-md m-20">
                 {preview ? (
                     <div className="flex flex-col h-full w-full">
                         <div className="relative flex w-full h-full">
@@ -50,7 +50,7 @@ export default function UploadPhoto({showForm}) {
                     </div>
                 )}
             </div>
-            <div className={`flex ${selectPhoto ? 'w-full' : 'w-0 overflow-hidden'} justify-center items-center h-full transform transition-all duration-500`}>
+            <div className={`flex ${selectPhoto ? 'w-full' : 'w-0 overflow-hidden'} overflow-y-auto justify-center items-start h-full transform transition-all duration-500`}>
                 <FormPhotography image={selectPhoto}/>
             </div>
         </>

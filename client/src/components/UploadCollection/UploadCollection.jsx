@@ -1,6 +1,7 @@
 import { useState } from "react";
 import FormCollection from "../FormCollection/FormCollection";
 import PropTypes from 'prop-types'
+import FeedbackImage from "../FeedbackImage/FeedbackImage";
 
 export default function UploadCollection({showForm, getData}) {
     const [selectImageIndex, setSelectedImageIndex] = useState(0)
@@ -27,15 +28,16 @@ export default function UploadCollection({showForm, getData}) {
     }
     return (
         <>
-            <div className="flex justify-center items-center w-full h-full rounded-md">
+            <div className="flex justify-center items-center w-full h-full rounded-md m-20">
                 {previewCollection.length ? (
                 <div className="grid grid-cols-4 gap-5 h-full w-full">
                         {previewCollection.map((previewCollec, index) => (
-                            <div key={index} onClick={()=>handleImageClick(index)} className="relative cursor-pointer flex w-[200px] h-[250px]">
+                            <div key={index} onClick={()=>handleImageClick(index)} className="relative cursor-pointer flex flex-col w-[200px] h-[250px]">
                                 <button className="absolute top-2 right-2 z-20 p-3 font-medium text-3xl text-white" onClick={()=>removeCollectionPhoto(index)}>
                                     <i className="fa-solid fa-xmark"></i>
                                 </button>
                                 <img className="object-cover h-full w-full rounded-md" src={previewCollec} alt="vista-previa" />
+                                <FeedbackImage image={selectPhotos[index]} />
                             </div>
                         ))}
                         <label className="cursor-pointer flex justify-center items-center h-[250px] w-[200px] z-10 bg-gray-200 shadow-lg border-2 border-solid border-black" htmlFor="inputCollectionFile">
@@ -60,7 +62,7 @@ export default function UploadCollection({showForm, getData}) {
                     </div>
                 )}
             </div>
-            <div className={`flex ${selectPhotos.length > 0 ? 'w-full' : 'w-0 overflow-hidden'} justify-center items-center h-full transform transition-all duration-500`}>
+            <div className={`flex ${selectPhotos.length > 0 ? 'w-full' : 'w-0 overflow-hidden'} justify-center items-start overflow-y-auto h-full transform transition-all duration-500`}>
                 <FormCollection getData={getData} indexPhoto={selectImageIndex} images={selectPhotos}/>
             </div>
         </>

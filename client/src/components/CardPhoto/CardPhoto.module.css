@@ -11,9 +11,9 @@
 }
 
 .large {
-    grid-row-end: span 20; /* Ajuste de tamaño grande */
+    grid-row-end: span 20;
 }
 
 .small {
-    grid-row-end: span 15; /* Ajuste de tamaño pequeño */
+    grid-row-end: span 15;
 }

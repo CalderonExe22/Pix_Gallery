@@ -7,4 +7,8 @@ export const privateRoutes = [
         name: 'Subir foto',
         path: '/subir-foto'
     },
+    {
+        name: 'Explorar',
+        path: '/explore'
+    },
 ]

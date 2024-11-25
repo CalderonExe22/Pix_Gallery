@@ -6,10 +6,10 @@ import Tabs from "../../components/Tabs/Tabs"
 import Tab from "../../components/Tabs/Tab"
 import Portafolio from "../Portafolio/Portafolio"
 import CardPhoto from "../../components/Cards/CardPhoto/CardPhoto"
-import CardCollectionFolden from "../../components/Cards/CardCollection/CardCollectionFolden"
 import { useParams } from "react-router-dom"
 import UserStatistics from "../../components/Statistics/UserStatistics"
 import ButtonFollower from "../../components/ButtonFollower/ButtonFollower"
+import CardCollection from "../../components/Cards/CardCollection/CardCollection"
 
 export default function Profile() {
     const {id} = useParams()
@@ -44,16 +44,11 @@ export default function Profile() {
         dispatch(userData())
     },[dispatch,id])
     console.log(profile)
+    console.log(collections)
     return (
         <section className="flex flex-col items-center gap-4 h-full w-full">
             <div className="">   
-                {
-                    profile.profile?.profile_photo ? (
-                        <img className='w-[250px] h-[250px] rounded-full' src={'https://res.cloudinary.com/dowtoqcra/'+profile.image} />
-                    ):(
-                        <img className='w-[250px] h-[250px] rounded-full' src="https://res.cloudinary.com/dowtoqcra/image/upload/v1729264496/wbtownzvwkokccchbbto.webp" alt="sinfotodeperfil" />
-                    )
-                }
+                <img className='w-[250px] h-[250px] rounded-full' src={profile?.profile?.profile_photo} />
             </div>
             <div className="flex justify-center">
                 <div className="flex gap-5">
@@ -79,7 +74,7 @@ export default function Profile() {
             </div>
             {user?.id === parseInt(id) ? (
                 <div className="flex justify-center m-10">
-                    <button><a href={"/editar-perfil/"+user?.id}>Editar perfil</a></button>
+                    <a className="bg-[#b5179e] text-white p-3 rounded-sm cursor-pointer" href={"/manage-account/editar-perfil/"+user?.id}>Editar perfil</a>
                 </div>
             ):(
                 <ButtonFollower followedId={parseInt(id)} />
@@ -88,9 +83,9 @@ export default function Profile() {
                 <Tabs>
                     <Tab title={'Mis fotografias'}>
                         {photos.length > 0 ? (
-                            <div className="grid grid-cols-5 gap-5 w-full h-full">
+                            <div className="grid grid-cols-4 gap-5 w-full h-full">
                                 {photos.map((photo) => (
-                                    <CardPhoto id={photo.id} key={photo.id} url={photo.image_url} title={photo.title} />
+                                    <CardPhoto idUser={user?.id} show={true} gridRowEndOption={true} key={photo.id} data={photo} />
                                 ))} 
                             </div>
                         ) : (
@@ -99,9 +94,9 @@ export default function Profile() {
                     </Tab>
                     <Tab title={'Mis colecciones'}>
                         {collections.length > 0 ? (
-                        <div className="grid grid-cols-5 gap-8 w-full h-full">
+                        <div className="grid grid-cols-5 gap-5 w-full h-full">
                             {collections.map((collection) => (
-                                <CardCollectionFolden id={collection.id} key={collection.id} photos={collection.photos} />
+                                <CardCollection show={true} idUser={user?.id} gridRowEndOption={true} key={collection.id} collection={collection} />
                             ))}
                         </div>
                         ) : (
