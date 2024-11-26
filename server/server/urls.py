@@ -35,4 +35,5 @@ urlpatterns = [
     path('api/image/',include('analyzeImage.urls')),
     path('api/imagga/',include('imagga.urls')),
     path('api/wishlist/', include('wishlist.urls')),
+    path('api/payments/', include('payments.urls')),
 ]
