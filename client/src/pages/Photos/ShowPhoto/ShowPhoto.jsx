@@ -5,10 +5,22 @@ import LikeButton from "../../../components/Likes/LikeButton"
 import NewComment from "../../../components/Comments/NewComment"
 import ButtonFollower from "../../../components/ButtonFollower/ButtonFollower"
 import NewWishList from "../../../components/Wishlist/NewWishList"
+import PaymentPhoto from "../../../components/PaymentButton/PaymentPhoto"
+
 export default function ShowPhoto() {
     const { id } = useParams()
     const [photo,setPhoto] = useState(null)
     const isMounted = useRef(false)
+    const [user, setUser] = useState([]);
+
+    const getUserInfo = async () => {
+        try {
+            const response = await axiosApi.get('users/user/')
+            setUser(response.data)
+        } catch (error) {
+            console.error(error)
+        }
+    }
 
     function DateFormatter({ isoDate }) {
         const formattedDate = new Date(isoDate).toLocaleDateString("es-ES", {
@@ -55,12 +67,15 @@ export default function ShowPhoto() {
         if (isMounted.current) return
         isMounted.current = true
         getViews()
+        getUserInfo()
         fetchPhoto(id)
     },[id])
     console.log(photo)
+    console.log(user)
+
     return (
         <div className="grid grid-cols-3 justify-center items-center w-full h-screen">
-            {photo ? (
+            {photo && user ? (
                 <>
                 <div className="flex col-span-2 justify-center items-center h-full w-full">
                     <img src={photo.image_url} alt={photo.title} />
@@ -70,6 +85,10 @@ export default function ShowPhoto() {
                         <LikeButton type="photo" id={photo.id} />
                         <NewWishList type="photo" id={photo?.id} />
                     </div>
+                    {
+                        photo?.user?.id !== user.id &&
+                        <PaymentPhoto onPayment={photo} />
+                    }
                     <div className="flex flex-col justify-start w-full gap-7">
                         <div className="flex flex-col gap-1">
                             <span className="font-medium">-Titulo de la fotografia.</span>

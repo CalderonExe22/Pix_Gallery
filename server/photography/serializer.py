@@ -14,6 +14,11 @@ class TagSerializer(serializers.ModelSerializer):
         model = Tag
         fields = ['name']
 
+class TagsForFilter (serializers.ModelSerializer):
+    class Meta:
+        model = Tag
+        fields = ['id','name']
+
 class SerializerPhotography(ModelSerializer):
     image_url = serializers.SerializerMethodField()
     category = serializers.IntegerField(write_only=True)

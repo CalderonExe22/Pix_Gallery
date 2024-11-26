@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'follower',
     'notification',
     'analyzeImage',
+    'payments',
     'imagga',
     'cloudinary',
     'wishlist',

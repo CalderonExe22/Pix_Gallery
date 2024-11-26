@@ -9,8 +9,11 @@ export default function ManageAcount() {
                     <NavLink className={'p-4 transition-colors duration-300 hover:bg-[#3a0ca3] hover:text-white'} to={'/manage-account/editar-perfil/'+id}>
                         Editar perfil
                     </NavLink>
-                    <NavLink className={'p-4 transition-colors duration-300 hover:bg-[#3a0ca3] hover:text-white'} to={'/manage-account/payments/success/'}>
-                        Editar contraseña
+                    <NavLink className={'p-4 transition-colors duration-300 hover:bg-[#3a0ca3] hover:text-white'} to={'/manage-account/purchase-history/'}>
+                        Historial de Compras
+                    </NavLink>
+                    <NavLink className={'p-4 transition-colors duration-300 hover:bg-[#3a0ca3] hover:text-white'} to={'/manage-account/sale-history/'}>
+                        Historial de Ventas
                     </NavLink>
                 </nav>
             </aside>
