@@ -9,6 +9,9 @@ export default function ManageAcount() {
                     <NavLink className={'p-4 transition-colors duration-300 hover:bg-[#3a0ca3] hover:text-white'} to={'/manage-account/editar-perfil/'+id}>
                         Editar perfil
                     </NavLink>
+                    <NavLink className={'p-4 transition-colors duration-300 hover:bg-[#3a0ca3] hover:text-white'} to={'/manage-account/payments/success/'}>
+                        Editar contraseña
+                    </NavLink>
                 </nav>
             </aside>
             <section className="flex justify-start w-3/4 ps-16">

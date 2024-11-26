@@ -22,7 +22,7 @@ export default function ExploreCategoryPage({ endpoint, title, layoutStyle, type
     return (
         <div className="flex flex-col w-full h-full p-10">
             <h1 className="text-2xl font-bold mb-6">{title}</h1>
-            <ListPhoto data={data} layoutStyle={layoutStyle} type={type} />
+            <ListPhoto gridRowEndOption="true" data={data} layoutStyle={layoutStyle} type={type} />
         </div>
     )
 }

@@ -27,6 +27,11 @@ const accountRoutes = [
                 element: <EditProfile />, 
                 isProtected: true 
             },
+            {
+                path: 'payments/success/',
+                element: <div>Elemento historial</div>,
+                isProtected: true
+            }
         ]
     }
 ]
