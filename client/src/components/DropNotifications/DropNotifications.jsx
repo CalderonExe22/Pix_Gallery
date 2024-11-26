@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import axiosApi from "../../services/axiosApi";
 import { useNavigate } from "react-router-dom";
+import { formatDistanceToNow } from "date-fns"
+import { es } from "date-fns/locale"
 
 export default function DropNotifications() {
     const [notifications, setNotifications] = useState([]);
@@ -76,11 +78,13 @@ export default function DropNotifications() {
     }, [])
 
     useEffect(() => {
-        fetchNotificationsUser();
-    }, []);
+        fetchNotificationsUser()
+    }, [])
+
     console.log(notifications)
+
     return (
-        <div className="relative" ref={dropdownRef}>
+        <div className="relative w-auto" ref={dropdownRef}>
             <button onClick={toggleDropdown}>
                 <i className="fa-solid fa-bell text-2xl"></i>
                 {notifications.filter((notification) => !notification.is_read).length > 0 && (
@@ -89,10 +93,10 @@ export default function DropNotifications() {
                     </span>
                 )}
             </button>
-            <div className={`absolute right-0 mt-2 w-auto bg-white border rounded-md shadow-lg z-10 transition-all duration-300 ease-in-out ${isOpen ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4 pointer-events-none'}`}>
-                <div className="flex flex-col gap-4 max-h-60 overflow-y-auto">
+            <div className={`absolute flex flex-col gap-5 px-10 right-0 mt-2 w-auto bg-white border rounded-md shadow-lg z-10 transition-all duration-300 ease-in-out ${isOpen ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4 pointer-events-none'}`}>
+                <div className="flex flex-col gap-10 max-h-60 overflow-y-auto">
                     {notifications.map((notification) => (
-                        <div onClick={() => handleNotificationsClick(notification)} className="flex justify-between items-center h-full w-full gap-4 cursor-pointer" key={notification.id}>
+                        <div onClick={() => handleNotificationsClick(notification)} className="flex justify-between items-center h-full w-full gap-5 cursor-pointer" key={notification.id}>
                             <div className="w-16 h-16">
                                 {notification.collection !== null ? (
                                     <img className="object-cover w-full h-full" src={notification.collection.photos[0]?.image_url} alt={notification.collection?.name}/>
@@ -100,9 +104,19 @@ export default function DropNotifications() {
                                     <img className="object-cover w-full h-full" src={notification.photography?.image_url} alt={notification.photography?.name}/>
                                 )}
                             </div>
-                            <div className="flex w-full h-full">
-                                <span>{notification.message}</span>
+                            <div className="flex w-full">
+                                {notification.is_read ? (
+                                    <span className="font-normal">{notification.message}</span>
+                                ):(
+                                    <span className="font-semibold">{notification.message}</span>
+                                )}
                             </div>
+                            <span className="text-sm w-auto">
+                                {formatDistanceToNow(new Date(notification.created_at), {
+                                    addSuffix: true,
+                                    locale: es, // Para español
+                                })}
+                            </span>
                         </div>
                     ))}
                 </div>

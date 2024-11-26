@@ -31,35 +31,50 @@ export default function FeedbackImage({ image }) {
             <button className="p-2 bg-[#b5179e] text-white font-bold" onClick={feedbackImageFunction}>
                 Analizar Imagen
             </button>
-            <Modal show={openModal} onClose={() => setOpenModal(false)}>
-                <Modal.Header>Recomendaciones de mejora</Modal.Header>
+            <Modal size="6xl" show={openModal} onClose={() => setOpenModal(false)}>
+                <Modal.Header>Recomendaciones de mejora de imagen</Modal.Header>
                 <Modal.Body>
-                <div className={`flex flex-col`}>
+                <div className={`flex flex-col gap-7`}>
                     {errorMessage && <p className="text-red-500">{errorMessage}</p>}
                     {feedbackImage ? (
                         <>
-                            <p>{feedbackImage.format.feedback}</p>
-                            <p>{feedbackImage.resolution.feedback}</p>
-                            <p>{feedbackImage.contrast.feedback}</p>
-                            <p>{feedbackImage.exposure.feedback}</p>
-                            <p>{feedbackImage.illumination.feedback}</p>
-                            <p>{feedbackImage.saturation.feedback}</p>
-                            <p>{feedbackImage.color_balance.feedback}</p>
-                            <p>red: {feedbackImage.color_balance.mean_colors.red}</p>
-                            <p>blue: {feedbackImage.color_balance.mean_colors.blue}</p>
-                            <p>green: {feedbackImage.color_balance.mean_colors.green}</p>
+                            <div className="flex flex-col justify-start gap-3 ">
+                                <h1 className="font-medium text-xl">Formato:</h1>
+                                <p>{feedbackImage.format.feedback}</p>
+                            </div>
+                            <div className="flex flex-col justify-start gap-3 ">
+                            <h1 className="font-medium text-xl">Resolucion:</h1>
+                                <p>{feedbackImage.resolution.feedback}</p>
+                            </div>
+                            <div className="flex flex-col justify-start gap-3 ">
+                            <h1 className="font-medium text-xl">Contraste:</h1>
+                                <p>{feedbackImage.contrast.feedback}</p>
+                            </div>
+                            <div className="flex flex-col justify-start gap-3 ">
+                            <h1 className="font-medium text-xl">Exposicion:</h1>
+                                <p>{feedbackImage.exposure.feedback}</p>
+                            </div>
+                            <div className="flex flex-col justify-start gap-3 ">
+                            <h1 className="font-medium text-xl">Iluminacion:</h1>
+                                <p>{feedbackImage.illumination.feedback}</p>
+                            </div>
+                            <div className="flex flex-col justify-start gap-3 ">
+                            <h1 className="font-medium text-xl">Saturacion:</h1>
+                                <p>{feedbackImage.saturation.feedback}</p>
+                            </div>
+                            <div className="flex flex-col justify-start gap-3 ">
+                            <h1 className="font-medium text-xl">Balance de colores:</h1>
+                                <p>{feedbackImage.color_balance.feedback}</p>
+                                <p>Rojo: {feedbackImage.color_balance.mean_colors.red}</p>
+                                <p>Azul: {feedbackImage.color_balance.mean_colors.blue}</p>
+                                <p>Verde: {feedbackImage.color_balance.mean_colors.green}</p>
+                            </div>
                         </>
                     ) : (
                         !errorMessage && <p>...cargando</p>
                     )}
                 </div>
                 </Modal.Body>
-                <Modal.Footer>
-                    <button onClick={() => setOpenModal(false)}>I accept</button>
-                    <button color="gray" onClick={() => setOpenModal(false)}>
-                        Decline
-                    </button>
-                </Modal.Footer>
             </Modal>
             
         </>

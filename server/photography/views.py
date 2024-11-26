@@ -11,6 +11,7 @@ from notification.models import Notification
 from cloudinary.uploader import destroy
 from rest_framework.views import APIView
 from django.db.models import Count
+from django.db.models import Q
 
 class IsOwner(BasePermission):
     def has_object_permission(self, request, view, obj):
@@ -20,6 +21,20 @@ class PhotographyAPIView(ModelViewSet):
     queryset = Photography.objects.all()
     serializer_class = SerializerPhotography
     permission_classes = [IsAuthenticated, IsOwner]
+    
+    @action(detail=False, methods=['get'], permission_classes=[AllowAny])
+    def get_all_categories(self, request):
+        """Endpoint para obtener todas las categorías."""
+        categories = Category.objects.all()
+        serializer = CategorySerializer(categories, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    @action(detail=False, methods=['get'], permission_classes=[AllowAny])
+    def get_all_tags(self, request):
+        """Endpoint para obtener todos los tags."""
+        tags = Tag.objects.all()
+        serializer = TagSerializer(tags, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
     
     @action(detail=True, methods=['patch'], permission_classes = [IsAuthenticated, IsOwner])
     def toggle_privacy(self, request, pk=None):
@@ -37,7 +52,14 @@ class PhotographyAPIView(ModelViewSet):
     @action(detail=False, methods=['get'],permission_classes=[AllowAny])
     def get_all_photographies(self, request):
         """Endpoint para obtener todas las fotografías sin filtrar por usuario."""
-        all_photographies = Photography.objects.all()
+        category_id = request.query_params.get('category')
+        tag_id = request.query_params.get('tag')
+        query = Q(is_public=True)
+        if category_id:
+            query &= Q(categoryphotography__category_id=category_id)
+        if tag_id:
+            query &= Q(photography_tags__tag_id=tag_id)
+        all_photographies = Photography.objects.filter(query).distinct()
         serializer = self.get_serializer(all_photographies, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
     
@@ -142,7 +164,7 @@ class PhotographyAPIView(ModelViewSet):
     def get_permissions(self):
         if self.action in ['retrieve', 'update', 'destroy', 'get_user_photographies']:
             self.permission_classes = [IsAuthenticated]
-        elif self.action == ['get_all_photographies','get_photographies_by_user']:
+        elif self.action in ['get_all_photographies','get_photographies_by_user']:
             self.permission_classes = [AllowAny]
         else:
             self.permission_classes = [AllowAny]
@@ -197,7 +219,14 @@ class CollectionAPIView(ModelViewSet):
     @action(detail=False, methods=['get'], permission_classes=[AllowAny])
     def all_collections(self, request):
         """Endpoint para obtener todas las colecciones sin filtrar por usuario."""
-        all_collections = Collection.objects.all()
+        category_id = request.query_params.get('category') 
+        tag_id = request.query_params.get('tag')
+        query = Q(is_public=True)
+        if category_id:
+            query &= Q(categorycollection__category_id=category_id)
+        if tag_id:
+            query &= Q(collectionphotography__photography__photography_tags__tag_id=tag_id)
+        all_collections = Collection.objects.filter(query).distinct()
         serializer = self.get_serializer(all_collections, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
     

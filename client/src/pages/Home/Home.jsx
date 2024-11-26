@@ -5,34 +5,47 @@ import Tabs from '../../components/Tabs/Tabs';
 import Tab from '../../components/Tabs/Tab';
 import { useEffect, useState } from 'react';
 import axiosApi from '../../services/axiosApi';
+import Filter from '../../components/Filter/Filter'
 
 export default function Home() {
     const [photos, setPhotos] = useState([])
     const [collections, setCollections] = useState([])
-    const fetchPhotos = async () => {
-        const response = await axiosApi.get('photos/photography/get_all_photographies/')
-        const dataWithSizes = response.data.map(photo => ({
-            ...photo,
-            rowSpan: Math.floor(Math.random() * 5) + 10, // Tamaño aleatorio entre 10 y 15
-        }));
-        setPhotos(dataWithSizes)
+    const [categoryId, setCategoryId] = useState('')
+    const [tagId, setTagId] = useState('')
+
+    const fetchPhotos = async (categoryId = '', tagId = '') => {
+        try {
+            const response = await axiosApi.get('photos/photography/get_all_photographies/', {
+                params: { category: categoryId, tag: tagId }
+            })
+            if(response.status === 200){
+                setPhotos(response.data)
+            }
+        } catch (error) {
+            console.log(error)
+        }
     }
-    const fetchCollections = async () => {
-        const response = await axiosApi.get('photos/collections/all_collections/')
-        const dataWithSizes = response.data.map(collection => ({
-            ...collection,
-            rowSpan: Math.floor(Math.random() * 5) + 10, // Tamaño aleatorio entre 10 y 15
-        }));
-        setCollections(dataWithSizes)
+    const fetchCollections = async (categoryId = '', tagId = '') => {
+        const response = await axiosApi.get('photos/collections/all_collections/', {
+            params: { category: categoryId, tag: tagId }
+        })
+        setCollections(response.data)
     }
+
     useEffect(()=>{
-        fetchPhotos()
-        fetchCollections()
-    },[])
+        fetchPhotos(categoryId, tagId)
+        fetchCollections(categoryId, tagId)
+    },[categoryId, tagId])
+
+    const handleFilterChange = (category, tag) => {
+        setCategoryId(category);  // Actualiza el estado de categoryId
+        setTagId(tag);  // Actualiza el estado de tagId
+    };
+
     console.log(photos)
     return (
         <div className={style.home_container}>
-            <Tabs>
+            <Tabs extraChildren={<Filter onFilterChange={handleFilterChange} />}>
                 <Tab title={'Fotografias'}>
                     <ListsPhotos gridRowEndOption={true} layoutStyle={'grid'} type={'photos'} data={photos} />
                 </Tab>

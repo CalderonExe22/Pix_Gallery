@@ -94,7 +94,7 @@ export default function FormEditCollection({ collection , indexPhoto = 0 }) {
                         precio: photo.precio,
                         is_free: photo.is_free,
                         is_public: photo.is_public,
-                        tags: Array.isArray(photo.tags_photo) ? photo.tags_photo.map(tag => tag) : [], // Validar `tags_photo` como arreglo
+                        tags: Array.isArray(photo?.tags_photo) ? photo?.tags_photo.map(tag => tag) : [], // Validar `tags_photo` como arreglo
                         camera: photo.camera || '',
                         lens: photo.lens || '',
                         focal_length: photo.focal_length || '',
@@ -128,7 +128,11 @@ export default function FormEditCollection({ collection , indexPhoto = 0 }) {
     }
     const formattedPhoto = {
         ...photosData[indexPhoto],
-        tags_photo: photosData[indexPhoto].tags_photo?.map(tag => tag.name) || [], // Asegúrate de que sea un arreglo de strings
+        tags_photo: Array.isArray(photosData[indexPhoto]?.tags_photo)
+        ? photosData[indexPhoto].tags_photo.map(tag =>
+            typeof tag === 'string' ? tag : tag.name // Maneja tanto strings como objetos
+        )
+        : [], // Asegúrate de que sea un arreglo de strings
     }
     console.log(photosData)
     console.log(categories)

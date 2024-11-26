@@ -4,6 +4,8 @@ import style from './OptionsShow.module.css'
 import { useNavigate } from "react-router-dom";
 import CardPhoto from "../Cards/CardPhoto/CardPhoto";
 import CardCollectionFolden from "../Cards/CardCollection/CardCollectionFolden";
+import CardProfile from "../Cards/CardProfile/CardProfile";
+import CardCollection from "../Cards/CardCollection/CardCollection";
 
 export default function OptionsSearch({results}) {
     const keys = Object.keys(results)
@@ -41,24 +43,14 @@ export default function OptionsSearch({results}) {
                     {showOptions === 'profiles' && (
                         <>
                             {results.profiles.map((profile) => (
-                                <div key={profile.id} className={style.options} onClick={()=>showProfile(profile.user)}>  
-                                    <div className={style.optionsText}>
-                                        <span>{profile.user_name}</span> 
-                                    </div>
-                                    {profile.profile_photo ? (
-                                        <img className={style.image} src={'https://res.cloudinary.com/dowtoqcra/'+profile.image} />
-                                    ):(
-                                        <img src="https://res.cloudinary.com/dowtoqcra/image/upload/v1729264496/wbtownzvwkokccchbbto.webp" alt="sinfotodeperfil" />
-                                    )}
-                                    
-                                </div>
+                                <CardProfile key={profile.user?.id} profile={profile} />
                             ))} 
                         </>
                     )}
                     {showOptions === 'collections' && (
                         <>
                             {results.collections.map((collection) => (
-                                <CardCollectionFolden key={collection.id} photos={collection.photos} width={200} height={200} id={collection.id}  />
+                                <CardCollection key={collection.id} collection={collection} show={false}/>
                             ))} 
                         </>
                     )}

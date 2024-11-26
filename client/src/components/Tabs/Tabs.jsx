@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
-export default function Tabs({ children }) {
-    const [activeTab, setActiveTab] = useState(0);
-    const childrenArray = React.Children.toArray(children); // Asegura que children es un array
-    console.log('Children:', childrenArray); // Debería mostrar un array de elementos Tab
+export default function Tabs({ children, extraChildren }) {
+    const [activeTab, setActiveTab] = useState(0)
+    const childrenArray = React.Children.toArray(children)
+
 
     return (
         <div className='flex flex-col justify-center items-center w-full'>
@@ -24,7 +24,10 @@ export default function Tabs({ children }) {
                     );
                 })}
             </div>
-            <div className="flex w-full h-auto pb-20 ps-20 pe-20">
+            <div className='flex justify-start w-full p-16'>
+                {extraChildren && <div>{extraChildren}</div>}
+            </div>
+            <div className="flex w-full h-auto">
                 {childrenArray[activeTab]}
             </div>
         </div>
@@ -32,5 +35,6 @@ export default function Tabs({ children }) {
 }
 
 Tabs.propTypes = {
-    children: PropTypes.node
+    children: PropTypes.node,
+    extraChildren: PropTypes.node,
 };

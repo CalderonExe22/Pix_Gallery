@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from .models import Wishlist
 from photography.models import *
+from photography.serializer import *
 import json
 
 class WishlistSerializer(serializers.ModelSerializer):
@@ -30,14 +31,8 @@ class WishlistSerializer(serializers.ModelSerializer):
         return {
             'id': instance.id,
             'user': instance.user.username,
-            'photo': {
-                'id': instance.photo.id,
-                'title': instance.photo.title
-            } if instance.photo else None,
-            'collection': {
-                'id': instance.collection.id,
-                'name': instance.collection.name
-            } if instance.collection else None,
+            'photo': SerializerPhotography(instance.photo).data if instance.photo else None,
+            'collection': CollectionSerializer(instance.collection).data if instance.collection else None,
             'created_at': instance.created_at,
             'updated_at': instance.updated_at
         }

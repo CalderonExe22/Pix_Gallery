@@ -5,7 +5,7 @@ import LikeButton from '../../Likes/LikeButton'
 import DeleteButton from '../../DeleteButton/DeleteButton'
 import PrivacyButton from '../../PrivacyButton/PrivacyButton'
 import EditCollection from '../../EditCollection/EditCollection'
-export default function CardCollectionFolden({collection,rowSpan}) {
+export default function CardCollectionFolden({collection,rowSpan,show}) {
     const navigate = useNavigate()
     const showCollection = (idCollection) => {
         navigate('/ver-coleccion/'+idCollection)
@@ -13,16 +13,20 @@ export default function CardCollectionFolden({collection,rowSpan}) {
     }   
     return (
         <div className="flex flex-col gap-3 p-4 shadow-xl bg-gray-300 group cursor-pointer"  style={{ gridRowEnd: `span ${rowSpan}` }}>
-            <div className='flex justify-between items-center w-full'>
-                <div className='flex gap-2'>
-                    <i className="fa-solid fa-images"></i><p>{collection?.photos.length}</p>    
+            
+                <div className='flex justify-between items-center w-full'>
+                    <div className='flex gap-2'>
+                        <i className="fa-solid fa-images"></i><p>{collection?.photos.length}</p>    
+                    </div>
+            {show && (
+                    <div className='flex gap-4'>
+                        <DeleteButton id={collection?.id} type={'collection'} />
+                        <PrivacyButton id={collection?.id} type={'collection'} isPublic={collection?.is_public} />
+                        <EditCollection collectionData={collection} />
+                    </div>
+            )}
                 </div>
-                <div className='flex gap-4'>
-                    <DeleteButton id={collection?.id} type={'collection'} />
-                    <PrivacyButton id={collection?.id} type={'collection'} isPublic={collection?.is_public} />
-                    <EditCollection collectionData={collection} />
-                </div>
-            </div>
+            
             <div onClick={collection?.id ? (() => showCollection(collection?.id)) : ( ()=>{} )} className='grid grid-cols-2 grid-rows-2 gap-5'>
                 {collection?.photos.map((photo) => (
                     <img key={photo.id} 
@@ -48,4 +52,5 @@ export default function CardCollectionFolden({collection,rowSpan}) {
 CardCollectionFolden.propTypes = {
     collection : PropTypes.object,
     rowSpan: PropTypes.number,
+    show: PropTypes.bool
 }
