@@ -11,6 +11,7 @@ import SearchResults from "../pages/SearchResults/SearchResults";
 import ManageAcount from "../pages/Profile/ManageAcount";
 import Explore from "../pages/Explore/Explore";
 import ExploreCategoryPage from "../components/ExploreResults/ExploreCategoryPage";
+import Wishlist from "../pages/Wishlists/Wishlist";
 const Home = lazy(()=> import('../pages/Home/Home'))
 const Login = lazy(()=> import('../pages/Login/Login'))
 const Register = lazy(()=> import('../pages/Register/Register'))
@@ -107,6 +108,11 @@ const routes = [
         path: '/explore',
         element: <Explore />,
         isProtected: false,
+    },
+    {
+        path: '/wishlist',
+        element: <Wishlist />,
+        isProtected: true,
     },
     {
         path: '/explore/fotosMasLikeadas',

@@ -1,6 +1,7 @@
 from users.models import Profile
 from photography.models import *
 from photography.serializer import *
+from users.serializer import *
 from rest_framework.serializers import ModelSerializer
 from rest_framework import serializers
 
@@ -15,11 +16,10 @@ class PhotographySerializer(ModelSerializer):
         return obj.image.url if obj.image else None
     
 class ProfileSerializer(ModelSerializer): 
-    user = serializers.CharField(source='user.id')
-    user_name = serializers.CharField(source='user.username')
+    user = UserSerializer(read_only=True)
     class Meta:
         model = Profile
-        fields = ['id','user','user_name','profile_photo']
+        fields = ['user']
     
 class CategorySerializer(ModelSerializer):
     class Meta:
@@ -28,9 +28,16 @@ class CategorySerializer(ModelSerializer):
         
 class CollectionSerializer(ModelSerializer):
     photos = serializers.SerializerMethodField()
+    user = serializers.SerializerMethodField()
     class Meta:
         model = Collection
-        fields = ['id','name','description','photos']
+        fields = ['id','name','description','photos','user']
+    
+    def get_user(self, obj):
+        collection_photography = CollectionPhotography.objects.filter(collection=obj).first()
+        if collection_photography:
+            return UserSerializer(collection_photography.user).data
+        return None
     
     def get_photos(self, obj):
         # Obtener todas las fotos asociadas a la colección a través del modelo intermedio CollectionPhotography

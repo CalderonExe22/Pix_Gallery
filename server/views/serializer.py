@@ -2,6 +2,7 @@ from rest_framework import serializers
 from .models import View
 from photography.models import *
 from user_statistics.models import Statistics
+from rest_framework.exceptions import ValidationError
 
 class ViewSerializer(serializers.ModelSerializer):
     photo = serializers.IntegerField(write_only=True, required=False)
@@ -34,13 +35,14 @@ class ViewSerializer(serializers.ModelSerializer):
                 collection_owner_stats.save()
         
         return super().create(validated_data)
+        
     
     def to_representation(self, instance):
         return {
             'id': instance.id,
             'user': instance.user.username,
-            'photo': instance.photo.title if instance.photo else None,
-            'collection': instance.collection.name if instance.collection else None,
+            'photo': instance.photo.id if instance.photo else None,
+            'collection': instance.collection.id if instance.collection else None,
             'created_at': instance.created_at,
             'updated_at': instance.updated_at,
         }

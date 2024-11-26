@@ -29,7 +29,7 @@ export default function ListsPhotos({data, type, layoutStyle, gridRowEndOption})
                     return null;
                 })
             ) : (
-                <p>No hay datos disponibles</p>
+                <p className='text-center'>No hay datos disponibles</p>
             )}
         </div>
     )

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import PropTypes from 'prop-types';
+import PropTypes, { array } from 'prop-types';
 import axiosApi from "../../services/axiosApi";
 
 export default function FormEditPhotoCollection({updatePhotoData, selectedPhoto}) {
@@ -39,8 +39,8 @@ export default function FormEditPhotoCollection({updatePhotoData, selectedPhoto}
     },[])
 
     useEffect(() => {
-        setTags(selectedPhoto.tags_photo || []);
-    }, [selectedPhoto.tags_photo]);
+        setTags(selectedPhoto?.tags_photo || [])
+    }, [selectedPhoto?.tags_photo]);
 
     return (
         <div className="flex flex-col gap-5">
@@ -111,39 +111,39 @@ export default function FormEditPhotoCollection({updatePhotoData, selectedPhoto}
                 <div className="w-full col-span-2">
                     <input type="text" name='camera' placeholder="Camara" className="w-full"
                         onChange={handleChange('camera')}
-                        value={selectedPhoto?.camera || ''}
+                        value={selectedPhoto?.exif_data?.camera || ''}
                         required={true}/>
                 </div>
                 <div className="w-full col-span-2">
                     <input type="text" name='lens' placeholder="lente" className="w-full"
                     onChange={handleChange('lens')}
-                    value={selectedPhoto?.lens || ''}
+                    value={selectedPhoto?.exif_data?.lens || ''}
                     required={true}/>
                 </div>
                 <div className="w-full">
                     <input type="number" name='focal_length' placeholder="Distancia focal" className="w-full"
                     onChange={handleChange('focal_length')}
-                    value={selectedPhoto?.focal_length || ''}
+                    value={selectedPhoto?.exif_data?.focal_length || ''}
                     required={true}/>
                 </div>
                 <div className="w-full">
                     <input type="number" name='shutter_speed' placeholder="velocidad de abturacion" className="w-full"
                     onChange={handleChange('shutter_speed')}
-                    value={selectedPhoto?.shutter_speed || ''}
+                    value={selectedPhoto?.exif_data?.shutter_speed || ''}
                     required={true}
                     />
                 </div>
                 <div className="w-full">
                     <input type="number" name='aperture' placeholder="Apertura" className="w-full"
                     onChange={handleChange('aperture')}
-                    value={selectedPhoto?.aperture || ''}
+                    value={selectedPhoto?.exif_data?.aperture || ''}
                     required={true}
                     />
                 </div>
                 <div className="w-full ">
                     <input type="number" name='iso' placeholder="ISO" className="w-full" 
                     onChange={handleChange('iso')}
-                    value={selectedPhoto?.iso || ''}
+                    value={selectedPhoto?.exif_data?.iso || ''}
                     required={true}
                     />
                 </div>
@@ -175,6 +175,7 @@ FormEditPhotoCollection.propTypes = {
             category: PropTypes.string,
             is_free: PropTypes.bool,
             is_public: PropTypes.bool,
+            exif_data: array,
             precio: PropTypes.number,
             camera:PropTypes.string,
             lens: PropTypes.string,
