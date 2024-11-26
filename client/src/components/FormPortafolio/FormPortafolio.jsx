@@ -73,6 +73,8 @@ export default function FormPortafolio() {
         const collectionData = {
             name: selectedPhoto.name,
             description: selectedPhoto.description,
+            category:1,
+            is_public : true,
             photos_input: selectedPhoto.photos_input,
         };
     

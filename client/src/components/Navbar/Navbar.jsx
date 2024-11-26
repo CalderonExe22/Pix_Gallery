@@ -4,7 +4,6 @@ import style from './Navbar.module.css'
 import { useSelector } from "react-redux";
 import { privateRoutes } from "../../constant/privateRoutes";
 import { publicRoutes } from "../../constant/publicRoutes";
-import Logout from "../Logout/Logout";
 import { useEffect, useState } from "react";
 import axiosApi from "../../services/axiosApi";
 import DropNotifications from "../DropNotifications/DropNotifications";

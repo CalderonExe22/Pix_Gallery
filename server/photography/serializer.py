@@ -8,6 +8,12 @@ class ExifDataSerializer(serializers.ModelSerializer):
     class Meta:
         model = ExifData
         fields = ['camera', 'lens', 'focal_length', 'shutter_speed', 'aperture', 'iso']
+        
+        
+class tagsForFilter (serializers.ModelSerializer):
+    class Meta:
+        model = Tag
+        fields = ['id','name']
 
 class TagSerializer(serializers.ModelSerializer):
     class Meta:
@@ -109,7 +115,7 @@ class CollectionSerializer(serializers.ModelSerializer):
         write_only=True  # Este campo solo se utilizará para la escritura (en el create)
     )
     user = serializers.SerializerMethodField()
-    category = serializers.IntegerField(write_only=True)
+    category = serializers.IntegerField(write_only=True, required=False)
     class Meta:
         model = Collection
         fields = ['id', 'name', 'description','is_public' ,'photos', 'category','user','photos_input']  # Añadimos `photos_input` para crear las fotos y `photos` para leerlas
@@ -133,7 +139,7 @@ class CollectionSerializer(serializers.ModelSerializer):
     
     def create(self, validated_data):
         photos_data = validated_data.pop('photos_input', [])# Recibimos el campo `photos_input` para agregar las fotos a la colección
-        category_id = validated_data.pop('category')
+        category_id = validated_data.pop('category',None)
         
         collection = Collection.objects.create(**validated_data)
 
