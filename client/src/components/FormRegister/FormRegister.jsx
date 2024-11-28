@@ -9,7 +9,7 @@ import { toast } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 
 export default function FormRegister({active,hide,show}) {
-    const {loading, error} = useSelector((state) => state.auth)
+    const {loading, errorRegister} = useSelector((state) => state.auth)
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const { 
@@ -31,7 +31,7 @@ export default function FormRegister({active,hide,show}) {
     return (
         <div className={style.register_section}>
             <h1 className={`${active ? 'opacity-1' : 'opacity-70'} text-center font-semibold text-3xl cursor-pointer`} onClick={hide}>Registrarse</h1>
-            {error && <p className="text-red-500 text-center my-4">{error}</p>}
+            {errorRegister && <p className="text-red-500 text-center my-4">{errorRegister}</p>}
             <form onSubmit={handleSubmit(onSubmit)}>
                 <Input
                     placeholder='Nombre de usuario'

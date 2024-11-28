@@ -11,7 +11,7 @@ import {PropTypes} from 'prop-types'
 export default function FormLogin({active,hide, show}) {
     const navigate = useNavigate()
     const dispatch = useDispatch()
-    const {loading, error} = useSelector((state) => state.auth)
+    const {loading, errorLogin} = useSelector((state) => state.auth)
 
     const {
         register,
@@ -47,7 +47,7 @@ export default function FormLogin({active,hide, show}) {
         <ToastContainer />
         <div className={`${style.login_section} ${active ? style.active : ''}`}>
             <h1 className={`${active ? 'opacity-1' : 'opacity-70'} text-center font-semibold text-3xl cursor-pointer`} onClick={show}>Iniciar sesion</h1>
-            {error && <p className="text-red-500 text-center mt-10">{error}</p>}
+            {errorLogin && <p className="text-red-500 text-center mt-10">{errorLogin}</p>}
             <form onSubmit={handleSubmit(onSubmit)}>
                 <Input
                     placeholder='Correo electronico'

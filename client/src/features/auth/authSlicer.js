@@ -7,6 +7,8 @@ const authSlice = createSlice({
         isAuthenticated: !!(localStorage.getItem("accessToken") && localStorage.getItem("refreshToken")),
         user: null,
         error: null,
+        errorLogin : null,
+        errorRegister: null,
         loading: false,
         isLoading: false
     },
@@ -19,7 +21,7 @@ const authSlice = createSlice({
         builder
             .addCase(loginUser.pending, (state) => {
                 state.loading =  true
-                state.error = false
+                state.errorLogin = false
             })
             .addCase(loginUser.fulfilled,(state, action) => {
                 state.user = action.payload.user
@@ -28,11 +30,11 @@ const authSlice = createSlice({
             })
             .addCase(loginUser.rejected, (state, action) => {
                 state.loading = false
-                state.error = action.payload || 'Error desconocido al iniciar sesión'
+                state.errorLogin = action.payload || 'Error desconocido al iniciar sesión'
             })
             .addCase(registerUser.pending, (state) => {
                 state.loading = false
-                state.error = null
+                state.errorRegister = null
             })
             .addCase(registerUser.fulfilled, (state, action) => {
                 state.user = action.payload.user
@@ -41,7 +43,7 @@ const authSlice = createSlice({
             })
             .addCase(registerUser.rejected, (state, action) => {
                 state.loading = false
-                state.error = action.payload || 'Error en el registro'
+                state.errorRegister = action.payload || 'Error en el registro'
             })
             .addCase(logoutUser.fulfilled, (state) =>{
                 state.user = null
