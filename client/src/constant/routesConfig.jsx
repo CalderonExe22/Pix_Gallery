@@ -12,6 +12,7 @@ import ManageAcount from "../pages/Profile/ManageAcount";
 import Explore from "../pages/Explore/Explore";
 import ExploreCategoryPage from "../components/ExploreResults/ExploreCategoryPage";
 import Wishlist from "../pages/Wishlists/Wishlist";
+import Auth from "../pages/Auth/Auth";
 const Home = lazy(()=> import('../pages/Home/Home'))
 const Login = lazy(()=> import('../pages/Login/Login'))
 const Register = lazy(()=> import('../pages/Register/Register'))
@@ -42,6 +43,11 @@ const routes = [
     {
         path: '/login',
         element:<Login />,
+        isProtected: false,
+    },
+    {
+        path: '/Auth/:mode',
+        element: <Auth />,
         isProtected: false,
     },
     {

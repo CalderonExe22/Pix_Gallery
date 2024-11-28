@@ -69,10 +69,10 @@ export default function Navbar() {
                 ) : (
                     <>
                         <li>
-                            <Link to='/login' className={style.links}>Login</Link>
+                            <Link to='/auth/login' className={style.links}>Login</Link>
                         </li>
                         <li>
-                            <Link to='/register' className={style.links}>Register</Link>
+                            <Link to='/auth/register' className={style.links}>Register</Link>
                         </li>
                     </>
                 )}

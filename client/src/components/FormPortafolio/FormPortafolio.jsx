@@ -2,11 +2,13 @@ import { useEffect, useState } from "react"
 import axiosApi from "../../services/axiosApi"
 import Input from "../Input/Input"
 import { useForm } from "react-hook-form";
-import CardCollectionFolden from "../Cards/CardCollection/CardCollectionFolden";
+import { useNavigate } from "react-router-dom";
+import CardCollection from "../Cards/CardCollection/CardCollection";
 
 export default function FormPortafolio() {
     const [collections, setCollections] = useState([])
     const [photos, setPhotos] = useState([])
+    const navigate = useNavigate()
     const [addCollections,setAddCollections] = useState(false)
     const [selectedPhoto, setSelectPhotos] = useState({
         name: 'Mejores fotografia',
@@ -93,6 +95,8 @@ export default function FormPortafolio() {
             const response = await axiosApi.post('portafolio/portafolios/',data)
             if(response.data){
                 console.log('portafolio creados')
+                console.log(response.data)
+                navigate('/perfil/')
             }
         } catch (error) {
             console.error(error)
@@ -114,7 +118,7 @@ export default function FormPortafolio() {
                 <div className={`grid grid-cols-3 justify-center items-center ${addCollections?'h-[600px] overflow-y-auto':'h-0 overflow-hidden'} gap-10 transition-all duration-300`}>
                     {collections.map((collection) => (
                         <div onClick={() => handleSelectedCollection(collection.id)} key={collection.id} className={`flex ${selectedCollections.includes(collection.id) ? 'border-2 border-blue-600' : 'opacity-70'} cursor-pointer`}>
-                            <CardCollectionFolden photos={collection.photos} title={collection.name} />
+                            <CardCollection gridRowEndOption={true} show={true} key={collection.id} collection={collection} /> 
                         </div>
                     ))}
                 </div>

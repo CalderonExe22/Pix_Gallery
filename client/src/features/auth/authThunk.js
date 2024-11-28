@@ -18,7 +18,10 @@ export const loginUser = createAsyncThunk(
                 return response.data
             }
         } catch (error) {
-            return rejectWithValue(error.response.data);
+            const responseError = error.response?.data
+            const errorMessage = responseError?.non_field_errors?.join(', ') ||
+            responseError?.detail
+            return rejectWithValue(errorMessage);
         }
     }
 )
@@ -54,10 +57,16 @@ export const registerUser = createAsyncThunk(
             if(response.status === 201){
                 localStorage.setItem('accessToken', response.data.tokens.access)
                 localStorage.setItem('refreshToken', response.data.tokens.refresh)
+                localStorage.setItem('userId', response.data.id)
                 return response.data
             }
         } catch (error) {
-            return rejectWithValue(error.response.data || 'Error en el registro')
+            const responseError = error.response?.data
+            const errorMessage =
+                responseError?.detail ||
+                Object.values(responseError || {}).join(" || ") || // Unir errores en un string
+                "Error desconocido en el registro"
+            return rejectWithValue(errorMessage)
         }
     }
 ) 

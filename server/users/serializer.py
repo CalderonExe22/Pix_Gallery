@@ -61,6 +61,16 @@ class UserRegistrationSerializar(ModelSerializer):
             )
         return attrs
     
+    def validate_email(self, value):
+        if User.objects.filter(email=value).exists():
+            raise serializers.ValidationError('Ya existe un usuario con este correo electrónico.')
+        return value
+    
+    def validate_username(sefl, value):
+        if User.objects.filter(username=value).exists():
+            raise serializers.ValidationError('Este nombre de usuario ya está en uso.')
+        return value
+    
     def create(self, validated_data):
         password = validated_data.pop('password1')
         validated_data.pop('password2')
@@ -80,5 +90,7 @@ class UserLoginSerializer(serializers.Serializer):
         user = authenticate(**data)
         if user and user.is_active : 
             return user
-        raise serializers.ValidationError('Datos incorrectos')
+        if not User.objects.filter(email=data['email']).exists():
+            raise serializers.ValidationError('El correo electrónico no está registrado.')
+        raise serializers.ValidationError('Credenciales incorrectas. Por favor verifique e intente nuevamente')
     
