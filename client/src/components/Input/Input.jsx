@@ -2,7 +2,7 @@ import {PropTypes} from 'prop-types'
 
 export default function Input ({ label, type = 'text', name, register, errors, required = false, validationRules = {}, placeholder = '' ,classNameStyle = '', onChange = () => {}, isChecked = true}) {
     return (
-        <div className='flex flex-col items-start gap-3'>
+        <div className='flex flex-col items-start gap-2 w-full'>
             {label && (
                 <label htmlFor={name}>{label}:</label> 
             )}
@@ -21,7 +21,7 @@ export default function Input ({ label, type = 'text', name, register, errors, r
                 autoComplete={name}
                 placeholder={placeholder}
             />
-            {errors[name] && <p className='text-red-800'>{errors[name].message}</p>}
+            {errors[name] && <p className='text-red-800 font-semibold'>{errors[name].message}</p>}
         </div>
     );
 };

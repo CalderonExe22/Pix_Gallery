@@ -98,9 +98,9 @@ export default function NewWishList({ id, type }) {
                         <p className='text-2xl mb-4'>¡UPS!, No se puedo agregar a la WishList</p>
                         <i className="fa-solid fa-star-half-alt text-9xl text-[rgb(181,23,158)]"></i>	
                         <p className="text-lg my-4">Debes iniciar sesión para agregar un elemnto a la WishList</p>
-                        <button className="bg-[#3a0ca3] text-white py-2 px-4 rounded mb-2" onClick={()=> navigate("/login")}>Iniciar Sesión</button>
+                        <button className="bg-[#3a0ca3] text-white py-2 px-4 rounded mb-2" onClick={()=> navigate("/auth/login")}>Iniciar Sesión</button>
                         <p className="mb-2">Si aún no tienes cuenta puedes</p>
-                        <button className="bg-[#3a0ca3] text-white py-2 px-4 rounded" onClick={()=> navigate("/register")}>Registrarte</button>
+                        <button className="bg-[#3a0ca3] text-white py-2 px-4 rounded" onClick={()=> navigate("/auth/register")}>Registrarte</button>
                     </div>
                 </Modal.Body>
             </Modal>

@@ -1,0 +1,10 @@
+
+.container{
+    @apply relative w-[560px] h-[790px] rounded-xl shadow-2xl bg-[#3a0ca3] overflow-hidden;
+}
+
+.container form{
+    @apply flex flex-col items-center h-full gap-7 mt-10;
+}
+
+

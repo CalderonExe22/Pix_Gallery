@@ -1,0 +1,20 @@
+.login_section{
+    @apply absolute flex flex-col left-[50%] bottom-[-89%] bg-white h-full transition-all duration-500;
+    transform: translateX(-50%);
+    width: calc(100% + 180px);
+    padding: 20px 140px;
+    border-radius: 290px;
+}
+
+.login_section.active{
+    @apply bottom-[-14%];
+    border-radius: 220px;
+}
+
+.login_section input{
+    @apply w-full h-10 rounded-xl
+}
+
+.butonLogin{
+    @apply bg-white border-solid border-2 border-[#3a0ca3] p-3 mt-10 text-[#3a0ca3] rounded-xl font-medium transition-colors duration-300 hover:bg-[#3a0ca3] hover:text-white
+}

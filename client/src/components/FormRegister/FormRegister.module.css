@@ -1,0 +1,12 @@
+.register_section{
+    @apply flex flex-col gap-5 text-center w-full p-10 text-white px-24;
+}
+
+.register_section input{
+    @apply w-full h-10 rounded-xl text-black
+}
+
+.butonRegister{
+    @apply bg-[#3a0ca3] border-solid border-2 p-3 mt-5 text-white rounded-xl font-medium transition-colors duration-300 hover:bg-white hover:text-[#3a0ca3]
+}
+

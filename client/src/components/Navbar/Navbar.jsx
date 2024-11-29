@@ -4,7 +4,6 @@ import style from './Navbar.module.css'
 import { useSelector } from "react-redux";
 import { privateRoutes } from "../../constant/privateRoutes";
 import { publicRoutes } from "../../constant/publicRoutes";
-import Logout from "../Logout/Logout";
 import { useEffect, useState } from "react";
 import axiosApi from "../../services/axiosApi";
 import DropNotifications from "../DropNotifications/DropNotifications";
@@ -70,10 +69,10 @@ export default function Navbar() {
                 ) : (
                     <>
                         <li>
-                            <Link to='/login' className={style.links}>Login</Link>
+                            <Link to='/auth/login' className={style.links}>Login</Link>
                         </li>
                         <li>
-                            <Link to='/register' className={style.links}>Register</Link>
+                            <Link to='/auth/register' className={style.links}>Register</Link>
                         </li>
                     </>
                 )}
