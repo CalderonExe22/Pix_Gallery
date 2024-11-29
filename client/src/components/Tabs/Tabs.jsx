@@ -8,7 +8,7 @@ export default function Tabs({ children, extraChildren }) {
 
     return (
         <div className='flex flex-col justify-center items-center w-full'>
-            <div className="flex justify-center w-full pt-16 pb-16">
+            <div className="flex justify-center w-full pt-10 pb-16">
                 {childrenArray.map((tab, index) => {
                     if (!tab.props.title) {
                         console.error('Cada Tab debe tener una propiedad "title"');
@@ -24,9 +24,11 @@ export default function Tabs({ children, extraChildren }) {
                     );
                 })}
             </div>
-            <div className='flex justify-start w-full p-16'>
-                {extraChildren && <div>{extraChildren}</div>}
-            </div>
+            {extraChildren &&
+                (<div className='flex justify-start w-full p-16'>
+                    {extraChildren && <div>{extraChildren}</div>}
+                </div>)
+            }
             <div className="flex w-full h-auto">
                 {childrenArray[activeTab]}
             </div>

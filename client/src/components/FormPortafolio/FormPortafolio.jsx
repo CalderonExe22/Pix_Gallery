@@ -3,10 +3,13 @@ import axiosApi from "../../services/axiosApi"
 import Input from "../Input/Input"
 import { useForm } from "react-hook-form";
 import CardCollectionFolden from "../Cards/CardCollection/CardCollectionFolden";
+import { useNavigate } from "react-router-dom";
 
 export default function FormPortafolio() {
     const [collections, setCollections] = useState([])
     const [photos, setPhotos] = useState([])
+    const navigate = useNavigate()
+    const id = localStorage.getItem('userId')
     const [addCollections,setAddCollections] = useState(false)
     const [selectedPhoto, setSelectPhotos] = useState({
         name: 'Mejores fotografia',
@@ -73,6 +76,8 @@ export default function FormPortafolio() {
         const collectionData = {
             name: selectedPhoto.name,
             description: selectedPhoto.description,
+            category: 12,
+            is_public : true,
             photos_input: selectedPhoto.photos_input,
         };
     
@@ -91,6 +96,8 @@ export default function FormPortafolio() {
             const response = await axiosApi.post('portafolio/portafolios/',data)
             if(response.data){
                 console.log('portafolio creados')
+                navigate('/perfil/'+parseInt(id))
+
             }
         } catch (error) {
             console.error(error)
@@ -109,10 +116,10 @@ export default function FormPortafolio() {
                 <button className="w-[250px]" type='submit'>Subir portafolio</button>
             </form>
             <div className="flex flex-col justify-center items-center h-full w-full col-span-2 ">
-                <div className={`grid grid-cols-3 justify-center items-center ${addCollections?'h-[600px] overflow-y-auto':'h-0 overflow-hidden'} gap-10 transition-all duration-300`}>
+                <div className={`grid grid-cols-3 justify-center items-center ${addCollections?'h-[600px] overflow-y-auto':'h-0 overflow-hidden'} gap-10 transition-all duration-300 z-50`}>
                     {collections.map((collection) => (
                         <div onClick={() => handleSelectedCollection(collection.id)} key={collection.id} className={`flex ${selectedCollections.includes(collection.id) ? 'border-2 border-blue-600' : 'opacity-70'} cursor-pointer`}>
-                            <CardCollectionFolden photos={collection.photos} title={collection.name} />
+                            <CardCollectionFolden collection={collection} rowSpan={true} show={false}/>
                         </div>
                     ))}
                 </div>

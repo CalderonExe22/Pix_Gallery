@@ -7,14 +7,16 @@ import PrivacyButton from "../../PrivacyButton/PrivacyButton";
 import EditPhoto from "../../EditPhoto/EditPhoto";
 
 export default function CardPhoto({data,show,gridRowEndOption, idUser}) {
+
     const navigate = useNavigate()
+
     const showPhoto = (idPhoto) => {
         navigate('/ver-foto/'+idPhoto)
         location.reload()
     }
-    
+
     return (
-        <div className={`relative group overflow-hidden rounded-xl shadow-lg cursor-pointer w-full h-full`} style={{ gridRowEnd: gridRowEndOption ? `span ${Math.floor(Math.random() * 5) + 10}` : '' }} >
+        <div className={`relative group overflow-hidden rounded-xl shadow-lg cursor-pointer w-full h-full z-40`} style={{ gridRowEnd: gridRowEndOption ? `span ${Math.floor(Math.random() * 5) + 10}` : '' }} >
             <div className="absolute z-10 top-0 left-0 w-full flex items-center justify-start gap-2 px-5 pt-4">
                 <div className="flex items-center gap-5 text-white ">
                     {data?.isPublic ===  false && (

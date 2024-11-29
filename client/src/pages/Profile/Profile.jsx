@@ -83,7 +83,7 @@ export default function Profile() {
                 <Tabs>
                     <Tab title={'Mis fotografias'}>
                         {photos.length > 0 ? (
-                            <div className="grid grid-cols-4 gap-5 w-full h-full">
+                            <div className="grid grid-cols-4 gap-5 w-full h-full p-10">
                                 {photos.map((photo) => (
                                     <CardPhoto idUser={user?.id} show={true} gridRowEndOption={true} key={photo.id} data={photo} />
                                 ))} 
@@ -94,7 +94,7 @@ export default function Profile() {
                     </Tab>
                     <Tab title={'Mis colecciones'}>
                         {collections.length > 0 ? (
-                        <div className="grid grid-cols-5 gap-5 w-full h-full">
+                        <div className="grid grid-cols-5 gap-5 w-full h-full p-10">
                             {collections.map((collection) => (
                                 <CardCollection show={true} idUser={user?.id} gridRowEndOption={true} key={collection.id} collection={collection} />
                             ))}

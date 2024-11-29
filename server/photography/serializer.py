@@ -138,7 +138,7 @@ class CollectionSerializer(serializers.ModelSerializer):
     
     def create(self, validated_data):
         photos_data = validated_data.pop('photos_input', [])# Recibimos el campo `photos_input` para agregar las fotos a la colección
-        category_id = validated_data.pop('category')
+        category_id = validated_data.pop('category',None)
         
         collection = Collection.objects.create(**validated_data)
 

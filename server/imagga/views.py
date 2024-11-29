@@ -17,8 +17,8 @@ class ImaggaTagsAPIView(APIView):
             return Response({"error": "No se proporcionó una imagen."}, status=400)
 
         file = request.FILES['image']
-        API_KEY = 'acc_6846ab175d053b6'
-        API_SECRET = '9a1e78edb34cc5cd7370f18c1ffb1417'
+        API_KEY = 'acc_d840d2bb7a04a43'
+        API_SECRET = '453f2fae99ed480c073a2290f3091c9e'
         params = {"language": "es"}
 
         tags_url = "https://api.imagga.com/v2/tags"

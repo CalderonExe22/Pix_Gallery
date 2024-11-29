@@ -41,7 +41,6 @@ export default function ShowCollection() {
             const response = await axiosApi.get('payments/success/get_user_payments/');
             const payments = response.data.filter(payment => payment.collection === parseInt(id) && payment.status === 'approved');
             setIsPayment(payments.length > 0);
-            console.log(payments);
         } catch (error) {
             console.log('Error al obtener los pagos:', error);
         }
@@ -50,13 +49,10 @@ export default function ShowCollection() {
     const getViews = async () => {
         try {
             const response = await axiosApi.get('views/views/get_user_views/');
-            console.log(response.data)
             const viewPhoto = response.data.some(view => view.collection === parseInt(id));
-            console.log(viewPhoto)
             if(!viewPhoto){
                 try {
-                    const response = await axiosApi.post('views/views/', {collection: id});
-                    console.log(response)
+                    await axiosApi.post('views/views/', {collection: id});
                 } catch (error) {
                     console.log(error)
                 }
@@ -102,9 +98,6 @@ export default function ShowCollection() {
         getPayments()
         getUserInfo()
     },[id])
-
-    console.log(collection)
-    console.log(user)
 
     return (
         <div className="grid grid-cols-3 justify-center items-center w-full h-screen">
