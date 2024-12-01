@@ -59,7 +59,7 @@ export default function Navbar() {
                         </li>
                         <li>
                             <Link to={'/wishlist'}>
-                                <i className="fa-solid fa-star text-2xl"></i>
+                                <i aria-label="notificaciones" className="fa-solid fa-star text-2xl"></i>
                             </Link>
                         </li>
                         <li>

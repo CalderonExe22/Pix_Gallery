@@ -4,6 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import axiosApi from '../../services/axiosApi';
 import { useForm } from 'react-hook-form';
 import Input from '../Input/Input';
+import { Bounce, toast, ToastContainer } from 'react-toastify';
+import "react-toastify/dist/ReactToastify.css";
 
 export default function FormEditPhoto({photoData}) {
     const navigate = useNavigate()
@@ -79,12 +81,48 @@ export default function FormEditPhoto({photoData}) {
             const response = await axiosApi.patch(`photos/photography/${photoData.id}/`, dataPhoto)
             console.log('La fotografía se actualizo correctamente', response)
             navigate(`/ver-foto/${photoData.id}`)
+            console.log(response)
+            toast.success(`Fotografía eliminada correctamente.`, {
+                position: "top-center",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "colored",
+                transition: Bounce,
+            })
         } catch (error) {
-            console.error(error)
-            console.log('Error al subir la fotografía', error.response ? error.response.data : error.message);
+            if(error?.response.status === 403){
+                toast.error('Usuario no autorizado', {
+                    position: "top-center",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                    transition: Bounce,
+                    });
+            }else{
+                toast.error('Ocurrió un error al intentar realizar la acción.', {
+                    position: "top-center",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                    transition: Bounce,
+                    });
+            }
         }
     }
     return (
+        <>
         <form className="flex flex-col gap-5 w-2/3 ms-20 me-20 text-lg" onSubmit={handleSubmit(onSubmit)}>
             <h1 className="text-4xl">Subir fotografia</h1>
             <Input type="text" name='title' label='Titulo de la fotografia' placeholder='Ingrese titulo de su foto'required={true}
@@ -174,6 +212,7 @@ export default function FormEditPhoto({photoData}) {
             )}
             <button type="submit" className="p-2 bg-[#b5179e] text-white w-32 font-bold">Subir foto</button>
         </form>
+        </>
     )
 }
 FormEditPhoto.propTypes = {

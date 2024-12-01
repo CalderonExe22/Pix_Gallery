@@ -1,4 +1,5 @@
 from rest_framework.permissions import IsAuthenticated, BasePermission, AllowAny
+from rest_framework.exceptions import PermissionDenied
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.response import Response
 from rest_framework.decorators import action
@@ -15,6 +16,7 @@ from django.db.models import Q
 
 class IsOwner(BasePermission):
     def has_object_permission(self, request, view, obj):
+        print(f"Request User: {request.user}, Object Owner: {obj.user}")
         return obj.user == request.user
 
 class PhotographyAPIView(ModelViewSet):
@@ -39,6 +41,7 @@ class PhotographyAPIView(ModelViewSet):
     @action(detail=True, methods=['patch'], permission_classes = [IsAuthenticated, IsOwner])
     def toggle_privacy(self, request, pk=None):
         photography = self.get_object()
+        self.check_object_permissions(request, photography)
         if photography.user != request.user:
             return Response({"detail": "No tienes permiso para modificar esta fotografía."}, status=status.HTTP_403_FORBIDDEN)
         
@@ -103,9 +106,9 @@ class PhotographyAPIView(ModelViewSet):
     
     def update(self, request, *args, **kwargs):
         # Obtener el objeto de la fotografía a actualizar
-        instance = self.get_object()
-
-        # Validar y extraer los datos de entrada (los datos actualizados)
+        photo = self.get_object()
+        if photo.user != request.user:
+            return Response({"detail": "No tienes permiso para modificar esta fotografía."}, status=status.HTTP_403_FORBIDDEN)
         validated_data = request.data.copy()
         
         tags = validated_data.pop('tags', None)
@@ -122,29 +125,29 @@ class PhotographyAPIView(ModelViewSet):
         
         # Llamamos al `update` original para actualizar los campos de la fotografía
         for attr, value in validated_data.items():
-            setattr(instance, attr, value)
+            setattr(photo, attr, value)
 
         # Actualizar la categoría si se pasa un ID de categoría
         if category_id:
             # Eliminar la relación anterior
-            instance.categoryphotography_set.all().delete()
+            photo.categoryphotography_set.all().delete()
             
             # Crear la nueva relación con la categoría seleccionada
             category = Category.objects.get(id=category_id)
-            CategoryPhotography.objects.create(category=category, photography=instance)
+            CategoryPhotography.objects.create(category=category, photography=photo)
 
         # Actualizar los tags solo si se pasan tags
         if tags is not None:
             # Eliminar los tags anteriores si se van a actualizar
-            PhotographyTag.objects.filter(photography=instance).delete()
+            PhotographyTag.objects.filter(photography=photo).delete()
             # Crear los nuevos tags
             for tag_name in tags:
                 tag, created = Tag.objects.get_or_create(name=tag_name)
-                PhotographyTag.objects.create(photography=instance, tag=tag)
+                PhotographyTag.objects.create(photography=photo, tag=tag)
 
         # Actualizar los datos EXIF si se proporcionan
         if any([camera, lens, focal_length, shutter_speed, aperture, iso]):
-            exif_data = ExifData.objects.get(photography=instance)
+            exif_data = ExifData.objects.get(photography=photo)
             if camera is not None: exif_data.camera = camera
             if lens is not None: exif_data.lens = lens
             if focal_length is not None: exif_data.focal_length = focal_length
@@ -154,20 +157,20 @@ class PhotographyAPIView(ModelViewSet):
             exif_data.save()
 
         # Guardar la fotografía actualizada
-        instance.save()
+        photo.save()
 
         # Serializar y devolver la respuesta
-        serializer = self.get_serializer(instance)
+        serializer = self.get_serializer(photo)
         return Response(serializer.data)
         
         
     def get_permissions(self):
-        if self.action in ['retrieve', 'update', 'destroy', 'get_user_photographies']:
-            self.permission_classes = [IsAuthenticated]
-        elif self.action in ['get_all_photographies','get_photographies_by_user']:
+        if self.action in ['update', 'destroy']:
+            self.permission_classes = [IsAuthenticated, IsOwner]
+        elif self.action in ['get_all_photographies', 'get_photographies_by_user']:
             self.permission_classes = [AllowAny]
         else:
-            self.permission_classes = [AllowAny]
+            self.permission_classes = [IsAuthenticated]
         return super().get_permissions()
 
 class CollectionAPIView(ModelViewSet):
@@ -211,10 +214,13 @@ class CollectionAPIView(ModelViewSet):
     def update(self, request, *args, **kwargs):
         partial = kwargs.pop('partial', False)  # Manejar actualizaciones parciales (PATCH)
         instance = self.get_object()
+        if not CollectionPhotography.objects.filter(collection=instance, user=request.user).exists():
+            return Response({"detail": "No tienes permiso para modificar esta colección."}, status=status.HTTP_403_FORBIDDEN)
+        
         serializer = self.get_serializer(instance, data=request.data, partial=partial)
         serializer.is_valid(raise_exception=True)
         self.perform_update(serializer)
-        return Response(serializer.data)
+        return Response(serializer.data, status=status.HTTP_200_OK)
     
     @action(detail=False, methods=['get'], permission_classes=[AllowAny])
     def all_collections(self, request):
@@ -267,7 +273,7 @@ class CollectionAPIView(ModelViewSet):
         }, status=status.HTTP_200_OK)
     
     def get_permissions(self):
-        if self.action in ['retrieve', 'update', 'destroy', 'user_collections']:
+        if self.action in [ 'update', 'destroy']:
             self.permission_classes = [IsAuthenticated]
         elif self.action in ['all_collections','get_collections_by_user']:
             self.permission_classes = [AllowAny]
