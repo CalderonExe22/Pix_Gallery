@@ -7,6 +7,7 @@ import DeleteButton from '../../DeleteButton/DeleteButton';
 import PrivacyButton from '../../PrivacyButton/PrivacyButton';
 
 export default function CardCollection({ collection, show,gridRowEndOption, idUser }) {
+
     const navigate = useNavigate()
 
     const getImages = () => {

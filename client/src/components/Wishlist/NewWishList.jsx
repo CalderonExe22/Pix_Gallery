@@ -1,13 +1,28 @@
 import { useState, useEffect } from 'react';
 import axiosApi from '../../services/axiosApi';
 import PropTypes from 'prop-types';
-import style from './NewWishList.module.css'
+import style from './NewWishList.module.css';
+import { useSelector } from 'react-redux';
+import { Modal } from 'flowbite-react';
+import { useNavigate } from 'react-router-dom';
 
 export default function NewWishList({ id, type }) {
+
     const [wishlist, setWishlist] = useState([]);
     const [isInWishlist, setIsInWishlist] = useState(false);
-    const [isWishlistAnimation, setIsWishlistAnimation] = useState(false)
-    const [isNoWishlistAnimation, setIsNoWishlistAnimation] = useState(false)
+    const [isWishlistAnimation, setIsWishlistAnimation] = useState(false);
+    const [isNoWishlistAnimation, setIsNoWishlistAnimation] = useState(false);
+    const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+    const [openModal, setOpenModal] = useState(false);
+    const navigate = useNavigate();
+
+    const handleOpenModal = () => {
+        setOpenModal(true);
+    };
+
+    const handleCloseModal = () => {
+        setOpenModal(false);
+    };
 
     const getWishlist = async () => {
         try {
@@ -71,9 +86,24 @@ export default function NewWishList({ id, type }) {
 
     return (
         <div>
-            <button onClick={() => isInWishlist ? handleRemoveFromWishlist() : handleAddToWishlist()}>
+            <button onClick={() => isAuthenticated ?
+                (isInWishlist ? handleRemoveFromWishlist() : handleAddToWishlist()) : handleOpenModal()
+            }>
                 <i className={`fa-solid fa-star ${isWishlistAnimation ? style.wishlist_animation : isNoWishlistAnimation ? style.noWishlist_animation : '' } ${isInWishlist ? style.wishlistStyle : style.noWishlistStyle }`} />
             </button>
+            <Modal show={openModal} onClose={handleCloseModal}>
+                <Modal.Header>PixGallery</Modal.Header>
+                <Modal.Body>
+                    <div className="text-center">
+                        <p className='text-2xl mb-4'>¡UPS!, No se puedo agregar a la WishList</p>
+                        <i className="fa-solid fa-star-half-alt text-9xl text-[rgb(181,23,158)]"></i>	
+                        <p className="text-lg my-4">Debes iniciar sesión para agregar un elemnto a la WishList</p>
+                        <button className="bg-[#3a0ca3] text-white py-2 px-4 rounded mb-2" onClick={()=> navigate("/auth/login")}>Iniciar Sesión</button>
+                        <p className="mb-2">Si aún no tienes cuenta puedes</p>
+                        <button className="bg-[#3a0ca3] text-white py-2 px-4 rounded" onClick={()=> navigate("/auth/register")}>Registrarte</button>
+                    </div>
+                </Modal.Body>
+            </Modal>
         </div>
     );
 }

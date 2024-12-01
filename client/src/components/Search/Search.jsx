@@ -65,12 +65,15 @@ export default function Search() {
         <>
             <div className={`${style.overlay} ${showInputSearch ? style.show : ''}`}></div>
             <div ref={searchRef}>
-                <button className={style.links} onClick={handleSearchClick}>
-                    <i className="fa-solid fa-search"></i> <span> Buscar </span>
-                </button>
+                    <button className={style.links} onClick={handleSearchClick}>
+                        <label htmlFor="search">
+                            <i className="fa-solid fa-search"></i> <span> Buscar </span>
+                        </label>
+                    </button>
                 <div className={`${style.search} ${showInputSearch ? style.show : ''}`}>
                     <form className={style.container_search} onSubmit={handleSearchSubmit}>
-                        <input 
+                        <input
+                            id='search' 
                             type="search"
                             value={query}
                             onChange={(e) => setQuery(e.target.value)}

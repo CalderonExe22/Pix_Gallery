@@ -35,7 +35,7 @@ class PhotographyAPIView(ModelViewSet):
     def get_all_tags(self, request):
         """Endpoint para obtener todos los tags."""
         tags = Tag.objects.all()
-        serializer = tagsForFilter(tags, many=True)
+        serializer = TagsForFilter(tags, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
     
     @action(detail=True, methods=['patch'], permission_classes = [IsAuthenticated, IsOwner])

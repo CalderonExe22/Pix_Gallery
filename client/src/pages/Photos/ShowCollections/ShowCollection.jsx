@@ -8,22 +8,51 @@ import NewComment from "../../../components/Comments/NewComment";
 import ButtonFollower from "../../../components/ButtonFollower/ButtonFollower";
 import LikeButton from "../../../components/Likes/LikeButton";
 import NewWishList from "../../../components/Wishlist/NewWishList";
+import PaymentCollections from "../../../components/PaymentButton/PaymentCollection";
+import ButtonDownload from "../../../components/ButtonDownload/ButtonDownload";
 
 export default function ShowCollection() {
+
     const {id} = useParams()
     const [collection, setCollection] = useState([])
     const [activeIndex, setActiveIndex] = useState(0)
     const isMounted = useRef(false)
+    const [isPayment, setIsPayment] = useState(false);
+    const [user, setUser] = useState({});
+
+    const getUserInfo = async () => {
+        try {
+            const response = await axiosApi.get('users/user/')
+            setUser(response.data)
+        } catch (error) {
+            console.error(error)
+        }
+    }
+
+    const handlePriceColecction = () => {
+        if (!collection.photos) return "0";
+        const precios = collection.photos.map(photo => parseFloat(photo.precio));
+        const total = precios.reduce((acc, precio) => acc + precio, 0);
+        return total;
+    }
+
+    const getPayments = async () => {
+        try {
+            const response = await axiosApi.get('payments/success/get_user_payments/');
+            const payments = response.data.filter(payment => payment.collection === parseInt(id) && payment.status === 'approved');
+            setIsPayment(payments.length > 0);
+        } catch (error) {
+            console.log('Error al obtener los pagos:', error);
+        }
+    };
+
     const getViews = async () => {
         try {
             const response = await axiosApi.get('views/views/get_user_views/');
-            console.log(response.data)
             const viewPhoto = response.data.some(view => view.collection === parseInt(id));
-            console.log(viewPhoto)
             if(!viewPhoto){
                 try {
-                    const response = await axiosApi.post('views/views/', {collection: id});
-                    console.log(response)
+                    await axiosApi.post('views/views/', {collection: id});
                 } catch (error) {
                     console.log(error)
                 }
@@ -32,6 +61,7 @@ export default function ShowCollection() {
             console.log(error)
         }
     }
+
     function DateFormatter( isoDate ) {
         const formattedDate = new Date(isoDate).toLocaleDateString("es-ES", {
             year: "numeric",
@@ -44,6 +74,7 @@ export default function ShowCollection() {
     
         return <span>{formattedDate}</span>;
     }
+
     const fechCollection = async (idCollection) => {
         try {
             const response = await axiosApi.get('photos/collections/'+idCollection)
@@ -54,19 +85,23 @@ export default function ShowCollection() {
             console.log(error)
         }
     }
+
     const dataPhoto = (index) => {
         setActiveIndex(index)
     }
+
     useEffect(()=>{
         if (isMounted.current) return
         isMounted.current = true
         fechCollection(id)
         getViews()
+        getPayments()
+        getUserInfo()
     },[id])
-    console.log(collection)
+
     return (
         <div className="grid grid-cols-3 justify-center items-center w-full h-screen">
-            {collection ? (
+            {collection && user ? (
                 <>
                 <div className="flex col-span-2 justify-center items-center h-full w-full">
                     <Carousel onSlideChange={dataPhoto} slide={false}>
@@ -79,13 +114,21 @@ export default function ShowCollection() {
                     <div className=" flex justify-start gap-7 w-full h-full">
                         {collection?.id ? (
                             <>
-                            <LikeButton type="collection" id={collection?.id} />
-                            <NewWishList type="collection" id={collection?.id} />
+                                <LikeButton type="collection" id={collection?.id} />
+                                <NewWishList type="collection" id={collection?.id} />
                             </>
                         ):(
                             <div>...cargando</div>
                         )}
                     </div>
+                    {   
+                        collection?.user?.id !== (user.id) &&
+                        (isPayment || handlePriceColecction() === 0 ?
+                            collection.photos &&
+                            <ButtonDownload title={collection.photos[activeIndex].title} image_url={collection.photos[activeIndex].image_url} />
+                        :
+                            <PaymentCollections onPayment={collection} />)
+                    }
                     <div className="flex flex-col justify-start w-full gap-7">
                         <div className="flex flex-col gap-1">
                             <span>-Nombre de la coleccion.</span>

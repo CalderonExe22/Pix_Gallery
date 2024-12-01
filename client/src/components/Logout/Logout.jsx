@@ -14,7 +14,7 @@ export default function Logout({style}) {
         }
     }
     return (
-        <li>
+        <li className="p-3">
             <button onClick={handleLogout} className={style}>Logout</button>
         </li>
     )

@@ -1,12 +1,28 @@
 import { useState, useEffect } from 'react';
 import axiosApi from '../../services/axiosApi';
 import PropTypes from 'prop-types';
-import style from './LikeButton.module.css'
+import style from './LikeButton.module.css';
+import { useSelector } from 'react-redux';
+import { Modal } from 'flowbite-react';
+import { useNavigate } from 'react-router-dom';
+
 export default function LikeButton({ id , type }) {
+
     const [likes, setLikes] = useState([]);
     const [isInLikes, setIsInLikes] = useState(false);
-    const [isLikeAnimation, setIsLikeAnimation] = useState(false)
-    const [isDislikeAnimation, setIsDislikeAnimation] = useState(false)
+    const [isLikeAnimation, setIsLikeAnimation] = useState(false);
+    const [isDislikeAnimation, setIsDislikeAnimation] = useState(false);
+    const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+    const [openModal, setOpenModal] = useState(false);
+    const navigate = useNavigate();
+
+    const handleOpenModal = () => {
+        setOpenModal(true);
+    };
+
+    const handleCloseModal = () => {
+        setOpenModal(false);
+    };
 
     const getLikes = async () => {
         try {
@@ -22,7 +38,7 @@ export default function LikeButton({ id , type }) {
             console.error('Error al obtener los Likes:', error);
         }
     };
-    
+
     useEffect(() => {
         getLikes()
     }, []);
@@ -69,10 +85,24 @@ export default function LikeButton({ id , type }) {
 
     return (
         <div>
-            <button 
-                onClick={() => isInLikes ? handleRemoveToLike() : handleAddToLike()}>
+            <button
+                onClick={() => isAuthenticated ? 
+                (isInLikes ? handleRemoveToLike() : handleAddToLike()) : handleOpenModal()}>
                 <i className={`fa-solid fa-heart ${isLikeAnimation ? style.like_animation : isDislikeAnimation ? style.dislike_animation : '' } ${isInLikes ? style.likeStyle : style.dislikeStyle }`} />
             </button>
+            <Modal show={openModal} onClose={handleCloseModal}>
+                <Modal.Header>PixGallery</Modal.Header>
+                <Modal.Body>
+                    <div className="text-center">
+                        <p className='text-2xl mb-4'>¡UPS!, No se puedo dar Like</p>
+                        <i className="fa-solid fa-heart-broken text-9xl text-[rgb(181,23,158)]"></i>	
+                        <p className="text-lg my-4">Debes iniciar sesión para dar Like</p>
+                        <button className="bg-[#3a0ca3] text-white py-2 px-4 rounded mb-2" onClick={()=> navigate("/auth/login")}>Iniciar Sesión</button>
+                        <p className="mb-2">Si aún no tienes cuenta puedes</p>
+                        <button className="bg-[#3a0ca3] text-white py-2 px-4 rounded" onClick={()=> navigate("/auth/register")}>Registrarte</button>
+                    </div>
+                </Modal.Body>
+            </Modal>
         </div>
     );
 }

@@ -12,12 +12,16 @@ import ManageAcount from "../pages/Profile/ManageAcount";
 import Explore from "../pages/Explore/Explore";
 import ExploreCategoryPage from "../components/ExploreResults/ExploreCategoryPage";
 import Wishlist from "../pages/Wishlists/Wishlist";
+import PaymentSuccess from "../pages/Payment/PaymentSuccess";
+import PaymentFailure from "../pages/Payment/PaymentFailure";
 import Auth from "../pages/Auth/Auth";
 const Home = lazy(()=> import('../pages/Home/Home'))
 const Login = lazy(()=> import('../pages/Login/Login'))
 const Register = lazy(()=> import('../pages/Register/Register'))
 const Create = lazy(()=> import('../pages/Create/Create'))
 const Portafolio = lazy(()=> import('../pages/Portafolio/Portafolio'))
+const PurchaseHistory = lazy(()=> import('../components/PaymentHistory/PurchaseHistory'))
+const SalesHistory = lazy(()=> import('../components/PaymentHistory/SalesHistory'))
 
 const accountRoutes = [
     {
@@ -29,6 +33,16 @@ const accountRoutes = [
                 element: <EditProfile />, 
                 isProtected: true 
             },
+            {
+                path: 'purchase-history/',
+                element: <PurchaseHistory />,
+                isProtected: true
+            },
+            {
+                path: 'sale-history/',
+                element: <SalesHistory />,
+                isProtected: true
+            }
         ]
     }
 ]
@@ -154,6 +168,18 @@ const routes = [
             type={'collections'}
         />,
         isProtected: false,
+    },
+    {
+        path:'/payments/success/',
+        element: <PaymentSuccess />
+    },
+    {
+        path:'/payments/failure/',
+        element: <PaymentFailure />
+    },
+    {
+        path: '/purchase-history',
+        element: <PurchaseHistory />
     },
     ...accountRoutes,
 ]

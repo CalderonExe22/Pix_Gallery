@@ -20,6 +20,11 @@ class TagSerializer(serializers.ModelSerializer):
         model = Tag
         fields = ['name']
 
+class TagsForFilter (serializers.ModelSerializer):
+    class Meta:
+        model = Tag
+        fields = ['id','name']
+
 class SerializerPhotography(ModelSerializer):
     image_url = serializers.SerializerMethodField()
     category = serializers.IntegerField(write_only=True)
@@ -178,7 +183,7 @@ class CollectionSerializer(serializers.ModelSerializer):
 class CategorySerializer(ModelSerializer):
     class Meta:
         model = Category
-        fields = ['id', 'name', 'description', 'image']
+        fields = ['id', 'name', 'description']
 
 class CategoryPhotographySerializer(ModelSerializer):
     class Meta:

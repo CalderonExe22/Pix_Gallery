@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'follower',
     'notification',
     'analyzeImage',
+    'payments',
     'imagga',
     'cloudinary',
     'wishlist',
@@ -98,9 +99,9 @@ WSGI_APPLICATION = 'server.wsgi.application'
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": "Pix_Gallery",
-        "USER": "postgres",
-        "PASSWORD": "1234",
+        "NAME": "BD_PixGallery",
+        "USER": "jonathan",
+        "PASSWORD": "jonathan1234",
         "HOST": "localhost",
         "PORT": "5432",
     }
@@ -152,9 +153,9 @@ import cloudinary.uploader
 import cloudinary.api
 	
 cloudinary.config( 
-    cloud_name = "dowtoqcra",
-    api_key = "828463778147749",
-    api_secret = "cvfnYtJSScUnn7fhhiopG-1KQ-c",
+    cloud_name = "drtkhsozv",
+    api_key = "776489555415429",
+    api_secret = "h9ER0XLFoCaETfWh2RvwLDX-m60",
 )
 
 AUTH_USER_MODEL = "users.User"
