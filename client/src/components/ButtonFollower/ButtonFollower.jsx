@@ -27,7 +27,6 @@ export default function ButtonFollower({followedId}) {
     useEffect(()=>{
         checkFollowingStatus(followedId)
     },[followedId])
-    console.log(isFollowing)
     return (
         <button className="p-2 bg-[#b5179e] text-white rounded-md" onClick={handleFollow}>
             {isFollowing ? "Siguiendo" : "Seguir"}

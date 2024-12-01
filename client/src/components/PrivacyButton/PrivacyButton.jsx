@@ -2,6 +2,7 @@ import { useState } from "react"
 import axiosApi from "../../services/axiosApi"
 import { Modal } from "flowbite-react"
 import PropTypes from "prop-types"
+import { Bounce, toast } from "react-toastify"
 
 export default function PrivacyButton({id, isPublic, type}) {
     const [showModal, setShowModal] = useState(false)
@@ -24,10 +25,43 @@ export default function PrivacyButton({id, isPublic, type}) {
             }
             console.log(response)
             setPrivacy(!privacy)
-            alert(`La imagen ahora es ${!privacy ? "pública" : "privada"}.`)
+            toast.success(`${type === "photo" ? "Fotografía" : "Colección"} eliminada correctamente.`, {
+                position: "top-center",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "colored",
+                transition: Bounce,
+            })
         } catch (error) {
-            console.error(error)
-            alert("Hubo un error al cambiar la privacidad.")
+            if(error?.response.status === 403){
+                toast.error('Usuario no autorizado', {
+                    position: "top-center",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "colored",
+                    transition: Bounce,
+                })
+            }else{
+                toast.error('Ocurrió un error al intentar realizar la acción.', {
+                    position: "top-center",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "colored",
+                    transition: Bounce,
+                })
+            }
         }finally{
             setLoading(false)
             setShowModal(false)
@@ -44,7 +78,7 @@ export default function PrivacyButton({id, isPublic, type}) {
                 <Modal.Header>Confirmar cambio de privacidad</Modal.Header>
                 <Modal.Body>
                     <p className="text-sm text-gray-500">
-                        ¿Estás seguro de que deseas cambiar esta imagen a {privacy ? "privada" : "pública"}?
+                        ¿Estás seguro de que deseas cambiar esta {type === "photo" ? "Fotografía" : "Colección"} a {privacy ? "privada" : "pública"}?
                     </p>
                 </Modal.Body>
                 <Modal.Footer>

@@ -2,11 +2,14 @@ import { useState } from "react"
 import axiosApi from "../../services/axiosApi"
 import { Modal, Button } from "flowbite-react"
 import PropTypes from "prop-types"
+import { toast, Bounce } from 'react-toastify';
+import "react-toastify/dist/ReactToastify.css";
 
 export default function DeleteButton({id, type}) {
     const [showModal, setShowModal] = useState(false)
     const [loading, setLoading] = useState(false) 
     const handleDelete = async () => {
+        setLoading(true)
         try {
             let response
             if (type === "photo") {
@@ -14,18 +17,51 @@ export default function DeleteButton({id, type}) {
             } else if (type === "collection") {
                 response = await axiosApi.delete(`photos/collections/${id}/`) 
             }
-            console.log(response.data)
-            alert(`${type === "photo" ? "Fotografía" : "Colección"} eliminada correctamente.`)
+            console.log(response)
+            toast.success(`${type === "photo" ? "Fotografía" : "Colección"} eliminada correctamente.`, {
+                position: "top-center",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "colored",
+                transition: Bounce,
+            })
         } catch (error) {
-            console.error(error)
-            alert("Error al eliminar la fotografía.")
+            if(error?.response.status === 403){
+                toast.error('Usuario no autorizado', {
+                    position: "top-center",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "colored",
+                    transition: Bounce,
+                })
+            }else{
+                toast.error('Ocurrió un error al intentar realizar la acción.', {
+                    position: "top-center",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "colored",
+                    transition: Bounce,
+                })
+            }
         }finally {
             setLoading(false)
             setShowModal(false)
         }
     }
     return (
-        <div>
+        <div>       
             <button onClick={() => setShowModal(true)}>
                 <i className="fa-solid fa-trash"></i>
             </button>
@@ -56,5 +92,5 @@ export default function DeleteButton({id, type}) {
 
 DeleteButton.propTypes = {
     id: PropTypes.number.isRequired,
-    type: PropTypes.string
+    type: PropTypes.string.isRequired
 }

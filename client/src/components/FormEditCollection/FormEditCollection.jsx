@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import axiosApi from "../../services/axiosApi";
 import { useNavigate } from "react-router-dom";
 import FormEditPhotoCollection from "./FormEditPhotoCollection";
+import { Bounce, toast } from "react-toastify";
 
 export default function FormEditCollection({ collection , indexPhoto = 0 }) {
     const [photosData, setPhotosData] = useState(collection?.photos || [])
@@ -31,19 +32,22 @@ export default function FormEditCollection({ collection , indexPhoto = 0 }) {
                 title: image.title || '',
                 description: image.description || '',
                 category: image.category || '',
-                precio: image.precio ||  0,
-                is_free: image.is_free ||  true,
-                is_public: image.is_public ||  true,
-                camera : image.camera ||  '',
-                lens:  image.lens ||  '',
-                focal_length: image.focal_length ||  '',
-                shutter_speed: image.shutter_speed ||  '',
-                aperture: image.aperture ||  '',
-                iso: image.iso ||  '',
+                precio: parseFloat(image.precio) || 0, // Convierte el precio a número
+                is_free: image.is_free ?? true, // Asegura valores booleanos
+                is_public: image.is_public ?? true,
+                camera: image.exif_data?.camera || '',
+                lens: image.exif_data?.lens || '',
+                focal_length: image.exif_data?.focal_length || '',
+                shutter_speed: image.exif_data?.shutter_speed || '',
+                aperture: image.exif_data?.aperture || '',
+                iso: image.exif_data?.iso || '',
             }));
-            
+            console.log(newPhotosData)
             setPhotosData(prevData => [...prevData, ...newPhotosData]);
-            newPhotosData.forEach(photoData => append(photoData));
+            newPhotosData.forEach(photoData => {
+                console.log('Appending photo data:', photoData); // Depura cada inserción
+                append(photoData);
+            })
         } else if (collection?.photos.length < photoFields.length) {
             const updatedPhotosData = photosData.slice(0, collection?.photos.length);
             setPhotosData(updatedPhotosData);
@@ -83,6 +87,7 @@ export default function FormEditCollection({ collection , indexPhoto = 0 }) {
 
     const onSubmit = async (data) => {
         try {
+            console.log(data)
             // Asegúrate de procesar las fotos en paralelo y esperar su finalización
             const updatedPhotos = await Promise.all(
                 data.photos.map(async (photo) => {
@@ -94,13 +99,17 @@ export default function FormEditCollection({ collection , indexPhoto = 0 }) {
                         precio: photo.precio,
                         is_free: photo.is_free,
                         is_public: photo.is_public,
-                        tags: Array.isArray(photo?.tags_photo) ? photo?.tags_photo.map(tag => tag) : [], // Validar `tags_photo` como arreglo
-                        camera: photo.camera || '',
-                        lens: photo.lens || '',
-                        focal_length: photo.focal_length || '',
-                        shutter_speed: photo.shutter_speed || '',
-                        aperture: photo.aperture || '',
-                        iso: photo.iso || '',
+                        tags: Array.isArray(photo?.tags_photo)
+                        ? photo?.tags_photo.map(tag =>
+                            typeof tag === 'string' ? tag : tag.name // Maneja tanto strings como objetos
+                        )
+                        : [], // Validar `tags_photo` como arreglo
+                        camera: photo.exif_data?.camera || '',
+                        lens: photo.exif_data?.lens || '',
+                        focal_length: photo.exif_data?.focal_length || '',
+                        shutter_speed: photo.exif_data?.shutter_speed || '',
+                        aperture: photo.exif_data?.aperture || '',
+                        iso: photo.exif_data?.iso || '',
                     };
     
                     const response = await axiosApi.patch(`photos/photography/${dataPhoto.id}/`, dataPhoto);
@@ -118,12 +127,46 @@ export default function FormEditCollection({ collection , indexPhoto = 0 }) {
     
             const collectionResponse = await axiosApi.patch(`photos/collections/${collection.id}/`, collectionData);
     
-            if (collectionResponse.data) {
-                console.log('Colección editada correctamente');
+            if (collectionResponse.status === 200) {
+                toast.success(`La colección se actualizo correctamente.`, {
+                    position: "top-center",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "colored",
+                    transition: Bounce,
+                })
                 navigate(`/ver-coleccion/${collectionResponse.data.id}`);
             }
         } catch (error) {
-            console.log(error)
+            if(error?.response.status === 403){
+                toast.error('Usuario no autorizado', {
+                    position: "top-center",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "colored",
+                    transition: Bounce,
+                })
+            }else{
+                toast.error('Ocurrió un error al intentar realizar la acción.', {
+                    position: "top-center",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "colored",
+                    transition: Bounce,
+                })
+            }
         }
     }
     const formattedPhoto = {

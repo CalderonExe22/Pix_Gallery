@@ -5,9 +5,10 @@ import { useNavigate } from "react-router-dom";
 import { loginUser } from "../../features/auth/authThunk";
 import { toast, ToastContainer, Zoom } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
-
 import style from './FormLogin.module.css'
 import {PropTypes} from 'prop-types'
+import { useEffect } from 'react';
+
 export default function FormLogin({active,hide, show}) {
     const navigate = useNavigate()
     const dispatch = useDispatch()
@@ -22,25 +23,29 @@ export default function FormLogin({active,hide, show}) {
     const onSubmit = async (data) => {
         const response = await dispatch(loginUser(data))
         if (loginUser.fulfilled.match(response)) {  
-            toast.success("Inicio sesion exitoso, redirigiendo...",{
-                position: "top-center",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "dark",
-                transition: Zoom
-            })
             setTimeout(() => {
                 navigate('/');
                 window.location.reload() 
-            }, 2000)
+                toast.success("Inicio sesion exitoso, redirigiendo...",{
+                    position: "top-center",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                    transition: Zoom
+                })
+            }, 5000)
         } else {
             console.error('Error en el login:', response.error?.message || 'Error desconocido');
         }
     }
+
+    useEffect(() => {
+        
+    },[])
 
     return (
         <>

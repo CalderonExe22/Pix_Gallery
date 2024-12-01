@@ -9,27 +9,60 @@ export default function FeedbackImage({ image }) {
     const [feedbackImage, setFeedbackImage] = useState(null);
     const [errorMessage, setErrorMessage] = useState(null);
     const [openModal, setOpenModal] = useState(false)
-
+    const [isLoading, setIsLoading] = useState(false)
+    const [progress, setProgress] = useState(0)
+    console.log(openModal)
     const feedbackImageFunction = async () => {
-        setOpenModal(true)
+        setIsLoading(true)
+        setProgress(0)
         setErrorMessage(null)
+        
+
         if(feedbackImage === null){
+
+            let step = 0
+            const simulationTime = 3000
+            const intervalTime = 50
+            const totalSteps = simulationTime / intervalTime
+
+            const progressInterval = setInterval(() => {
+                step++
+                setProgress((step / totalSteps) * 100)
+                if(step >= totalSteps){
+                    clearInterval(progressInterval)
+                }
+            },intervalTime) 
+
             try {
                 const data = new FormData();
                 data.append("image", image);
                 const response = await axiosApi.post("image/image-quality-check/", data);
-                setFeedbackImage(response.data);
+                setTimeout(() => {
+                    setFeedbackImage(response.data)
+                    setIsLoading(false)
+                    setOpenModal(true)
+                }, simulationTime)
             } catch (error) {
                 console.error(error);
                 setErrorMessage("Ocurrió un error al analizar la imagen. Inténtalo de nuevo.");
+                clearInterval(progressInterval)
+                setIsLoading(false)
             }
+        }else{
+            setOpenModal(true)
+            setIsLoading(false)
         }
     };
     console.log(feedbackImage)
     return (
         <>
-            <button className="p-2 bg-[#b5179e] text-white font-bold" onClick={feedbackImageFunction}>
-                Analizar Imagen
+            <button className={`relative p-2 ${isLoading ? 'bg-[#ddd]' : 'bg-[#b5179e]'} text-white font-bold flex items-center justify-center gap-2 overflow-hidden rounded-md`} onClick={feedbackImageFunction}>
+                <span className="z-50">{isLoading ? 'Analizando...' : 'Analizar imagen'}  {feedbackImage !== null ? ': Imagen Analizada' : ''}</span>
+                {isLoading && (
+                    <div style={{ width: `${progress}%`, transitionDuration: "50ms" }} className={`absolute top-0 left-0 h-full  bg-[#b5179e] transition-all ease-out z-10`}>
+
+                    </div>
+                )}
             </button>
             <Modal size="6xl" show={openModal} onClose={() => setOpenModal(false)}>
                 <Modal.Header>Recomendaciones de mejora de imagen</Modal.Header>

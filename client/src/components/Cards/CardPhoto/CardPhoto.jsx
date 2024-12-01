@@ -24,17 +24,13 @@ export default function CardPhoto({data,show,gridRowEndOption, idUser}) {
             </div>
             {show && (
                 <div className="absolute z-10 top-0 left-0 w-full flex items-center justify-end gap-2 px-5 pt-4 transform -translate-y-full transition-all duration-300 group-hover:-translate-y-0">
-                    
                     <div className="flex items-center gap-5 text-white ">
-                        {data?.user?.id === idUser && (
                             <>
                                 <EditPhoto photoData={data} />
-                                <DeleteButton id={data?.id} />
+                                <DeleteButton id={data?.id} type="photo" />
                                 <PrivacyButton id={data?.id} isPublic={data?.is_public} type={'photo'} />
                             </>
-                        )}
                     </div>
-                
                 </div> 
             )}
             <div onClick={() => showPhoto(data?.id)} className="w-full h-full">
