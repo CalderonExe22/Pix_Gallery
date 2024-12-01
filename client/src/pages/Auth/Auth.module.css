@@ -1,6 +1,6 @@
 
 .container{
-    @apply relative w-[560px] h-[790px] rounded-xl shadow-2xl bg-[#3a0ca3] overflow-hidden;
+    @apply relative w-auto h-auto rounded-xl shadow-2xl bg-[#3a0ca3] overflow-hidden;
 }
 
 .container form{
