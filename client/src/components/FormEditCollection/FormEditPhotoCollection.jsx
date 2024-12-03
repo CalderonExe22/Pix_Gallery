@@ -52,6 +52,7 @@ export default function FormEditPhotoCollection({updatePhotoData, selectedPhoto}
     return (
         <div className="flex flex-col gap-5">
             <input 
+                className="h-11 w-full p-1 rounded-xl duration-300 outline-none hover:border-[#3a0ca3] focus:border-[#3a0ca3]"
                 type="text"
                 name='title'
                 label='Titulo de la fotografia'
@@ -61,6 +62,7 @@ export default function FormEditPhotoCollection({updatePhotoData, selectedPhoto}
                 required
             />
             <input 
+                className="h-11 w-full p-1 rounded-xl duration-300 outline-none hover:border-[#3a0ca3] focus:border-[#3a0ca3]"
                 type="text"
                 name='description'
                 label='Descripción de la fotografia'
@@ -71,6 +73,7 @@ export default function FormEditPhotoCollection({updatePhotoData, selectedPhoto}
             />
             <select 
                 id="category" 
+                className="h-11 w-full p-1 rounded-xl duration-300 outline-none hover:border-[#3a0ca3] focus:border-[#3a0ca3]"
                 name="category"
                 onChange={handleChange('category')}
                 defaultValue={selectedPhoto?.category || ''}
@@ -82,7 +85,7 @@ export default function FormEditPhotoCollection({updatePhotoData, selectedPhoto}
             </select>
             <div className="flex flex-col gap-3">
                 <label id="tags" htmlFor="tags">Tags</label>
-                <input id="tags" type="text" name='tags' placeholder="Ingrese tags adicionales"
+                <input className="h-11 w-full p-1 rounded-xl duration-300 outline-none hover:border-[#3a0ca3] focus:border-[#3a0ca3]" id="tags" type="text" name='tags' placeholder="Ingrese tags adicionales"
                     onKeyDown={(e) => {
                         if(e.key === 'Enter'){
                             e.preventDefault()
@@ -96,7 +99,7 @@ export default function FormEditPhotoCollection({updatePhotoData, selectedPhoto}
                 <div className="flex flex-wrap w-full h-auto gap-2">
                     {tags.length > 0 ? (
                         tags.map((tag, index) => (    
-                            <div  key={index} className="flex justify-center items-center gap-2 p-2 w-auto h-auto rounded-md border-solid border-2 border-[#b5179e] text-[#b5179e]">
+                            <div  key={index} className="flex justify-center items-center gap-2 p-2 w-auto h-auto rounded-xl border-solid border-2 border-[#b5179e] text-[#b5179e]">
                                 <span className="w-full">{tag}</span>
                                 <button type="button" className="h-auto w-auto"
                                     onClick={() => handleRemoveTag(tag)}
@@ -116,39 +119,39 @@ export default function FormEditPhotoCollection({updatePhotoData, selectedPhoto}
             <div className="grid grid-cols-2 w-full h-auto gap-4">
                 <h1 className="text-2xl col-span-2 w-full">Informacio EXIF</h1>
                 <div className="w-full col-span-2">
-                    <input type="text" name='camera' placeholder="Camara" className="w-full"
+                    <input type="text" name='camera' placeholder="Camara" className="h-11 w-full p-1 rounded-xl duration-300 outline-none hover:border-[#3a0ca3] focus:border-[#3a0ca3]"
                         onChange={handleChange('camera')}
                         value={selectedPhoto?.exif_data?.camera || ''}
                         />
                 </div>
                 <div className="w-full col-span-2">
-                    <input type="text" name='lens' placeholder="lente" className="w-full"
+                    <input type="text" name='lens' placeholder="lente" className="h-11 w-full p-1 rounded-xl duration-300 outline-none hover:border-[#3a0ca3] focus:border-[#3a0ca3]"
                     onChange={handleChange('lens')}
                     value={selectedPhoto?.exif_data?.lens || ''}
                     />
                 </div>
                 <div className="w-full">
-                    <input type="number" name='focal_length' placeholder="Distancia focal" className="w-full"
+                    <input type="number" name='focal_length' placeholder="Distancia focal" className="h-11 w-full p-1 rounded-xl duration-300 outline-none hover:border-[#3a0ca3] focus:border-[#3a0ca3]"
                     onChange={handleChange('focal_length')}
                     value={selectedPhoto?.exif_data?.focal_length || ''}
                     />
                 </div>
                 <div className="w-full">
-                    <input type="number" name='shutter_speed' placeholder="velocidad de abturacion" className="w-full"
+                    <input type="number" name='shutter_speed' placeholder="velocidad de abturacion" className="h-11 w-full p-1 rounded-xl duration-300 outline-none hover:border-[#3a0ca3] focus:border-[#3a0ca3]"
                     onChange={handleChange('shutter_speed')}
                     value={selectedPhoto?.exif_data?.shutter_speed || ''}
                     
                     />
                 </div>
                 <div className="w-full">
-                    <input type="number" name='aperture' placeholder="Apertura" className="w-full"
+                    <input type="number" name='aperture' placeholder="Apertura" className="h-11 w-full p-1 rounded-xl duration-300 outline-none hover:border-[#3a0ca3] focus:border-[#3a0ca3]"
                     onChange={handleChange('aperture')}
                     value={selectedPhoto?.exif_data?.aperture || ''}
                     
                     />
                 </div>
                 <div className="w-full ">
-                    <input type="number" name='iso' placeholder="ISO" className="w-full" 
+                    <input type="number" name='iso' placeholder="ISO" className="h-11 w-full p-1 rounded-xl duration-300 outline-none hover:border-[#3a0ca3] focus:border-[#3a0ca3]" 
                     onChange={handleChange('iso')}
                     value={selectedPhoto?.exif_data?.iso || ''}
                     
@@ -165,6 +168,7 @@ export default function FormEditPhotoCollection({updatePhotoData, selectedPhoto}
             {selectedPhoto?.is_free === false && (
                 <input 
                     type="number"
+                    className="h-11 w-full p-1 rounded-xl duration-300 outline-none hover:border-[#3a0ca3] focus:border-[#3a0ca3]"
                     name='precio'
                     label='Precio de la fotografia'
                     placeholder='Ingrese precio de su foto'

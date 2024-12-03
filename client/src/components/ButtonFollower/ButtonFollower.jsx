@@ -28,7 +28,7 @@ export default function ButtonFollower({followedId}) {
         checkFollowingStatus(followedId)
     },[followedId])
     return (
-        <button className="p-2 bg-[#b5179e] text-white rounded-md" onClick={handleFollow}>
+        <button className="p-2 bg-[#b5179e] text-white rounded-xl" onClick={handleFollow}>
             {isFollowing ? "Siguiendo" : "Seguir"}
         </button>
     )

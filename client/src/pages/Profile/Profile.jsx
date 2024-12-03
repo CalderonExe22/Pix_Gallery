@@ -74,7 +74,7 @@ export default function Profile() {
             </div>
             {user?.id === parseInt(id) ? (
                 <div className="flex justify-center m-10">
-                    <a className="bg-[#b5179e] text-white p-3 rounded-sm cursor-pointer" href={"/manage-account/editar-perfil/"+user?.id}>Editar perfil</a>
+                    <a className="bg-[#b5179e] text-white p-3 rounded-xl cursor-pointer" href={"/manage-account/editar-perfil/"+user?.id}>Editar perfil</a>
                 </div>
             ):(
                 <ButtonFollower followedId={parseInt(id)} />

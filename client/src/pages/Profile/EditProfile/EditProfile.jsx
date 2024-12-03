@@ -4,9 +4,11 @@ import axiosApi from "../../../services/axiosApi";
 import { useNavigate, useParams } from "react-router-dom";
 import { Tooltip } from "flowbite-react";
 import { Spinner } from "flowbite-react"
+import { Bounce, toast } from "react-toastify";
 
 export default function Profile() {
     const { id } = useParams()
+    const userId = localStorage.getItem('userId')
     const navigate = useNavigate()
     const [countries, setCountries] = useState([])
     const [profileData, setProfileData] = useState({})
@@ -16,6 +18,21 @@ export default function Profile() {
     const [selectedImage, setSelectedImage] = useState(null)
     const [previewImage, setPreviewImage] = useState(null)
     const [isLoading, setIsLoading] = useState(false)
+
+    if(userId !== id){
+        toast.warn('No puedes modificar el perfil de otro usuario', {
+            position: "top-center",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+            transition: Bounce,
+        })
+        navigate('/')
+    }
 
     const fetchProfile = async () => {
         try {
@@ -67,9 +84,32 @@ export default function Profile() {
             });
             if (response.status === 200) {
                 navigate(`/perfil/${id}`);
+                toast.success(`Perfil actualizado correctamente.`, {
+                    position: "top-center",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "colored",
+                    transition: Bounce,
+                })
             }
         } catch (error) {
-            console.error("Error updating profile:", error);
+            if(error?.response.status){
+                toast.error('Ocurrió un error al intentar realizar la acción ('+error?.response.status+')', {
+                    position: "top-center",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                    transition: Bounce,
+                });
+            }
         }finally{
             setIsLoading(false)
         }

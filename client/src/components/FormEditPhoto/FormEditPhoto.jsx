@@ -131,15 +131,18 @@ export default function FormEditPhoto({photoData}) {
             <Input type="text" name='title' label='Titulo de la fotografia' placeholder='Ingrese titulo de su foto'required={true}
                 register={register}
                 errors={errors}
+                classNameStyle='h-11 w-full p-1 rounded-xl duration-300 outline-none hover:border-[#3a0ca3] focus:border-[#3a0ca3]'
             />
             <Input 
                 type="text"name='description'label='Descripción de la fotografia'placeholder='Ingrese titulo de su foto'required={true}
                 register={register}
                 errors={errors}
+                classNameStyle='h-11 w-full p-1 rounded-xl duration-300 outline-none hover:border-[#3a0ca3] focus:border-[#3a0ca3]'
             />
             <div className="flex flex-col gap-3">
                 <label id="category" htmlFor="category">Seleccione una categoria</label>
                 <select 
+                    className='h-11 w-full p-1 rounded-xl duration-300 outline-none hover:border-[#3a0ca3] focus:border-[#3a0ca3]'
                     id="category" 
                     name="category" 
                     {...register('category', { required: true })}
@@ -163,12 +166,13 @@ export default function FormEditPhoto({photoData}) {
                             e.target.value = ''
                         }
                     } }
+                    className='h-11 w-full p-1 rounded-xl duration-300 outline-none hover:border-[#3a0ca3] focus:border-[#3a0ca3]'
                 />
             </div>
             {tags ? (
                 <div className="flex flex-wrap w-full h-auto gap-2">
                     {tags.map((tag, index) => (    
-                        <div  key={index} className="flex justify-center items-center gap-2 p-2 w-auto h-auto rounded-md border-solid border-2 border-[#b5179e] text-[#b5179e]">
+                        <div  key={index} className="flex justify-center items-center gap-2 p-2 w-auto h-auto rounded-xl border-solid border-2 border-[#b5179e] text-[#b5179e]">
                             <span className="w-full">{tag.name}</span>
                             <button type="button" className="h-auto w-auto"
                                 onClick={() => handleRemoveTag(tag.name)}
@@ -185,22 +189,22 @@ export default function FormEditPhoto({photoData}) {
             <div className="grid grid-cols-2 w-full h-auto gap-4">
                 <h1 className="text-2xl col-span-2 w-full">Informacio EXIF</h1>
                 <div className="w-full col-span-2">
-                    <Input type="text" name='camera' placeholder="Camara" register={register} errors={errors} classNameStyle="w-full"/>
+                    <Input type="text" name='camera' placeholder="Camara" register={register} errors={errors} classNameStyle='h-11 w-full p-1 rounded-xl duration-300 outline-none hover:border-[#3a0ca3] focus:border-[#3a0ca3]'/>
                 </div>
                 <div className="w-full col-span-2">
-                    <Input type="text" name='lens' placeholder="lente" register={register} errors={errors} classNameStyle="w-full"/>
+                    <Input type="text" name='lens' placeholder="lente" register={register} errors={errors} classNameStyle='h-11 w-full p-1 rounded-xl duration-300 outline-none hover:border-[#3a0ca3] focus:border-[#3a0ca3]'/>
                 </div>
                 <div className="w-full">
-                    <Input type="number" name='focal_length' placeholder="Distancia focal" register={register} errors={errors} classNameStyle="w-full"/>
+                    <Input type="number" name='focal_length' placeholder="Distancia focal" register={register} errors={errors} classNameStyle='h-11 w-full p-1 rounded-xl duration-300 outline-none hover:border-[#3a0ca3] focus:border-[#3a0ca3]'/>
                 </div>
                 <div className="w-full">
-                    <Input type="number" name='shutter_speed' placeholder="velocidad de abturacion" register={register} errors={errors} classNameStyle="w-full" />
+                    <Input type="number" name='shutter_speed' placeholder="velocidad de abturacion" register={register} errors={errors} classNameStyle='h-11 w-full p-1 rounded-xl duration-300 outline-none hover:border-[#3a0ca3] focus:border-[#3a0ca3]' />
                 </div>
                 <div className="w-full">
-                    <Input type="number" name='aperture' placeholder="Apertura" register={register} errors={errors} classNameStyle="w-full" />
+                    <Input type="number" name='aperture' placeholder="Apertura" register={register} errors={errors} classNameStyle='h-11 w-full p-1 rounded-xl duration-300 outline-none hover:border-[#3a0ca3] focus:border-[#3a0ca3]' />
                 </div>
                 <div className="w-full ">
-                    <Input type="number" name='iso' placeholder="ISO" register={register} errors={errors} classNameStyle="w-full" />
+                    <Input type="number" name='iso' placeholder="ISO" register={register} errors={errors} classNameStyle='h-11 w-full p-1 rounded-xl duration-300 outline-none hover:border-[#3a0ca3] focus:border-[#3a0ca3]' />
                 </div>
             </div>      
             <Input label='Es gratis?' type="checkbox" name='is_free' isChecked={isFree}
@@ -217,6 +221,7 @@ export default function FormEditPhoto({photoData}) {
                             message: 'Formato de email incorrecto'
                         }
                     }}
+                    classNameStyle='h-11 w-full p-1 rounded-xl duration-300 outline-none hover:border-[#3a0ca3] focus:border-[#3a0ca3]'
                 /> 
             )}
             <button type="submit" 
@@ -227,7 +232,7 @@ export default function FormEditPhoto({photoData}) {
                     {isLoading ? (
                     <Spinner color="purple" size="sm" /> // Mostrar el spinner de Flowbite
                 ) : (
-                    'Guardar cambios'
+                    'Editar foto'
                 )}
             </button>
         </form>

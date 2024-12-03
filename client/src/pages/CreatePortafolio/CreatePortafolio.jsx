@@ -4,10 +4,13 @@ import { useForm, useFieldArray} from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 
 export default function CreatePortafolio() {
+    
     const [isPublic, setIsPublic] = useState(false);
     const [collections, setCollections] = useState([])
     const [photos, setPhotos] = useState([])
     const navigate = useNavigate()
+    
+
     const {
         register,
         handleSubmit, 

@@ -37,7 +37,7 @@ export default function DropProfile({image_profile, idProfile}) {
                 </div>
             </Tooltip>
             <div className={`absolute right-0 mt-2 w-[250px] bg-white border rounded-md shadow-lg z-10 transition-all duration-300 ease-in-out ${isOpen ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4 pointer-events-none'}`}>
-                <div className="flex flex-col gap-4 max-h-60 overflow-y-auto">
+                <div className="flex flex-col gap-4">
                     <ul className="flex flex-col justify-center items-center text-center gap-4 w-full p-5">
                         <li className="w-full p-3 transition-colors hover:text-white hover:bg-[#3a0ca3]">
                             <Link to={"/manage-account/editar-perfil/"+idProfile}>Editar perfil</Link>

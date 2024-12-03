@@ -6,12 +6,13 @@ import axiosApi from "../../services/axiosApi";
 import { useNavigate } from "react-router-dom";
 import FormEditPhotoCollection from "./FormEditPhotoCollection";
 import { Bounce, toast } from "react-toastify";
+import { Spinner } from "flowbite-react"
 
 export default function FormEditCollection({ collection , indexPhoto = 0 }) {
     const [photosData, setPhotosData] = useState(collection?.photos || [])
     const navigate = useNavigate()
     const [categories, setCategories] = useState([])
-    console.log(collection)
+    const [isLoading, setIsLoading] = useState(false)
     const { register, handleSubmit, control, formState: { errors } } = useForm({
         defaultValues: {
             name: collection?.name || '',
@@ -87,7 +88,7 @@ export default function FormEditCollection({ collection , indexPhoto = 0 }) {
 
     const onSubmit = async (data) => {
         try {
-            console.log(data)
+            setIsLoading(true)
             // Asegúrate de procesar las fotos en paralelo y esperar su finalización
             const updatedPhotos = await Promise.all(
                 data.photos.map(async (photo) => {
@@ -167,6 +168,8 @@ export default function FormEditCollection({ collection , indexPhoto = 0 }) {
                     transition: Bounce,
                 })
             }
+        }finally{
+            setIsLoading(false)
         }
     }
     const formattedPhoto = {
@@ -191,7 +194,7 @@ export default function FormEditCollection({ collection , indexPhoto = 0 }) {
                     required={true}
                     register={register}
                     errors={errors}
-                    classNameStyle="w-full"
+                    classNameStyle="h-11 w-full p-1 rounded-xl duration-300 outline-none hover:border-[#3a0ca3] focus:border-[#3a0ca3]"
                 />
                 <Input 
                     type="text"
@@ -201,11 +204,12 @@ export default function FormEditCollection({ collection , indexPhoto = 0 }) {
                     required={true}
                     register={register}
                     errors={errors}
-                    classNameStyle="w-full"
+                    classNameStyle="h-11 w-full p-1 rounded-xl duration-300 outline-none hover:border-[#3a0ca3] focus:border-[#3a0ca3]"
                 />
                 <div className="flex flex-col gap-3">
                     <label id="category" htmlFor="category">Seleccione una categoria</label>
                     <select 
+                        className="h-11 w-full p-1 rounded-xl duration-300 outline-none hover:border-[#3a0ca3] focus:border-[#3a0ca3]"
                         id="category" name="category" {...register('category',{required:true})}
                         defaultValue={photosData?.category || ''}
                         required
@@ -225,7 +229,17 @@ export default function FormEditCollection({ collection , indexPhoto = 0 }) {
                         />
                     </>
                 )}
-                <button className="p-2 bg-[#b5179e] text-white w-32 font-bold" type="submit">Editar Colección</button>
+                <button type="submit" 
+                className={`p-2 bg-[#b5179e] text-white w-48 font-bold flex justify-center items-center ${
+                    isLoading ? 'opacity-50 cursor-not-allowed' : ''
+                }`}
+                disabled={isLoading}>
+                    {isLoading ? (
+                        <Spinner color="purple" size="sm" /> // Mostrar el spinner de Flowbite
+                    ) : (
+                        'Editar coleccion'
+                    )}
+            </button>
             </form> 
         </div>
     );

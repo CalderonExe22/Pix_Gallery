@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import axiosApi from '../../services/axiosApi';
 import PropTypes from 'prop-types';
+import { Tooltip } from 'flowbite-react';
 
 export default function NewComment({ photoId = null, collectionId = null }) {
     const [comments, setComments] = useState([]);
@@ -71,14 +72,16 @@ export default function NewComment({ photoId = null, collectionId = null }) {
                                             </div>
                                         </div>
                                         {parseInt(idUser) === parseInt(comment.user?.id) && (
-                                            <button 
-                                                onClick={() => handleRemoveComment(comment.id)} 
-                                                className="text-red-500 rounded hover:text-red-700">
-                                                    <i className="fa-solid fa-trash"></i>
-                                            </button>
+                                            <Tooltip content='Eliminar comentario' style='dark' placement='bottom' >
+                                                <button 
+                                                    onClick={() => handleRemoveComment(comment.id)} 
+                                                    className="text-red-500 rounded hover:text-red-700">
+                                                        <i className="fa-solid fa-trash"></i>
+                                                </button>
+                                            </Tooltip>
                                         )}
                                     </div>
-                                    <p className="pl-4 border-l-2 border-l-blue-500">{comment.comment}</p>
+                                    <p className="pl-4 border-l-2 border-l-[#3a0ca3]">{comment.comment}</p>
                                 </div>
                             ))}
                         </div>
