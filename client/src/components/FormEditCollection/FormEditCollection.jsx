@@ -182,7 +182,7 @@ export default function FormEditCollection({ collection , indexPhoto = 0 }) {
     return (
         <div className="flex flex-col w-[400px]">
             <form className="flex flex-col gap-5 w-full" onSubmit={handleSubmit(onSubmit)}>
-                <h1 className="text-xl font-medium">Sube tu coleccion</h1>
+                <h1 className="text-xl font-medium">Editar coleccion</h1>
                 <Input 
                     type="text"
                     name='name'
@@ -225,8 +225,8 @@ export default function FormEditCollection({ collection , indexPhoto = 0 }) {
                         />
                     </>
                 )}
-                <button type="submit">Editar Colección</button>
-            </form>
+                <button className="p-2 bg-[#b5179e] text-white w-32 font-bold" type="submit">Editar Colección</button>
+            </form> 
         </div>
     );
 }

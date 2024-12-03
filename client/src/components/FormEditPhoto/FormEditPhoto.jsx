@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import axiosApi from '../../services/axiosApi';
 import { useForm } from 'react-hook-form';
 import Input from '../Input/Input';
-import { Bounce, toast, ToastContainer } from 'react-toastify';
+import { Bounce, toast } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 
 export default function FormEditPhoto({photoData}) {
@@ -79,10 +79,9 @@ export default function FormEditPhoto({photoData}) {
         console.log('Data para enviar:', dataPhoto);
         try {
             const response = await axiosApi.patch(`photos/photography/${photoData.id}/`, dataPhoto)
-            console.log('La fotografía se actualizo correctamente', response)
             navigate(`/ver-foto/${photoData.id}`)
             console.log(response)
-            toast.success(`Fotografía eliminada correctamente.`, {
+            toast.success(`Fotografía actualizada correctamente.`, {
                 position: "top-center",
                 autoClose: 5000,
                 hideProgressBar: false,
@@ -124,7 +123,7 @@ export default function FormEditPhoto({photoData}) {
     return (
         <>
         <form className="flex flex-col gap-5 w-2/3 ms-20 me-20 text-lg" onSubmit={handleSubmit(onSubmit)}>
-            <h1 className="text-4xl">Subir fotografia</h1>
+            <h1 className="text-4xl">Editar fotografia</h1>
             <Input type="text" name='title' label='Titulo de la fotografia' placeholder='Ingrese titulo de su foto'required={true}
                 register={register}
                 errors={errors}
@@ -208,9 +207,15 @@ export default function FormEditPhoto({photoData}) {
                 <Input type="number" name='precio' label='Precio de la fotografia' placeholder='Ingrese precio de su foto'
                     register={register}
                     errors={errors}
+                    validationRules={{
+                        parent:{
+                            min: { value: 0, message: "El precio no puede ser negativo" },
+                            message: 'Formato de email incorrecto'
+                        }
+                    }}
                 /> 
             )}
-            <button type="submit" className="p-2 bg-[#b5179e] text-white w-32 font-bold">Subir foto</button>
+            <button type="submit" className="p-2 bg-[#b5179e] text-white w-52 font-bold">Editar fotografia</button>
         </form>
         </>
     )

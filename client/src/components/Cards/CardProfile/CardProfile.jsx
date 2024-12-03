@@ -11,10 +11,8 @@ export default function CardProfile({profile,gridRowEndOption}) {
     }
     console.log(profile)
     return (
-        <div onClick={() => showProfile(profile?.user.id)} className={`relative flex flex-col items-center group overflow-hidden rounded-xl shadow-lg cursor-pointer bg-slate-300`} style={{ gridRowEnd: gridRowEndOption ? `span ${Math.floor(Math.random() * 5) + 10}` : '' }} >
-            
+        <div onClick={() => showProfile(profile?.user.id)} className={`relative flex flex-col items-center group overflow-hidden rounded-xl shadow-xl cursor-pointer bg-gray-200 p-10`} style={{ gridRowEnd: gridRowEndOption ? `span ${Math.floor(Math.random() * 5) + 10}` : '' }} >
             <img className='rounded-full w-[100px] h-[100px]' src={profile?.user?.profile?.profile_photo} />
-
             <div className="flex flex-col justify-center items-center gap-3">
                 {profile ? (
                     <>
@@ -25,11 +23,10 @@ export default function CardProfile({profile,gridRowEndOption}) {
                 ) : (
                     <div>Cargando datos del usuario...</div>
                 )}
-                <span className="font-semibold"><i className="fa-solid fa-location-dot"></i> {profile.user?.profile?.country}</span>
             </div>
             {profile?.user?.id === parseInt(id) ? (
-                <div className="flex justify-center m-10">
-                    <a className="bg-[#b5179e] text-white p-3 rounded-sm cursor-pointer" href={"/manage-account/editar-perfil/"+profile?.user?.id}>Editar perfil</a>
+                <div className="flex justify-center items-center rounded-sm">
+                    <a className="bg-[#b5179e] text-white p-2 cursor-pointer w-32 text-center" href={"/manage-account/editar-perfil/"+profile?.user?.id}>Editar perfil</a>
                 </div>
             ):(
                 <ButtonFollower followedId={parseInt(id)} />

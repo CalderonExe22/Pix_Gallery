@@ -170,6 +170,7 @@ export default function FormEditPhotoCollection({updatePhotoData, selectedPhoto}
                     placeholder='Ingrese precio de su foto'
                     onChange={handleChange('precio')}
                     value={selectedPhoto?.precio || 0}
+                    min='0'
                 /> 
             )}
         </div>

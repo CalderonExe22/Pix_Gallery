@@ -4,6 +4,7 @@ import { Modal, Button } from "flowbite-react"
 import PropTypes from "prop-types"
 import { toast, Bounce } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
+import style from './DeleteButton.module.css'
 
 export default function DeleteButton({id, type}) {
     const [showModal, setShowModal] = useState(false)
@@ -61,8 +62,8 @@ export default function DeleteButton({id, type}) {
         }
     }
     return (
-        <div>       
-            <button onClick={() => setShowModal(true)}>
+        <>       
+            <button className={style.delete_animation} onClick={() => setShowModal(true)}>
                 <i className="fa-solid fa-trash"></i>
             </button>
             <Modal show={showModal} onClose={() => setShowModal(false)}>
@@ -86,7 +87,7 @@ export default function DeleteButton({id, type}) {
                     </Button>
                 </Modal.Footer>
             </Modal>
-        </div>
+        </>
     )
 }
 

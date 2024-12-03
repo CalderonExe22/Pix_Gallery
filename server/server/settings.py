@@ -99,9 +99,9 @@ WSGI_APPLICATION = 'server.wsgi.application'
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": "BD_PixGallery",
-        "USER": "jonathan",
-        "PASSWORD": "jonathan1234",
+        "NAME": "Pix_Gallery",
+        "USER": "postgres",
+        "PASSWORD": "1234",
         "HOST": "localhost",
         "PORT": "5432",
     }
@@ -150,12 +150,11 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 import cloudinary
 import cloudinary.uploader
-import cloudinary.api
-	
+import cloudinary.api	
 cloudinary.config( 
-    cloud_name = "drtkhsozv",
-    api_key = "776489555415429",
-    api_secret = "h9ER0XLFoCaETfWh2RvwLDX-m60",
+    cloud_name = "dowtoqcra",
+    api_key = "828463778147749",
+    api_secret = "cvfnYtJSScUnn7fhhiopG-1KQ-c",
 )
 
 AUTH_USER_MODEL = "users.User"

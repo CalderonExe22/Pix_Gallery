@@ -2,12 +2,13 @@ import PropTypes from 'prop-types';
 import FormEditPhoto from "../FormEditPhoto/FormEditPhoto";
 import { Modal } from "flowbite-react"
 import { useState } from 'react';
+
 export default function EditPhoto({photoData}) {
     const [showModal, setShowModal] = useState(false)
     console.log(photoData)
     return (
-        <div>
-            <button onClick={() => setShowModal(true)}>
+        <>
+            <button className='text-lg transform transition-transform hover:scale-110 p-2' onClick={() => setShowModal(true)}>
                 <i className="fa-solid fa-pen"></i>
             </button>
             <Modal size='7xl' show={showModal} onClose={() => setShowModal(false)}>
@@ -23,7 +24,7 @@ export default function EditPhoto({photoData}) {
                     </div>
                 </Modal.Body>
             </Modal>
-        </div>
+        </>
     )
 }
 

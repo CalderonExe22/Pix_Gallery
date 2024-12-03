@@ -45,17 +45,17 @@ function PaymentPhoto({ onPayment }) {
     }, []);
 
     return (
-        <div>
-            {onPayment.is_free || isPayment ? 
+        <>
+            {onPayment.is_free || !isPayment ? 
                 <ButtonDownload title={onPayment?.title} image_url={onPayment?.image_url} />
                 :
                 <button 
-                    className="text-white py-2 px-4 bg-blue-600"
+                    className="p-2 bg-[#b5179e] text-white rounded-lg font-bold"
                     onClick={handlePayment}>
                     Pagar Licencia
                 </button>
             }
-        </div>
+        </>
         
     );
 }

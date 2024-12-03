@@ -3,11 +3,11 @@
 }
 
 .buttons{
-    @apply pt-2 pb-2 ps-3 pe-3 border border-black transition-colors;
+    @apply pt-2 pb-2 ps-3 pe-3 border border-black transition-colors rounded-xl;
 }
 
 .buttons.activeButton{
-    @apply bg-[#E1C23A];
+    @apply bg-[#3a0ca3] text-white ;
 }
 
 .conteinerOptions{

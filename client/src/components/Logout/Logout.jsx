@@ -15,7 +15,7 @@ export default function Logout({style}) {
     }
     return (
         <li className="p-3">
-            <button onClick={handleLogout} className={style}>Logout</button>
+            <button onClick={handleLogout} className={style}>Cerrar sesion</button>
         </li>
     )
 }

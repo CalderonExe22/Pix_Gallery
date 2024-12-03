@@ -27,27 +27,24 @@ export default function CardCollection({ collection, show,gridRowEndOption, idUs
     const images = getImages();
     console.log(collection)
     return (
-        <div className="relative overflow-hidden rounded-lg shadow-lg group cursor-pointer h-full w-f" style={{ gridRowEnd: gridRowEndOption ? `span ${Math.floor(Math.random() * 5) + 10}` : '' }}>
-            <div className="absolute z-30 top-0 left-0 w-full flex items-center justify-start gap-2 px-5 pt-4">
-                <div className="flex items-center gap-5 text-white ">
-                    {images?.isPublic ===  false && (
-                        <i className="fa-solid fa-lock"></i>
-                    )}
-                </div>
-            </div>
-            {show && (
-                <div className="absolute z-30 top-0 left-0 w-full flex items-center justify-end gap-2 px-5 pt-4 transform -translate-y-full transition-all duration-300 group-hover:-translate-y-0">
-                    
+        <div className="relative overflow-hidden rounded-lg shadow-xl group cursor-pointer w-full z-30" style={{ gridRowEnd: gridRowEndOption ? `span ${Math.floor(Math.random() * 5) + 15}` : '' }}>
+            <div className="absolute z-30 top-0 left-0 w-full flex items-center justify-end gap-2 px-5 pt-4 transform -translate-y-full transition-all duration-300 group-hover:-translate-y-0">
+                {show && (
                     <div className="flex items-center gap-5 text-white ">
+                        {collection.user?.id === idUser && (
                             <>
                                 <EditCollection collectionData={collection} />
                                 <DeleteButton id={collection?.id} type={'collection'}/>
                                 <PrivacyButton id={collection?.id} isPublic={collection?.is_public} type={'collection'} />
                             </>
+                        )}
+                        <div className='flex gap-2 justify-center items-center text-white'>
+                            <i className="fa-solid fa-images"></i><p>{collection?.photos.length}</p>    
+                        </div>
                     </div>
-                
-                </div> 
-            )}
+                )} 
+            </div> 
+            
             <div className='h-full w-full z-50'>
                 {images.map((image, index) => {
                     const isThreeImages = images.length === 3;

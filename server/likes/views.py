@@ -17,6 +17,12 @@ class LikeApiView(viewsets.ModelViewSet):
     queryset = Like.objects.all()
     serializer_class = LikeSerializer
     permission_classes = [IsAuthenticated]
+    
+    @action(detail=False, methods=['get'], permission_classes=[AllowAny], url_path='get_all_likes_photo/(?P<photo_id>[0-9]+)')
+    def get_all_likes_photo(self, request, photo_id=None):
+        # Endpoint para obtener todos los likes de una foto
+        like_count = Like.objects.filter(photo_id=photo_id).count()
+        return Response({'like_count': like_count}, status=status.HTTP_200_OK)
 
     @action (detail=False, methods=['get'], permission_classes=[AllowAny])
     def get_all_likes(self, request):
@@ -35,7 +41,7 @@ class LikeApiView(viewsets.ModelViewSet):
     def get_permissions(self):
         if self.action in ['retrieve','update', 'destroy', 'get_user_likes']:
             self.permission_classes = [IsAuthenticated]
-        elif self.action == 'get_all_likes':
+        elif self.action in ['get_all_likes','get_all_likes_photo']:
             self.permission_classes = [AllowAny]
         else:
             self.permission_classes = [IsAuthenticated]

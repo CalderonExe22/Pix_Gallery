@@ -4,6 +4,13 @@ from .models import *
 from users.models import User
 from users.serializer import UserSerializer
 
+class CategorySerializer(ModelSerializer):
+    class Meta:
+        model = Category
+        fields = ['id', 'name', 'description']
+        
+    
+
 class ExifDataSerializer(serializers.ModelSerializer):
     class Meta:
         model = ExifData
@@ -28,6 +35,7 @@ class TagsForFilter (serializers.ModelSerializer):
 class SerializerPhotography(ModelSerializer):
     image_url = serializers.SerializerMethodField()
     category = serializers.IntegerField(write_only=True)
+    category_data = serializers.SerializerMethodField(read_only=True)
     exif_data = ExifDataSerializer(read_only=True)
     user = UserSerializer(read_only=True) 
     tags = serializers.ListField(child=serializers.CharField(), required=False)
@@ -46,7 +54,7 @@ class SerializerPhotography(ModelSerializer):
         fields = ['id','user', 'title', 'description', 'image','image_url','category', 
             'precio', 'is_free','is_public', 'created_at','tags','exif_data', 'camera', 'lens',
             'focal_length', 'shutter_speed', 'aperture', 'iso','likes_count', 'comments_count',
-            'view_count','tags_photo'
+            'view_count','tags_photo','category_data'
         ]
     
     def get_tags_photo(self, obj):
@@ -54,6 +62,12 @@ class SerializerPhotography(ModelSerializer):
         photography_tags = obj.photography_tags.all()  # Relación photography_tags
         tags = [photography_tag.tag for photography_tag in photography_tags]
         return TagSerializer(tags, many=True).data
+
+    def get_category_data(self, obj):
+        category_photography = CategoryPhotography.objects.filter(photography=obj).first()
+        if category_photography:
+            return CategorySerializer(category_photography.category).data
+        return None
     
     def get_likes_count(self, obj):
         return obj.like_set.count()
@@ -115,6 +129,7 @@ class CollectionPhotographySerializer(ModelSerializer):
     
 class CollectionSerializer(serializers.ModelSerializer):
     photos = serializers.SerializerMethodField()  # Utilizamos SerializerMethodField para obtener las fotos relacionadas
+    category_data = serializers.SerializerMethodField(read_only=True)
     photos_input = serializers.ListField(
         child=serializers.IntegerField(),  # Usamos un campo de tipo lista de enteros para enviar los IDs de las fotos
         write_only=True  # Este campo solo se utilizará para la escritura (en el create)
@@ -123,12 +138,19 @@ class CollectionSerializer(serializers.ModelSerializer):
     category = serializers.IntegerField(write_only=True, required=False)
     class Meta:
         model = Collection
-        fields = ['id', 'name', 'description','is_public' ,'photos', 'category','user','photos_input']  # Añadimos `photos_input` para crear las fotos y `photos` para leerlas
+        fields = ['id', 'name', 'description','is_public' ,'photos', 'category','user','photos_input','category_data']  # Añadimos `photos_input` para crear las fotos y `photos` para leerlas
 
     def get_user(self, obj):
         collection_photography = CollectionPhotography.objects.filter(collection=obj).first()
         if collection_photography:
             return UserSerializer(collection_photography.user).data
+        return None
+    
+    def get_category_data(self, obj):
+        # Obtener la categoría a través del modelo intermedio
+        category_collection = CategoryCollection.objects.filter(collection=obj).first()
+        if category_collection:
+            return CategorySerializer(category_collection.category).data
         return None
 
     def get_photos(self, obj):
@@ -180,10 +202,7 @@ class CollectionSerializer(serializers.ModelSerializer):
         
         return instance 
 
-class CategorySerializer(ModelSerializer):
-    class Meta:
-        model = Category
-        fields = ['id', 'name', 'description']
+
 
 class CategoryPhotographySerializer(ModelSerializer):
     class Meta:

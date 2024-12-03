@@ -1,14 +1,16 @@
 import PropTypes from "prop-types";
 import { useRef, useState, useEffect } from "react";
 import Logout from '../Logout/Logout'
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 export default function DropProfile({image_profile, idProfile}) {
     const [isOpen, setIsOpen ]= useState(false)
     const dropdownRef = useRef(null)
     const navigate = useNavigate()
-
+    const location = useLocation()
+    console.log(location.pathname === '/perfil/'+idProfile+'')
     const toggleDropdown = () => setIsOpen(!isOpen)
+
     const handleClickOutside = (e) => {
         if(dropdownRef.current && !dropdownRef.current.contains(e.target)){
             setIsOpen(false)
@@ -24,10 +26,10 @@ export default function DropProfile({image_profile, idProfile}) {
         }
     }, [])
     return (
-        <div className="relative" ref={dropdownRef}>
-            <div className="flex justify-center items-center gap-3 w-8 h-8">
-                <img onClick={handleProfile} className="object-cover rounded-full cursor-pointer" src={image_profile} alt="foto de perfil" />
-                <button onClick={() => toggleDropdown()}>
+        <div className="relative p-2" ref={dropdownRef}>
+            <div className="flex justify-center items-center gap-3 w-9 h-9">
+                <img onClick={handleProfile} className={`object-cover rounded-full cursor-pointer transform transition-all duration-100 ${location.pathname === '/perfil/'+idProfile+'' ? 'border-solid border-2 p-1 border-[#fff]' : '' }`} src={image_profile} alt="foto de perfil" />
+                <button className="p-2 rounded-full transition-colors duration-300 text-white hover:text-[#3a0ca3] hover:bg-white" onClick={() => toggleDropdown()}>
                     <i className={`fa-solid fa-chevron-up transform transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`}></i>
                 </button>
             </div>

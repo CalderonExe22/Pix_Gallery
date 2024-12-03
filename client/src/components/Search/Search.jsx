@@ -11,15 +11,18 @@ export default function Search() {
     //const [loading, setLoading] = useState(false);
     const [isSearching, setIsSearching] = useState(false)
     const [showInputSearch,setShowInputSearch] = useState(false)
-    
+    const [active, setActive] = useState(false)
+
     const searchRef = useRef(null)
     const handleSearchClick  = () => {
         setShowInputSearch(!showInputSearch)
+        setActive(!active)
     }
 
     const handleClickOutside = (e) => {
         if(searchRef.current && !searchRef.current.contains(e.target)){
             setShowInputSearch(false)
+            setActive(!active)
         }
     }
 
@@ -59,15 +62,14 @@ export default function Search() {
         return () => {
             document.removeEventListener('mousedown', handleClickOutside);
         };
-    }, [query,showInputSearch]);
-    console.log(results)
+    }, [query,showInputSearch, active]);
     return (
         <>
             <div className={`${style.overlay} ${showInputSearch ? style.show : ''}`}></div>
             <div ref={searchRef}>
-                    <button className={style.links} onClick={handleSearchClick}>
+                    <button className={`${style.links} ${active ? style.active : ''}`} onClick={handleSearchClick}>
                         <label htmlFor="search">
-                            <i className="fa-solid fa-search"></i> <span> Buscar </span>
+                            <i className="fa-solid fa-search"></i> <span className='cursor-pointer'> Buscar </span>
                         </label>
                     </button>
                 <div className={`${style.search} ${showInputSearch ? style.show : ''}`}>

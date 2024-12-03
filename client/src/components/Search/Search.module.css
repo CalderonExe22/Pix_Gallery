@@ -1,10 +1,19 @@
 .links
 {
-    @apply p-3 transition-colors;
+    @apply flex p-3 text-white font-bold rounded-xl;
+    box-shadow: inset 0 0 0 0 #fff;
+    transition: color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
 }
+
 .links:hover
 {
     color: #3a0ca3;
+    box-shadow: inset 150px 0 0 0 #fff;
+}
+
+.links.active
+{
+    @apply flex p-3 cursor-pointer text-[#3a0ca3] bg-white;
 }
 
 .overlay {
@@ -31,7 +40,7 @@
 }
 
 .inputSearch{
-    @apply flex w-2/3 p-2  border-2 border-black hover:border-[#e1c23a] focus:border-[#e1c23a] placeholder:transition-all  duration-300 outline-none;
+    @apply rounded-xl flex w-2/3 p-2  border-2 border-[#3a0ca3] hover:border-[#3a0ca3] focus:border-[#3a0ca3] placeholder:transition-all  duration-300 outline-none;
 }
 
 .inputSearch:focus::placeholder{

@@ -57,11 +57,15 @@ class PhotographyAPIView(ModelViewSet):
         """Endpoint para obtener todas las fotografías sin filtrar por usuario."""
         category_id = request.query_params.get('category')
         tag_id = request.query_params.get('tag')
+        is_free = request.query_params.get('is_free')
         query = Q(is_public=True)
         if category_id:
             query &= Q(categoryphotography__category_id=category_id)
         if tag_id:
             query &= Q(photography_tags__tag_id=tag_id)
+        if is_free is not None and is_free != '': 
+            query &= Q(is_free=is_free.lower() == 'true')
+            
         all_photographies = Photography.objects.filter(query).distinct()
         serializer = self.get_serializer(all_photographies, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
@@ -81,7 +85,7 @@ class PhotographyAPIView(ModelViewSet):
         except User.DoesNotExist:
             return Response({"detail": "Usuario no encontrado."}, status=status.HTTP_404_NOT_FOUND)
         
-        user_photographies = Photography.objects.filter(user=user)
+        user_photographies = Photography.objects.filter(user=user).distinct()
         serializer = self.get_serializer(user_photographies, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
     
@@ -227,11 +231,16 @@ class CollectionAPIView(ModelViewSet):
         """Endpoint para obtener todas las colecciones sin filtrar por usuario."""
         category_id = request.query_params.get('category') 
         tag_id = request.query_params.get('tag')
+        is_free = request.query_params.get('is_free')
         query = Q(is_public=True)
         if category_id:
             query &= Q(categorycollection__category_id=category_id)
         if tag_id:
             query &= Q(collectionphotography__photography__photography_tags__tag_id=tag_id)
+        if is_free is not None and is_free != '': 
+            is_free_bool = is_free.lower() == 'true'
+            query &= Q(collectionphotography__photography__is_free=is_free_bool)
+        
         all_collections = Collection.objects.filter(query).distinct()
         serializer = self.get_serializer(all_collections, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)

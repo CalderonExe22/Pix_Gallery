@@ -1,18 +1,10 @@
 import PropTypes from 'prop-types' 
-import { useNavigate } from 'react-router-dom'
-import NewWishList from '../../Wishlist/NewWishList'
-import LikeButton from '../../Likes/LikeButton'
 import DeleteButton from '../../DeleteButton/DeleteButton'
 import PrivacyButton from '../../PrivacyButton/PrivacyButton'
 import EditCollection from '../../EditCollection/EditCollection'
-export default function CardCollectionFolden({collection,rowSpan,show}) {
-    const navigate = useNavigate()
-    const showCollection = (idCollection) => {
-        navigate('/ver-coleccion/'+idCollection)
-        location.reload()
-    }   
+export default function CardCollectionFolden({collection,show}) {  
     return (
-        <div className="flex flex-col gap-3 p-4 shadow-xl bg-gray-300 group cursor-pointer"  style={{ gridRowEnd: `span ${rowSpan}` }}>
+        <div className="relative flex flex-col gap-3 p-4 shadow-xl bg-gray-300 group cursor-pointer h-full w-full">
             
                 <div className='flex justify-between items-center w-full'>
                     <div className='flex gap-2'>
@@ -27,7 +19,7 @@ export default function CardCollectionFolden({collection,rowSpan,show}) {
             )}
                 </div>
             
-            <div onClick={collection?.id ? (() => showCollection(collection?.id)) : ( ()=>{} )} className='grid grid-cols-2 grid-rows-2 gap-5'>
+            <div className='grid grid-cols-2 gap-5'>
                 {collection?.photos.map((photo) => (
                     <img key={photo.id} 
                         src={photo.image_url}
@@ -36,13 +28,9 @@ export default function CardCollectionFolden({collection,rowSpan,show}) {
                     />
                 ))}
             </div>
-            <div className='flex justify-between items-center w-full h-full'>
+            <div className='flex justify-between items-end pb-5 w-full h-full'>
                 <div className="flex justify-center items-center gap-3">
                     <span className="text-sm font-semibold">{collection?.name}</span>
-                </div>
-                <div className="flex justify-center items-center gap-5">
-                    <NewWishList id={collection?.id} type="collection" />
-                    <LikeButton id={collection?.id} type="collection" />
                 </div>
             </div>
         </div>
@@ -51,6 +39,5 @@ export default function CardCollectionFolden({collection,rowSpan,show}) {
 
 CardCollectionFolden.propTypes = {
     collection : PropTypes.object,
-    rowSpan: PropTypes.number,
     show: PropTypes.bool
 }

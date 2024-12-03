@@ -164,6 +164,7 @@ export default function FormPhotography({image}) {
             )}
             <div className="grid grid-cols-2 w-full h-auto gap-4">
                 <h1 className="text-2xl col-span-2 w-full">Informacio EXIF</h1>
+                <p>(No es obligatoria)</p>
                 <div className="w-full col-span-2">
                     <Input type="text" name='camera' placeholder="Camara" register={register} errors={errors} classNameStyle="w-full"/>
                 </div>
@@ -192,6 +193,12 @@ export default function FormPhotography({image}) {
                     register={register}
                     errors={errors}
                     classNameStyle={style.inputs}
+                    validationRules={{
+                        parent:{
+                            min: { value: 0, message: "El precio no puede ser negativo" },
+                            message: 'Formato de email incorrecto'
+                        }
+                    }}
                 /> 
             )}
             <button type="submit" className="p-2 bg-[#b5179e] text-white w-32 font-bold">Subir foto</button>

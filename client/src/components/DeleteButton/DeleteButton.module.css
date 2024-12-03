@@ -1,0 +1,3 @@
+.delete_animation{
+    @apply text-lg p-2 transform transition-transform hover:scale-110;
+}

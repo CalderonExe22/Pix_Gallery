@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import Search from '../Search/Search'
 import style from './Navbar.module.css'
 import { useSelector } from "react-redux";
@@ -8,34 +8,38 @@ import { useEffect, useState } from "react";
 import axiosApi from "../../services/axiosApi";
 import DropNotifications from "../DropNotifications/DropNotifications";
 import DropProfile from "../DropProfile/DropProfile";
+import logo from '../../assets/PG_N°1.svg'
 
 export default function Navbar() {
+    const location = useLocation()
     const isAuthenticated = useSelector((state) => state.auth.isAuthenticated)
     const [user, setUser] = useState(null) 
     const fetchUser = async () => {
-        try {
-            const response = await axiosApi.get('users/user/')
-            if(response.data){
-                setUser(response.data)
+        if(isAuthenticated){
+            try {
+                const response = await axiosApi.get('users/user/')
+                if(response.data){
+                    setUser(response.data)
+                }
+            } catch (error) {
+                console.log(error)
             }
-        } catch (error) {
-            console.log(error)
         }
     }
     useEffect(() => {
         fetchUser()
-    },[])
+    },[isAuthenticated])
     const renderRoutes = (isProtected) => (
         isProtected ? (
             privateRoutes.map((privateRoute) => (
                 <li key={privateRoute.name}>
-                    <Link className={style.links} to={privateRoute.path}>{privateRoute.name}</Link>
+                    <Link className={`${style.links} ${location.pathname === privateRoute.path ? style.active : ''}`} to={privateRoute.path}>{privateRoute.name}</Link>
                 </li>
             ))
         ) : (
             publicRoutes.map((publicRoute) => (
                 <li key={publicRoute.name}>
-                    <Link className={style.links} to={publicRoute.path}>{publicRoute.name}</Link>
+                    <Link className={`${style.links} ${location.pathname === publicRoute.path ? style.active : ''}`} to={publicRoute.path}>{publicRoute.name}</Link>
                 </li>
             ))
         )
@@ -43,14 +47,14 @@ export default function Navbar() {
     return (
         <nav className={style.navbar}> 
             <ul className={style.itemsNav}>
-                <li className={style.logo}>
-                    <h1>PG</h1>
-                </li>
+                <Link to={'/'} className={style.logo}>
+                    <img src={logo} alt="logo-PixGallery" />
+                </Link>
                 {isAuthenticated ? renderRoutes(true) : renderRoutes(false)}
             </ul>
             <ul className={style.itemsNav}>
                 <li>
-                    <Search className={style.links} />
+                    <Search />
                 </li>
                 {isAuthenticated ? (
                     <>
@@ -58,8 +62,8 @@ export default function Navbar() {
                             <DropNotifications />
                         </li>
                         <li>
-                            <Link to={'/wishlist'}>
-                                <i aria-label="notificaciones" className="fa-solid fa-star text-2xl"></i>
+                            <Link  className={`${style.links_icons} ${location.pathname === '/wishlist' ? style.active : ''}`} to={'/wishlist'}>
+                                <i aria-label="wishlist" className="fa-solid fa-star text-2xl"></i>
                             </Link>
                         </li>
                         <li>
@@ -69,10 +73,10 @@ export default function Navbar() {
                 ) : (
                     <>
                         <li>
-                            <Link to='/auth/login' className={style.links}>Login</Link>
+                            <Link className={`${style.links} ${location.pathname === '/auth/login' ? style.active : ''}`} to='/auth/login'>Login</Link>
                         </li>
                         <li>
-                            <Link to='/auth/register' className={style.links}>Register</Link>
+                            <Link to='/auth/register' className={`${style.links} ${location.pathname === '/auth/register' ? style.active : ''}`}>Register</Link>
                         </li>
                     </>
                 )}

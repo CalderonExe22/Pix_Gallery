@@ -1,5 +1,5 @@
 .register_section{
-    @apply flex flex-col gap-5 text-center w-full p-10 text-white px-24;
+    @apply flex flex-col gap-5 text-center w-full p-10 text-white px-24 pb-24;
 }
 
 .register_section input{

@@ -28,22 +28,22 @@ export default function SearchContainer({results}) {
             default:
                 return <>
                     {results?.photos?.map((photo) => (
-                        <CardPhoto key={photo.id} data={photo} gridRowEndOption={true} show={true} idUser={photo.user?.id}/>
+                        <CardPhoto key={photo.id} data={photo} gridRowEndOption={false} show={true} idUser={photo.user?.id}/>
                     ))}
                     
                     {results?.collections?.map((collection) => (
-                        <CardCollection key={collection.id} collection={collection} gridRowEndOption={true} show={true} idUser={collection.user?.id} />
+                        <CardCollection key={collection.id} collection={collection} gridRowEndOption={false} show={true} idUser={collection.user?.id} />
                     ))}
 
                     {results?.profiles?.map((profile) => (
-                    <CardProfile key={profile.user?.id} profile={profile} gridRowEndOption={true} />
+                    <CardProfile key={profile.user?.id} profile={profile} />
                 ))}
                     
                 </>
         }
     }
     return (
-        <div className="flex flex-col gap-10 h-full w-full">
+        <div className="flex flex-col gap-10 h-full w-full py-36">
             <div className="flex justify-between w-full">
                 <span className="text-base font-medium">Resultados: {results?.photos?.length + results.collections?.length + results.profiles?.length}</span>
                 <Dropdown label="Filtrar resultados">
@@ -53,7 +53,7 @@ export default function SearchContainer({results}) {
                     <Dropdown.Item onClick={() => handleFilterChange("profiles")}>perfiles</Dropdown.Item>
                 </Dropdown>
             </div>
-            <div className="grid grid-cols-5 gap-10 w-full h-auto z-0">
+            <div className="grid grid-cols-[repeat(4,minmax(200px,1fr))] gap-10 w-full h-auto z-0 py-20">
                 {filteredResults()}
             </div>
         </div>

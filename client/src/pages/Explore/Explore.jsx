@@ -20,34 +20,46 @@ export default function Explore() {
     },[])
     console.log(exploreData)
     return (
-        <div className="flex flex-col gap-48 w-full h-full">
-            <section className="flex flex-col justify-center w-full h-full p-10">
-                <div className="flex justify-between p-10">
-                    <h1 className="text-xl font-semibold">Fotos mas likeadas</h1>
-                    <Link to={'/explore/fotosMasLikeadas'}>Explora mas</Link>
+        <div className="flex flex-col gap-48 w-full h-full py-40">
+            <section className="flex flex-col justify-center w-full h-auto p-10">
+                <div className="flex justify-between items-center w-full px-[72px] py-10">
+                    <div className="flex flex-col gap-5">
+                        <h1 className="text-2xl font-bold">Fotografias con mas likes</h1>
+                        <p>Descubre las fotografias mas con likes en el sitio</p>
+                    </div>
+                    <Link className="font-semibold transition-colors duration-300 hover:text-[#3a0ca3]" to={'/explore/fotosMasLikeadas'}>Explora mas</Link>
                 </div>
-                <ListsPhotos gridRowEndOption={true} data={exploreData?.most_liked_photos?.slice(0, 10) || []} layoutStyle={'grid'} type={'photos'} />
+                <ListsPhotos gridRowEndOption={false} data={exploreData?.most_liked_photos?.slice(0, 10) || []} layoutStyle={'gridOrden'} type={'photos'} />
             </section>
-            <section className="flex flex-col justify-center w-full h-full p-10">
-                <div className="flex justify-between p-10">
-                    <h1 className="text-xl font-semibold">Fotos mas vistas</h1>
-                    <Link to={'/explore/fotosMasVistas'}>Explora mas</Link>
+            <section className="flex flex-col justify-center w-full h-auto p-10">
+                <div className="flex justify-between items-center w-full px-[72px] py-10">
+                    <div className="flex flex-col gap-5">
+                        <h1 className="text-2xl font-bold">Fotografias con mas visitas</h1>
+                        <p>Descubre las fotografias mas con visitas en el sitio</p>
+                    </div>
+                    <Link className="font-semibold transition-colors duration-300 hover:text-[#3a0ca3]" to={'/explore/fotosMasVistas'}>Explora mas</Link>
                 </div>
-                <ListsPhotos gridRowEndOption={true} data={exploreData?.most_liked_photos?.slice(0, 10) || []} layoutStyle={'grid'} type={'photos'} />
+                <ListsPhotos gridRowEndOption={false} data={exploreData?.most_liked_photos?.slice(0, 10) || []} layoutStyle={'gridOrden'} type={'photos'} />
             </section>
-            <section className="flex flex-col justify-center w-full h-full p-10">
-                <div className="flex justify-between p-10">
-                    <h1 className="text-xl font-semibold">Colecciones con mas vistas</h1>
-                    <Link to={'/explore/coleccionesConMasVisitas'}>Explora mas</Link>
+            <section className="flex flex-col justify-center w-full h-auto p-10">
+                <div className="flex justify-between items-center w-full px-[72px] py-10">
+                    <div className="flex flex-col gap-5">
+                        <h1 className="text-2xl font-bold">Colecciones con mas visitas</h1>
+                        <p>Descubre las Colecciones con mas visitas en el sitio</p>
+                    </div>
+                    <Link className="font-semibold transition-colors duration-300 hover:text-[#3a0ca3]" to={'/explore/coleccionesConMasVisitas'}>Explora mas</Link>
                 </div>
-                <ListsPhotos gridRowEndOption={true} data={exploreData?.most_viewed_collections?.slice(0, 10) || []} layoutStyle={'grid'} type={'collections'} />
+                <ListsPhotos gridRowEndOption={true} data={exploreData?.most_viewed_collections?.slice(0, 10) || []} layoutStyle={'gridOrden'} type={'collections'} />
             </section>
-            <section className="flex flex-col justify-center w-full h-full p-10">
-                <div className="flex justify-between p-10">
-                    <h1 className="text-xl font-semibold">Colecciones con mas likes</h1>
-                    <Link to={'/explore/coleccionesConMasLikes'}>Explora mas</Link>
+            <section className="flex flex-col justify-center w-full h-auto p-10">
+                <div className="flex justify-between items-center w-full px-[72px] py-10">
+                    <div className="flex flex-col gap-5">
+                        <h1 className="text-2xl font-bold">Colecciones con mas Likes</h1>
+                        <p>Descubre las Colecciones con mas Likes en el sitio</p>
+                    </div>
+                    <Link className="font-semibold transition-colors duration-300 hover:text-[#3a0ca3]" to={'/explore/coleccionesConMasLikes'}>Explora mas</Link>
                 </div>
-                <ListsPhotos gridRowEndOption={true} data={exploreData?.most_liked_collections?.slice(0, 10) || []} layoutStyle={'grid'} type={'collections'} />
+                <ListsPhotos gridRowEndOption={true} data={exploreData?.most_liked_collections?.slice(0, 10) || []} layoutStyle={'gridOrden'} type={'collections'} />
             </section>
         </div>
     )

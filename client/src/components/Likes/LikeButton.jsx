@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux';
 import { Modal } from 'flowbite-react';
 import { useNavigate } from 'react-router-dom';
 
-export default function LikeButton({ id , type }) {
+export default function LikeButton({ id , type, showLike }) {
 
     const [likes, setLikes] = useState([]);
     const [isInLikes, setIsInLikes] = useState(false);
@@ -14,6 +14,7 @@ export default function LikeButton({ id , type }) {
     const [isDislikeAnimation, setIsDislikeAnimation] = useState(false);
     const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
     const [openModal, setOpenModal] = useState(false);
+    const [likeCount, setLikeCount] = useState(0)
     const navigate = useNavigate();
 
     const handleOpenModal = () => {
@@ -40,8 +41,21 @@ export default function LikeButton({ id , type }) {
     };
 
     useEffect(() => {
+        if(showLike){
+            const showLike = async () => {
+                try {
+                    const response = await axiosApi.get(`likes/likes/get_all_likes_photo/${id}/`)
+                    if(response.status === 200){
+                        setLikeCount(response.data.like_count)
+                    }
+                } catch (error) {
+                    console.error(error)
+                }
+            }
+            showLike()
+        }
         getLikes()
-    }, []);
+    }, [id]);
 
     const handleAddToLike = async () => {
         try {
@@ -86,8 +100,12 @@ export default function LikeButton({ id , type }) {
     return (
         <div>
             <button
+                className='relative p-2'
                 onClick={() => isAuthenticated ? 
                 (isInLikes ? handleRemoveToLike() : handleAddToLike()) : handleOpenModal()}>
+                {showLike && (
+                    <span className='absolute top-0 right-0 z-10 text-white font-semibold'>{likeCount}</span>
+                )}
                 <i className={`fa-solid fa-heart ${isLikeAnimation ? style.like_animation : isDislikeAnimation ? style.dislike_animation : '' } ${isInLikes ? style.likeStyle : style.dislikeStyle }`} />
             </button>
             <Modal show={openModal} onClose={handleCloseModal}>
@@ -109,5 +127,6 @@ export default function LikeButton({ id , type }) {
 
 LikeButton.propTypes = {
     id: PropTypes.number.isRequired,
-    type: PropTypes.oneOf(['photo', 'collection']).isRequired
+    type: PropTypes.oneOf(['photo', 'collection']).isRequired,
+    showLike: PropTypes.bool,
 };

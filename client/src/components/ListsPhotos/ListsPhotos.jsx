@@ -22,9 +22,9 @@ export default function ListsPhotos({data, type, layoutStyle, gridRowEndOption})
             {data && data.length > 0 ? (
                 data.map((item) => {
                     if (type === 'photos') {
-                        return <CardPhoto key={item.id} data={item} gridRowEndOption={gridRowEndOption} show={false} />;
+                        return <CardPhoto showLike={true} key={item.id} data={item} gridRowEndOption={gridRowEndOption} show={false} />;
                     } else if (type === "collections") {
-                        return <CardCollection gridRowEndOption={gridRowEndOption} key={item.id} collection={item} />;
+                        return <CardCollection gridRowEndOption={gridRowEndOption} key={item.id} collection={item}/>;
                     }
                     return null;
                 })

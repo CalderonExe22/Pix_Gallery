@@ -7,9 +7,10 @@
 }
 
 .containerGridOrden {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Ajusta el tamaño mínimo de las imágenes */
+    @apply w-full h-full grid gap-5;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* Ajusta el tamaño mínimo de las imágenes */
     gap: 16px; /* Espacio entre las imágenes */
+    padding: 12px 72px 32px;
 }
 
 .containerColumns {

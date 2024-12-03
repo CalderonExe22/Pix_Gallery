@@ -56,7 +56,7 @@ export default function FeedbackImage({ image }) {
     console.log(feedbackImage)
     return (
         <>
-            <button className={`relative p-2 ${isLoading ? 'bg-[#ddd]' : 'bg-[#b5179e]'} text-white font-bold flex items-center justify-center gap-2 overflow-hidden rounded-md`} onClick={feedbackImageFunction}>
+            <button className={`relative p-4 ${isLoading ? 'bg-[#ddd]' : 'bg-[#b5179e]'} text-white font-bold flex items-center justify-center gap-2 overflow-hidden rounded-md`} onClick={feedbackImageFunction}>
                 <span className="z-50">{isLoading ? 'Analizando...' : 'Analizar imagen'}  {feedbackImage !== null ? ': Imagen Analizada' : ''}</span>
                 {isLoading && (
                     <div style={{ width: `${progress}%`, transitionDuration: "50ms" }} className={`absolute top-0 left-0 h-full  bg-[#b5179e] transition-all ease-out z-10`}>

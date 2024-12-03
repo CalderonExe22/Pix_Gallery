@@ -46,7 +46,7 @@ export default function Portafolio({idUser}) {
           <p>{collection.description}</p>
           <div className='grid grid-cols-5 grid-flow-row gap-8'>
             {collection.photos.map((photo) => (
-              <CardPhoto show={true} idUser={idUser} key={photo.id} data={photo} gridRowEndOption={true} />
+              <CardPhoto show={true} idUser={idUser} key={photo.id} data={photo} />
             ))}
           </div>
         </div>

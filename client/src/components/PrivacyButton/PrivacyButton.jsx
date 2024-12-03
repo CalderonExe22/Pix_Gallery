@@ -3,6 +3,7 @@ import axiosApi from "../../services/axiosApi"
 import { Modal } from "flowbite-react"
 import PropTypes from "prop-types"
 import { Bounce, toast } from "react-toastify"
+import style from './PrivacyButton.module.css'
 
 export default function PrivacyButton({id, isPublic, type}) {
     const [showModal, setShowModal] = useState(false)
@@ -25,7 +26,7 @@ export default function PrivacyButton({id, isPublic, type}) {
             }
             console.log(response)
             setPrivacy(!privacy)
-            toast.success(`${type === "photo" ? "Fotografía" : "Colección"} eliminada correctamente.`, {
+            toast.success(`Privacidad de ${type === "photo" ? "Fotografía" : "Colección"} actualizada correctamente.`, {
                 position: "top-center",
                 autoClose: 5000,
                 hideProgressBar: false,
@@ -70,9 +71,9 @@ export default function PrivacyButton({id, isPublic, type}) {
 
 
     return (
-        <div>
-            <button onClick={() => setShowModal(true)}>
-                {privacy ? 'publica' : 'privada'}
+        <>
+            <button className={style.privacy_animation} onClick={() => setShowModal(true)}>
+                {privacy ? <span><i className="fa-solid fa-unlock text-xl"></i> Publica </span> : <span><i className="fa-solid fa-lock text-xl"></i> Privada</span>}
             </button>
             <Modal show={showModal} onClose={() => setShowModal(false)}>
                 <Modal.Header>Confirmar cambio de privacidad</Modal.Header>
@@ -95,7 +96,7 @@ export default function PrivacyButton({id, isPublic, type}) {
                     </button>
                 </Modal.Footer>
             </Modal>
-        </div>
+        </>
     )
 }
 

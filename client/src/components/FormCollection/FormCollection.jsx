@@ -197,7 +197,7 @@ export default function FormCollection({ getData ,images = [], indexPhoto = 0 })
                         />
                     </>
                 )}
-                <button type="submit">Guardar Colección</button>
+                <button  className="p-2 bg-[#b5179e] text-white w-32 font-bold" type="submit">Guardar Colección</button>
             </form>
 
             

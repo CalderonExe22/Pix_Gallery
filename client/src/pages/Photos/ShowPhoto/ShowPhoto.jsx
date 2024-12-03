@@ -7,13 +7,16 @@ import ButtonFollower from "../../../components/ButtonFollower/ButtonFollower";
 import NewWishList from "../../../components/Wishlist/NewWishList";
 import PaymentPhoto from "../../../components/PaymentButton/PaymentPhoto";
 import PropsTypes from 'prop-types';
+import EditPhoto from "../../../components/EditPhoto/EditPhoto";
+import DeleteButton from "../../../components/DeleteButton/DeleteButton";
+import PrivacyButton from "../../../components/PrivacyButton/PrivacyButton";
 
 export default function ShowPhoto() {
     const { id } = useParams();
     const [photo, setPhoto] = useState(null);
     const isMounted = useRef(false);
     const [user, setUser] = useState([]);
-
+    console.log(photo)
     const getUserInfo = async () => {
         try {
             const response = await axiosApi.get('users/user/', { timeout: 5000 });
@@ -86,28 +89,40 @@ export default function ShowPhoto() {
     }, [id]);
 
     return (
-        <div className="grid grid-cols-3 justify-center items-center w-full h-screen">
+        <div className="grid grid-cols-3 justify-center items-center w-full h-screen py-32">
             {photo && user ? (
                 <>
                     <div className="flex col-span-2 justify-center items-center h-full w-full">
-                        <img src={photo.image_url} alt={photo.title} />
+                        <img className="max-w-full max-h-full object-contain" src={photo.image_url} alt={photo.title} />
                     </div>
-                    <div className="flex flex-col col-span-1 justify-start items-start w-full h-[900px] overflow-hidden overflow-y-auto p-32 gap-16">
-                        <div className="bg-white flex justify-start gap-10 w-full">
-                            <LikeButton type="photo" id={photo.id} />
+                    <div className="relative flex flex-col col-span-1 justify-start items-start w-full h-[900px] overflow-hidden overflow-y-auto px-10 gap-20 pb-10">
+                        <div className="sticky top-0 left-0 bg-white flex justify-start gap-10 py-5 w-full">
+                            <LikeButton type="photo" id={photo.id} showLike={false} />
                             <NewWishList type="photo" id={photo?.id} />
+                            {photo?.user?.id !== user.id && <PaymentPhoto onPayment={photo} />}
+                            { photo.user?.id === user.id && (
+                                <>
+                                    <EditPhoto photoData={photo} />
+                                    <DeleteButton id={photo?.id} type="photo" />
+                                    <PrivacyButton id={photo?.id} isPublic={photo?.is_public} type={'photo'} />
+                                </>
+                            )}
                         </div>
-                        {photo?.user?.id !== user.id && <PaymentPhoto onPayment={photo} />}
                         <div className="flex flex-col justify-start w-full gap-7">
                             <div className="flex flex-col gap-1">
-                                <span className="font-medium">-Titulo de la fotografia.</span>
-                                <h1 className="text-4xl">{photo.title}</h1>
+                                <h1 className="text-lg font-bold">{photo.title}</h1>
                             </div>
                             <div className="flex flex-col gap-1">
-                                <span className="font-medium text-lg">-Descripcion de la fotografia.</span>
                                 <p>{photo.description}</p>
                             </div>
                         </div>
+                        {photo?.category_data ? (
+                            <div className="flex justify-start items-center">
+                                <p>Categoria: <span className="font-bold">{photo?.category_data.name}</span></p>
+                            </div>
+                        ) : (
+                            <div><p>No hay categoria asociada</p></div>
+                        )}
                         <div className="flex flex-col justify-start w-full gap-5">
                             <p className="text-base flex gap-3 items-center"><i className="fa-regular fa-heart"></i>{photo.likes_count} <span>Likes</span></p>
                             <p className="text-base flex gap-3 items-center"><i className="fa-regular fa-comment"></i>{photo.comments_count}<span>Comentarios</span></p>
@@ -128,22 +143,32 @@ export default function ShowPhoto() {
                         </div>
                         {photo?.exif_data ? (
                             <div className="flex flex-col justify-start w-full gap-5">
-                                <h1 className="font-semibold text-3xl">-Exif data.</h1>
-                                <p className="text-base flex gap-3 items-center">Camara: {photo.exif_data?.camera}</p>
-                                <p className="text-base flex gap-3 items-center">Lente: {photo.exif_data?.lens}</p>
-                                <p className="text-base flex gap-3 items-center">Apertura: {photo.exif_data?.aperture}</p>
-                                <p className="text-base flex gap-3 items-center">Distancia focal: {photo.exif_data?.focal_length}</p>
-                                <p className="text-base flex gap-3 items-center">Velocidad de apertura: {photo.exif_data?.shutter_speed}</p>
-                                <p className="text-base flex gap-3 items-center">ISO: {photo.exif_data?.iso}</p>
+                                <div className="flex justify-start items-center">
+                                    <p className="text-base flex items-center"><span className="font-bold"><i className="fa-solid fa-camera"></i> Camara: </span> {photo.exif_data?.camera || ' No proporcionado'}</p>
+                                </div>
+                                <div className="flex justify-start items-center">
+                                    <p className="text-base flex items-center"><span className="font-bold"><i className="fa-brands fa-files-pinwheel"></i> Lente: </span> {photo.exif_data?.lens || ' No proporcionado'}</p>
+                                </div>
+                                <div className="flex justify-start items-center">
+                                    <p className="text-base flex gap-1 items-center"><img width="16" height="16" src="https://img.icons8.com/material-outlined/24/aperture.png" alt="aperture"/><span className="font-bold"> Apertura:</span> {photo.exif_data?.camera || 'No proporcionado'}</p>
+                                </div>
+                                <div className="flex justify-start items-center">
+                                    <p className="text-base flex gap-1 items-center"><img width="16" height="16" src="https://img.icons8.com/material-outlined/24/focal-length.png" alt="focal-length"/><span className="font-bold"> Distancia focal:</span> {photo.exif_data?.lens || 'No proporcionado'}</p>
+                                </div>
+                                <div className="flex justify-start items-center">
+                                    <p className="text-base flex items-center"><span className="font-bold"><i className="fa-solid fa-gauge-high"></i> Velocidad de apertura: </span> {photo.exif_data?.camera || ' No proporcionado'}</p>
+                                </div>
+                                <div className="flex justify-start items-center">
+                                    <p className="text-base flex gap-1 items-center"><img width="16" height="16" src="https://img.icons8.com/material/24/iso.png" alt="iso"/><span className="font-bold"> ISO:</span> {photo.exif_data?.lens || 'No proporcionado'}</p>
+                                </div>
                             </div>
                         ) : (
                             <p>No se proporciono exif data</p>
                         )}
-                        <NewComment photoId={photo.id} />
-                        {photo?.tags_photo ? (
+                        {photo?.tags_photo.length > 0 ? (
                             <div className="flex flex-wrap w-full h-auto gap-2">
                                 {photo?.tags_photo.map((tag, index) => (
-                                    <div key={index} className="flex justify-center items-center gap-2 p-2 w-auto h-auto rounded-md border-solid border-2 border-[#b5179e] text-[#b5179e]">
+                                    <div key={index} className="flex justify-center items-center gap-2 p-2 w-auto h-auto rounded-md border-solid border-2 border-black">
                                         <span className="w-full">{tag.name}</span>
                                     </div>
                                 ))}
@@ -151,6 +176,7 @@ export default function ShowPhoto() {
                         ) : (
                             <div>No se proporciono tags a esta fotografia</div>
                         )}
+                        <NewComment photoId={photo.id} />
                     </div>
                 </>
             ) : (

@@ -26,7 +26,7 @@ export default function UploadPhoto({showForm}) {
                 {preview ? (
                     <div className="flex flex-col h-full w-full">
                         <div className="relative flex w-full h-full">
-                            <button className="absolute top-2 right-2 z-20 p-3 font-medium text-3xl text-white bg-gray-500 " onClick={removePhoto}>
+                            <button className="absolute top-2 right-2 z-20 p-3 font-medium text-3xl text-white bg-[#b5179e] " onClick={removePhoto}>
                                 <i className="fa-solid fa-xmark"></i>
                             </button>
                             <img className="object-cover h-full w-full rounded-md" src={preview} alt="vista-previa" />

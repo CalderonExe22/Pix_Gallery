@@ -20,7 +20,7 @@ const refreshToken = async () => {
         console.log('Error al refrescar el token:',error)
         localStorage.removeItem('accessToken')
         localStorage.removeItem('refreshToken')
-        location.href = '/login'
+        location.href = '/auth/login'
     }
 }
 

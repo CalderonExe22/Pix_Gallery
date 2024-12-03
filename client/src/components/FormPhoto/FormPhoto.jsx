@@ -127,6 +127,7 @@ export default function FormPhoto({updatePhotoData, selectedPhoto}) {
             )}
             <div className="grid grid-cols-2 w-full h-auto gap-4">
                 <h1 className="text-2xl col-span-2 w-full">Informacio EXIF</h1>
+                <p>(No es obligatoria)</p>
                 <div className="w-full col-span-2">
                     <input type="text" name='camera' placeholder="Camara" className="w-full"
                         onChange={handleChange('camera')}
@@ -182,6 +183,7 @@ export default function FormPhoto({updatePhotoData, selectedPhoto}) {
                     placeholder='Ingrese precio de su foto'
                     onChange={handleChange('precio')}
                     value={selectedPhoto?.precio || 0}
+                    min="0"
                 /> 
             )}
         </div>

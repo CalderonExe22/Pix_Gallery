@@ -46,7 +46,7 @@ export default function Profile() {
     console.log(profile)
     console.log(collections)
     return (
-        <section className="flex flex-col items-center gap-4 h-full w-full">
+        <section className="flex flex-col items-center gap-4 h-full w-full py-28">
             <div className="">   
                 <img className='w-[250px] h-[250px] rounded-full' src={profile?.profile?.profile_photo} />
             </div>
@@ -79,11 +79,11 @@ export default function Profile() {
             ):(
                 <ButtonFollower followedId={parseInt(id)} />
             )}
-            <div className="flex justify-center items-center w-full">
-                <Tabs>
-                    <Tab title={'Mis fotografias'}>
+            <div className="flex justify-center items-center w-full px-10">
+                <Tabs styleButtonTab={'w-[200px] text-ms font-semibold'}>
+                    <Tab title={'Mis fotografias: ('+photos.length+')'}>
                         {photos.length > 0 ? (
-                            <div className="grid grid-cols-4 gap-5 w-full h-full p-10">
+                            <div className="grid grid-cols-5  gap-5 w-full h-full p-10">
                                 {photos.map((photo) => (
                                     <CardPhoto idUser={user?.id} show={true} gridRowEndOption={true} key={photo.id} data={photo} />
                                 ))} 
@@ -92,9 +92,9 @@ export default function Profile() {
                             <h1>No tienes fotos creadas</h1>
                         )}
                     </Tab>
-                    <Tab title={'Mis colecciones'}>
+                    <Tab title={'Mis colecciones: ('+collections.length+')'}>
                         {collections.length > 0 ? (
-                        <div className="grid grid-cols-5 gap-5 w-full h-full p-10">
+                        <div className="grid grid-cols-[repeat(5,minmax(300px,1fr))] gap-5 w-full h-full p-10">
                             {collections.map((collection) => (
                                 <CardCollection show={true} idUser={user?.id} gridRowEndOption={true} key={collection.id} collection={collection} />
                             ))}

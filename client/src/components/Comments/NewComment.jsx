@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 export default function NewComment({ photoId = null, collectionId = null }) {
     const [comments, setComments] = useState([]);
     const idUser = localStorage.getItem('userId')
-    console.log(idUser)
+    console.log(comments)
     const getComments = async () => {
         try {
             const response = await axiosApi.get('comments/comments/get_all_comments/');
@@ -52,7 +52,7 @@ export default function NewComment({ photoId = null, collectionId = null }) {
 
     return (
         <div className="flex flex-col w-full bg-gray-100 rounded-lg shadow-md">
-            <div className="flex flex-col w-full mb-5 p-4 border border-gray-300 bg-white rounded-lg h-[450px] overflow-hidden overflow-y-auto">
+            <div className="flex flex-col w-full mb-5 p-4 bg-white rounded-lg h-[450px] overflow-hidden overflow-y-auto">
                 {
                     comments.length === 0 ? 
                     <p className="text-gray-500">Se el primero en agregar un comentario!</p> :
@@ -64,7 +64,7 @@ export default function NewComment({ photoId = null, collectionId = null }) {
                                     <div className='flex justify-between items-center'>
                                         <div className="flex justify-center items-center gap-1">
                                             <div className="flex w-10 h-10 rounded-full">
-                                                <img className="object-cover w-full h-full" src="https://res.cloudinary.com/dowtoqcra/image/upload/v1727219010/gvtggjbb6qosxhiieowu.png" alt="profile photo"/>
+                                                <img className="object-cover w-full h-full" src={comment.user.profile.profile_photo} alt="profile photo"/>
                                             </div>
                                             <div>
                                                 <p className="font-medium">{comment.user?.username}</p>

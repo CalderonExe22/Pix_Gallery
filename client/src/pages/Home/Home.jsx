@@ -12,40 +12,47 @@ export default function Home() {
     const [collections, setCollections] = useState([])
     const [categoryId, setCategoryId] = useState('')
     const [tagId, setTagId] = useState('')
-
-    const fetchPhotos = async (categoryId = '', tagId = '') => {
+    const [isFree, setIsFree] = useState('')
+    console.log(isFree)
+    const fetchPhotos = async (categoryId = '', tagId = '', isFree = '') => {
         try {
             const response = await axiosApi.get('photos/photography/get_all_photographies/', {
-                params: { category: categoryId, tag: tagId }
+                params: { category: categoryId, tag: tagId, is_free: isFree }
             })
-            if(response.status === 200){
+            if (response.status === 200) {
                 setPhotos(response.data)
             }
         } catch (error) {
             console.log(error)
         }
     }
-    const fetchCollections = async (categoryId = '', tagId = '') => {
-        const response = await axiosApi.get('photos/collections/all_collections/', {
-            params: { category: categoryId, tag: tagId }
-        })
-        setCollections(response.data)
+    
+    const fetchCollections = async (categoryId = '', tagId = '', isFree = '') => {
+        try {
+            const response = await axiosApi.get('photos/collections/all_collections/', {
+                params: { category: categoryId, tag: tagId, is_free: isFree }
+            })
+            setCollections(response.data)
+        } catch (error) {
+            console.log(error)
+        }
     }
 
     useEffect(()=>{
-        fetchPhotos(categoryId, tagId)
-        fetchCollections(categoryId, tagId)
-    },[categoryId, tagId])
+        fetchPhotos(categoryId, tagId, isFree)
+        fetchCollections(categoryId, tagId, isFree)
+    },[categoryId, tagId, isFree])
 
-    const handleFilterChange = (category, tag) => {
-        setCategoryId(category);  // Actualiza el estado de categoryId
-        setTagId(tag);  // Actualiza el estado de tagId
+    const handleFilterChange = (category, tag, isFreeValue) => {
+        setCategoryId(category); 
+        setTagId(tag); 
+        setIsFree(isFreeValue)
     };
 
     console.log(photos)
     return (
         <div className={style.home_container}>
-            <Tabs extraChildren={<Filter onFilterChange={handleFilterChange} />}>
+            <Tabs styleButtonTab={'w-[170px] font-semibold text-2xl'} extraChildren={<Filter onFilterChange={handleFilterChange} />}>
                 <Tab title={'Fotografias'}>
                     <ListsPhotos gridRowEndOption={true} layoutStyle={'grid'} type={'photos'} data={photos} />
                 </Tab>

@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
-export default function Tabs({ children, extraChildren }) {
+export default function Tabs({ children, extraChildren, styleButtonTab }) {
     const [activeTab, setActiveTab] = useState(0)
     const childrenArray = React.Children.toArray(children)
 
 
     return (
-        <div className='flex flex-col justify-center items-center w-full'>
-            <div className="flex justify-center w-full pt-10 pb-16">
+        <div className='relative flex flex-col justify-center items-center w-full'>
+            <div className="sticky top-16 left-0 z-40 bg-white flex justify-center w-full pt-10 pb-16 gap-10">
                 {childrenArray.map((tab, index) => {
                     if (!tab.props.title) {
                         console.error('Cada Tab debe tener una propiedad "title"');
@@ -16,7 +16,7 @@ export default function Tabs({ children, extraChildren }) {
                     return (
                         <button
                             key={index} 
-                            className={`tab-button ${activeTab === index ? 'border-solid border-b-4 border-[#b5179e]' : ''} w-[200px] text-center`}
+                            className={`${styleButtonTab} ${activeTab === index ? 'border-solid border-b-4 border-[#b5179e] text-[#b5179e]' : ''}`}
                             onClick={() => setActiveTab(index)}
                         >
                             {tab.props.title}
@@ -39,4 +39,5 @@ export default function Tabs({ children, extraChildren }) {
 Tabs.propTypes = {
     children: PropTypes.node,
     extraChildren: PropTypes.node,
+    styleButtonTab: PropTypes.string
 };

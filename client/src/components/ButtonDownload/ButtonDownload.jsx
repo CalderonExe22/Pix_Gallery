@@ -20,8 +20,8 @@ export default function ButtonDownload({ image_url, title }) {
     return (
         <button
             onClick={handleDownload}
-            className="bg-green-600 text-white py-2 px-4">
-            Descargar
+            className="text-3xl relative p-2 transform transition-transform hover:scale-110">
+            <i className="fa-solid fa-download"></i>
         </button> 
     )
 }

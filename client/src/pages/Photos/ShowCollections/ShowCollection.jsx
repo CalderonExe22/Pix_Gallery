@@ -10,6 +10,9 @@ import LikeButton from "../../../components/Likes/LikeButton";
 import NewWishList from "../../../components/Wishlist/NewWishList";
 import PaymentCollections from "../../../components/PaymentButton/PaymentCollection";
 import ButtonDownload from "../../../components/ButtonDownload/ButtonDownload";
+import EditCollection from "../../../components/EditCollection/EditCollection";
+import DeleteButton from "../../../components/DeleteButton/DeleteButton";
+import PrivacyButton from "../../../components/PrivacyButton/PrivacyButton";
 
 export default function ShowCollection() {
 
@@ -98,20 +101,20 @@ export default function ShowCollection() {
         getPayments()
         getUserInfo()
     },[id])
-
+    console.log(collection)
     return (
-        <div className="grid grid-cols-3 justify-center items-center w-full h-screen">
+        <div className="grid grid-cols-3 justify-center items-center w-full h-screen py-32">
             {collection && user ? (
                 <>
                 <div className="flex col-span-2 justify-center items-center h-full w-full">
-                    <Carousel onSlideChange={dataPhoto} slide={false}>
+                    <Carousel rightControl={<div className="flex justify-center items-center h-20 w-20 rounded-full text-4xl border-2 border-solid border-[#3a0ca3] bg-[#3a0ca3] text-white transition-colors duration-300 hover:bg-[#fff] hover:text-[#3a0ca3]"><i className="fa-solid fa-chevron-right"></i></div>} leftControl={<div className="flex justify-center items-center h-20 w-20 rounded-full text-4xl border-2 border-solid border-[#3a0ca3] bg-[#3a0ca3] text-white transition-colors duration-300 hover:bg-[#fff] hover:text-[#3a0ca3]"><i className="fa-solid fa-chevron-left"></i></div>} onSlideChange={dataPhoto} slide={false}>
                         {collection?.photos?.map((photo) => (
-                            <img key={photo.id} src={photo.image_url} alt={photo.title} />
+                            <img className="max-w-full max-h-full object-contain" key={photo.id} src={photo.image_url} alt={photo.title} />
                         ))}
                     </Carousel>
                 </div>
-                <div className="flex flex-col col-span-1 justify-start items-start w-full h-[900px] overflow-hidden overflow-y-auto p-32 gap-16">
-                    <div className=" flex justify-start gap-7 w-full h-full">
+                <div className="relative flex flex-col col-span-1 justify-start items-start w-full h-[900px] overflow-hidden overflow-y-auto px-10 gap-16 pb-10">
+                    <div className="sticky top-0 left-0 bg-white flex justify-start gap-7 w-full h-full">
                         {collection?.id ? (
                             <>
                                 <LikeButton type="collection" id={collection?.id} />
@@ -120,8 +123,14 @@ export default function ShowCollection() {
                         ):(
                             <div>...cargando</div>
                         )}
-                    </div>
-                    {   
+                        { collection.user?.id === user.id && (
+                            <>
+                                <EditCollection collectionData={collection} />
+                                <DeleteButton id={collection?.id} type="collection" />
+                                <PrivacyButton id={collection?.id} isPublic={collection?.is_public} type={'collection'} />
+                            </>
+                        )}
+                        {   
                         collection?.user?.id !== (user.id) &&
                         (isPayment || handlePriceColecction() === 0 ?
                             collection.photos &&
@@ -129,27 +138,31 @@ export default function ShowCollection() {
                         :
                             <PaymentCollections onPayment={collection} />)
                     }
+                    </div>
                     <div className="flex flex-col justify-start w-full gap-7">
                         <div className="flex flex-col gap-1">
-                            <span>-Nombre de la coleccion.</span>
-                            <h1 className="text-4xl font-medium">{collection.name}</h1>
+                            <h1 className="text-lg font-bold">{collection.name}</h1>
                         </div>
                         <div className="flex flex-col gap-1">
-                            <span>-Descripcion de la fotografia.</span>
-                            <p className="font-medium text-lg">{collection.description}</p>
+                            <p>{collection.description}</p>
                         </div>
                     </div>
-                    <div className="flex flex-col gap-5">
+                    {collection?.category_data ? (
+                            <div className="flex justify-start items-center">
+                                <p>Categoria: <span className="font-bold">{collection?.category_data.name}</span></p>
+                            </div>
+                        ) : (
+                            <div><p>No hay categoria asociada</p></div>
+                        )}
+                    <div className="border-solid border-b-2 border-black border-opacity-75 w-full"></div>
                         {collection?.photos ? (
-                            <>
+                            <div className="flex flex-col gap-10">
                                 <div className="flex flex-col justify-start w-full gap-7">
                                     <div className="flex flex-col gap-1">
-                                        <span>-Titulo de la fotografia.</span>
-                                        <h1 className="text-4xl font-medium">{collection.photos[activeIndex].title}</h1>
+                                        <h1 className="text-lg font-bold">{collection.photos[activeIndex].title}</h1>
                                     </div>
                                     <div className="flex flex-col gap-1">
-                                        <span>-Descripcion de la fotografia.</span>
-                                        <p className="font-medium text-lg">{collection.photos[activeIndex].description}</p>
+                                        <p>{collection.photos[activeIndex].description}</p>
                                     </div>
                                 </div>
                                 <div className="flex flex-col justify-start w-full gap-5">
@@ -160,18 +173,29 @@ export default function ShowCollection() {
                                 </div>
                                 {collection.photos[activeIndex]?.exif_data ? (
                                     <div className="flex flex-col justify-start w-full gap-5">
-                                        <h1 className="font-semibold text-3xl">-Exif data.</h1>
-                                        <p className="text-base flex gap-3 items-center">camera: {collection.photos[activeIndex].exif_data?.camera}</p>
-                                        <p className="text-base flex gap-3 items-center">Lente: {collection.photos[activeIndex].exif_data?.lens}</p>
-                                        <p className="text-base flex gap-3 items-center">Apertura: {collection.photos[activeIndex].exif_data?.aperture} <span>Vistas</span></p>
-                                        <p className="text-base flex gap-3 items-center">Distancia focal: {collection.photos[activeIndex].exif_data?.focal_length} <span>Vistas</span></p>
-                                        <p className="text-base flex gap-3 items-center">Velocidad de apertura: {collection.photos[activeIndex].exif_data?.shutter_speed} <span>Vistas</span></p>
-                                        <p className="text-base flex gap-3 items-center">ISO: {collection.photos[activeIndex].exif_data?.iso} <span>Vistas</span></p>
+                                        <div className="flex justify-start items-center">
+                                            <p className="text-base flex gap-3 items-center"><span className="font-bold"><i className="fa-solid fa-camera"></i> Camara:</span> {collection.photos[activeIndex].exif_data?.camera || 'No proporcionado'}</p>
+                                        </div>
+                                        <div className="flex justify-start items-center">
+                                            <p className="text-base flex items-center"><span className="font-bold"><i className="fa-brands fa-files-pinwheel"></i> Lente:</span> {collection.photos[activeIndex].exif_data?.lens || 'No proporcionado'}</p>
+                                        </div>
+                                        <div className="flex justify-start items-center">
+                                            <p className="text-base flex gap-1 items-center"><img width="16" height="16" src="https://img.icons8.com/material-outlined/24/aperture.png" alt="aperture"/><span className="font-bold"> Apertura:</span> {collection.photos[activeIndex].exif_data?.camera || 'No proporcionado'}</p>
+                                        </div>
+                                        <div className="flex justify-start items-center">
+                                            <p className="text-base flex gap-1 items-center"><img width="16" height="16" src="https://img.icons8.com/material-outlined/24/focal-length.png" alt="focal-length"/><span className="font-bold"> Distancia focal:</span> {collection.photos[activeIndex].exif_data?.lens || 'No proporcionado'}</p>
+                                        </div>
+                                        <div className="flex justify-start items-center">
+                                            <p className="text-base flex items-center"><span className="font-bold"><i className="fa-solid fa-gauge-high"></i> Velocidad de apertura:</span> {collection.photos[activeIndex].exif_data?.camera || 'No proporcionado'}</p>
+                                        </div>
+                                        <div className="flex justify-start items-center">
+                                            <p className="text-base flex gap-1 items-center"><img width="16" height="16" src="https://img.icons8.com/material/24/iso.png" alt="iso"/><span className="font-bold"> ISO:</span> {collection.photos[activeIndex].exif_data?.lens || 'No proporcionado'}</p>
+                                        </div>
                                     </div>
                                 ) : (
                                     <p>No se proporciono exif data</p>
                                 )}        
-                                {collection.photos[activeIndex]?.tags_photo ? (
+                                {collection.photos[activeIndex]?.tags_photo > 0 ? (
                                     <div className="flex flex-wrap w-full h-auto gap-2">
                                         {collection.photos[activeIndex]?.tags_photo.map((tag, index) => (    
                                             <div  key={index} className="flex justify-center items-center gap-2 p-2 w-auto h-auto rounded-md border-solid border-2 border-[#b5179e] text-[#b5179e]">
@@ -182,19 +206,17 @@ export default function ShowCollection() {
                                 ) : (
                                     <div>No se proporciono tags a esta fotografia</div>
                                 )}
-                            </>
+                            </div>
                         ) : (
                             <div>..cargando</div>
                         )}
-                        
-                    </div>
+                    <div className="border-solid border-b-2 border-black border-opacity-75 w-full"></div>
                     {collection?.user ? (
                         <>
                             <div className="flex justify-between w-full">
                                 <div className="flex justify-center items-center gap-3">
                                     <div className="flex w-10 h-10 rounded-full">
-                                        <img className="object-cover w-full h-full" src="https://res.cloudinary.com/dowtoqcra/image/upload/v1727219010/gvtggjbb6qosxhiieowu.png" alt="profile photo"/>
-                                    </div>
+                                        <img className="object-cover w-full h-full" src={collection.user?.profile.profile_photo} alt="profile photo" />                                    </div>
                                     <div>
                                         <Link to={'/perfil/'+collection.user?.id} className="font-medium">{collection.user?.username}</Link>
                                         <p>{collection.user?.followers_count} {collection.user?.followers_count > 1 ? <span>Seguidores</span> : <span>Seguidor</span> }</p>

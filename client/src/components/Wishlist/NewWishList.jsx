@@ -86,7 +86,7 @@ export default function NewWishList({ id, type }) {
 
     return (
         <div>
-            <button onClick={() => isAuthenticated ?
+            <button className='relative p-2' onClick={() => isAuthenticated ?
                 (isInWishlist ? handleRemoveFromWishlist() : handleAddToWishlist()) : handleOpenModal()
             }>
                 <i className={`fa-solid fa-star ${isWishlistAnimation ? style.wishlist_animation : isNoWishlistAnimation ? style.noWishlist_animation : '' } ${isInWishlist ? style.wishlistStyle : style.noWishlistStyle }`} />
