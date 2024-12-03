@@ -2,6 +2,7 @@ import { Modal } from "flowbite-react"
 import PropTypes from 'prop-types';
 import FormEditCollection from "../FormEditCollection/FormEditCollection";
 import { useState } from "react";
+import { Tooltip } from "flowbite-react";
 
 export default function EditCollection({collectionData}) {
     const [showModal, setShowModal] = useState(false)
@@ -10,10 +11,12 @@ export default function EditCollection({collectionData}) {
         setSelectedImageIndex(index);
     }
     return (
-        <>
-            <button className='text-lg p-2 transform transition-transform hover:scale-110' onClick={() => setShowModal(true)}>
-                <i className="fa-solid fa-pen"></i>
-            </button>
+        <>  
+            <Tooltip content='Editar coleccion' style="dark" placement="bottom" >
+                <button className='text-lg p-2 transform transition-transform hover:scale-110' onClick={() => setShowModal(true)}>
+                    <i className="fa-solid fa-pen"></i>
+                </button>
+            </Tooltip>
             <Modal size='7xl' show={showModal} onClose={() => setShowModal(false)}>
                 <Modal.Header>Editar fotografia</Modal.Header>
                 <Modal.Body>

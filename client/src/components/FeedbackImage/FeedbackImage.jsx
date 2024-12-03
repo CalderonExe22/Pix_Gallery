@@ -57,46 +57,46 @@ export default function FeedbackImage({ image }) {
     return (
         <>
             <button className={`relative p-4 ${isLoading ? 'bg-[#ddd]' : 'bg-[#b5179e]'} text-white font-bold flex items-center justify-center gap-2 overflow-hidden rounded-md`} onClick={feedbackImageFunction}>
-                <span className="z-50">{isLoading ? 'Analizando...' : 'Analizar imagen'}  {feedbackImage !== null ? ': Imagen Analizada' : ''}</span>
+                <span className="z-50">{isLoading ? 'Analizando...' : 'Analizar imagen'}  {feedbackImage !== null ? <i className="fa-solid fa-circle-check text-white"></i> : ''}</span>
                 {isLoading && (
                     <div style={{ width: `${progress}%`, transitionDuration: "50ms" }} className={`absolute top-0 left-0 h-full  bg-[#b5179e] transition-all ease-out z-10`}>
 
                     </div>
                 )}
             </button>
-            <Modal size="6xl" show={openModal} onClose={() => setOpenModal(false)}>
+            <Modal size="7xl" show={openModal} onClose={() => setOpenModal(false)}>
                 <Modal.Header>Recomendaciones de mejora de imagen</Modal.Header>
                 <Modal.Body>
-                <div className={`flex flex-col gap-7`}>
+                <div className={`grid grid-cols-7 gap-5`}>
                     {errorMessage && <p className="text-red-500">{errorMessage}</p>}
                     {feedbackImage ? (
                         <>
-                            <div className="flex flex-col justify-start gap-3 ">
-                                <h1 className="font-medium text-xl">Formato:</h1>
+                            <div className="flex flex-col justify-start items-center gap-3 text-center border-e-2 border-black p-1">
+                                <h1 className="font-medium text-xl">Formato</h1>
                                 <p>{feedbackImage.format.feedback}</p>
                             </div>
-                            <div className="flex flex-col justify-start gap-3 ">
-                            <h1 className="font-medium text-xl">Resolucion:</h1>
+                            <div className="flex flex-col justify-start items-center gap-3 text-center border-e-2 border-black p-1">
+                            <h1 className="font-medium text-xl">Resolucion</h1>
                                 <p>{feedbackImage.resolution.feedback}</p>
                             </div>
-                            <div className="flex flex-col justify-start gap-3 ">
-                            <h1 className="font-medium text-xl">Contraste:</h1>
+                            <div className="flex flex-col justify-start items-center gap-3 text-center border-e-2 border-black p-1">
+                            <h1 className="font-medium text-xl">Contraste</h1>
                                 <p>{feedbackImage.contrast.feedback}</p>
                             </div>
-                            <div className="flex flex-col justify-start gap-3 ">
-                            <h1 className="font-medium text-xl">Exposicion:</h1>
+                            <div className="flex flex-col justify-start items-center gap-3 text-center border-e-2 border-black p-1 ">
+                            <h1 className="font-medium text-xl">Exposicion</h1>
                                 <p>{feedbackImage.exposure.feedback}</p>
                             </div>
-                            <div className="flex flex-col justify-start gap-3 ">
-                            <h1 className="font-medium text-xl">Iluminacion:</h1>
+                            <div className="flex flex-col justify-start items-center gap-3 text-center border-e-2 border-black p-1">
+                            <h1 className="font-medium text-xl">Iluminacion</h1>
                                 <p>{feedbackImage.illumination.feedback}</p>
                             </div>
-                            <div className="flex flex-col justify-start gap-3 ">
-                            <h1 className="font-medium text-xl">Saturacion:</h1>
+                            <div className="flex flex-col justify-start items-center gap-3 text-center border-e-2 border-black p-1">
+                            <h1 className="font-medium text-xl">Saturacion</h1>
                                 <p>{feedbackImage.saturation.feedback}</p>
                             </div>
-                            <div className="flex flex-col justify-start gap-3 ">
-                            <h1 className="font-medium text-xl">Balance de colores:</h1>
+                            <div className="flex flex-col justify-start items-center gap-3 text-center">
+                            <h1 className="font-medium text-xl">Balance de colores</h1>
                                 <p>{feedbackImage.color_balance.feedback}</p>
                                 <p>Rojo: {feedbackImage.color_balance.mean_colors.red}</p>
                                 <p>Azul: {feedbackImage.color_balance.mean_colors.blue}</p>

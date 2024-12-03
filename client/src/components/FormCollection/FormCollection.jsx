@@ -5,11 +5,14 @@ import PropTypes from 'prop-types';
 import { useEffect, useState } from "react";
 import axiosApi from "../../services/axiosApi";
 import { useNavigate } from "react-router-dom";
+import { Bounce, toast } from "react-toastify";
+import { Spinner } from "flowbite-react"
 
 export default function FormCollection({ getData ,images = [], indexPhoto = 0 }) {
     const [photosData, setPhotosData] = useState([])
     const navigate = useNavigate()
     const [categories, setCategories] = useState([])
+    const [isLoading, setIsLoading] = useState(false)
     const { register, handleSubmit, control, formState: { errors } } = useForm({
         defaultValues: {
             name: '',
@@ -83,6 +86,7 @@ export default function FormCollection({ getData ,images = [], indexPhoto = 0 })
     }, [])
 
     const onSubmit = async (data) => {
+        setIsLoading(true)
         const photosIncomplete = data.photos.some(photo => (
             !photo.title ||
             !photo.description ||
@@ -139,14 +143,36 @@ export default function FormCollection({ getData ,images = [], indexPhoto = 0 })
                 };
                 
                 const collectionResponse = await axiosApi.post('photos/collections/', collectionData);
-                console.log(collectionData)
-                if (collectionResponse.data) {
-                    console.log('Colección creada correctamente');
-                    navigate('/ver-coleccion/'+collectionResponse.data.id)
-                    
-                }
+                if(collectionResponse.status === 201){
+                    navigate(`/ver-coleccion/${collectionResponse.data.id}`)
+                    toast.success(`Coleccion creada correctamente.`, {
+                        position: "top-center",
+                        autoClose: 5000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "colored",
+                        transition: Bounce,
+                    })
+                }        
             } catch (error) {
-                console.log(error)
+                if(error?.response.status){
+                    toast.error('Ocurrió un error al intentar realizar la acción ('+error?.response.status+')', {
+                        position: "top-center",
+                        autoClose: 5000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "light",
+                        transition: Bounce,
+                    });
+                }
+            }finally{
+                setIsLoading(false)
             }
         }
     };
@@ -154,7 +180,7 @@ export default function FormCollection({ getData ,images = [], indexPhoto = 0 })
     return (
         <div className="flex flex-col w-[400px]">
             <form className="flex flex-col gap-5 w-full" onSubmit={handleSubmit(onSubmit)}>
-                <h1 className="text-xl font-medium">Sube tu coleccion</h1>
+                <h1 className="text-4xl mb-5">Sube tu coleccion</h1>
                 <Input 
                     type="text"
                     name='name'
@@ -163,7 +189,7 @@ export default function FormCollection({ getData ,images = [], indexPhoto = 0 })
                     required={true}
                     register={register}
                     errors={errors}
-                    classNameStyle="w-full"
+                    classNameStyle="h-11 w-full p-1 rounded-xl duration-300 outline-none hover:border-[#3a0ca3] focus:border-[#3a0ca3]"
                 />
                 <Input 
                     type="text"
@@ -173,11 +199,12 @@ export default function FormCollection({ getData ,images = [], indexPhoto = 0 })
                     required={true}
                     register={register}
                     errors={errors}
-                    classNameStyle="w-full"
+                    classNameStyle="h-11 w-full p-1 rounded-xl duration-300 outline-none hover:border-[#3a0ca3] focus:border-[#3a0ca3]"
                 />
                 <div className="flex flex-col gap-3">
                     <label id="category" htmlFor="category">Seleccione una categoria</label>
                     <select 
+                        className="h-11 w-full p-1 rounded-xl duration-300 outline-none hover:border-[#3a0ca3] focus:border-[#3a0ca3]"
                         id="category" name="category" {...register('category',{required:true})}
                         required
                         >
@@ -197,7 +224,17 @@ export default function FormCollection({ getData ,images = [], indexPhoto = 0 })
                         />
                     </>
                 )}
-                <button  className="p-2 bg-[#b5179e] text-white w-32 font-bold" type="submit">Guardar Colección</button>
+                <button type="submit" 
+                    className={`p-2 bg-[#b5179e] text-white w-32 font-bold flex justify-center items-center ${
+                        isLoading ? 'opacity-50 cursor-not-allowed' : ''
+                    }`}
+                    disabled={isLoading}>
+                        {isLoading ? (
+                            <Spinner color="purple" size="sm" /> // Mostrar el spinner de Flowbite
+                        ) : (
+                            'Subir coleccion'
+                        )}
+                </button>
             </form>
 
             

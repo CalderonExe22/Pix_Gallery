@@ -89,7 +89,7 @@ export default function ShowPhoto() {
     }, [id]);
 
     return (
-        <div className="grid grid-cols-3 justify-center items-center w-full h-screen py-32">
+        <div className="grid grid-cols-3 justify-center items-center w-full h-screen">
             {photo && user ? (
                 <>
                     <div className="flex col-span-2 justify-center items-center h-full w-full">
@@ -131,8 +131,8 @@ export default function ShowPhoto() {
                         </div>
                         <div className="flex justify-between w-full">
                             <div className="flex justify-center items-center gap-3">
-                                <div className="flex w-10 h-10 rounded-full">
-                                    <img className="object-cover w-full h-full" src={photo.user?.profile.profile_photo} alt="profile photo" />
+                                <div className="flex">
+                                    <img className="object-cover w-10 h-10 rounded-full" src={photo.user?.profile.profile_image_url} alt="profile photo" />
                                 </div>
                                 <div>
                                     <Link to={'/perfil/' + photo.user?.id} className="font-medium">{photo.user?.username}</Link>
@@ -150,16 +150,16 @@ export default function ShowPhoto() {
                                     <p className="text-base flex items-center"><span className="font-bold"><i className="fa-brands fa-files-pinwheel"></i> Lente: </span> {photo.exif_data?.lens || ' No proporcionado'}</p>
                                 </div>
                                 <div className="flex justify-start items-center">
-                                    <p className="text-base flex gap-1 items-center"><img width="16" height="16" src="https://img.icons8.com/material-outlined/24/aperture.png" alt="aperture"/><span className="font-bold"> Apertura:</span> {photo.exif_data?.camera || 'No proporcionado'}</p>
+                                    <p className="text-base flex gap-1 items-center"><img width="16" height="16" src="https://img.icons8.com/material-outlined/24/aperture.png" alt="aperture"/><span className="font-bold"> Apertura:</span> {photo.exif_data?.aperture || 'No proporcionado'}</p>
                                 </div>
                                 <div className="flex justify-start items-center">
-                                    <p className="text-base flex gap-1 items-center"><img width="16" height="16" src="https://img.icons8.com/material-outlined/24/focal-length.png" alt="focal-length"/><span className="font-bold"> Distancia focal:</span> {photo.exif_data?.lens || 'No proporcionado'}</p>
+                                    <p className="text-base flex gap-1 items-center"><img width="16" height="16" src="https://img.icons8.com/material-outlined/24/focal-length.png" alt="focal-length"/><span className="font-bold"> Distancia focal:</span> {photo.exif_data?.focal_length || 'No proporcionado'}</p>
                                 </div>
                                 <div className="flex justify-start items-center">
-                                    <p className="text-base flex items-center"><span className="font-bold"><i className="fa-solid fa-gauge-high"></i> Velocidad de apertura: </span> {photo.exif_data?.camera || ' No proporcionado'}</p>
+                                    <p className="text-base flex items-center"><span className="font-bold"><i className="fa-solid fa-gauge-high"></i> Velocidad de apertura: </span> {photo.exif_data?.shutter_speed || ' No proporcionado'}</p>
                                 </div>
                                 <div className="flex justify-start items-center">
-                                    <p className="text-base flex gap-1 items-center"><img width="16" height="16" src="https://img.icons8.com/material/24/iso.png" alt="iso"/><span className="font-bold"> ISO:</span> {photo.exif_data?.lens || 'No proporcionado'}</p>
+                                    <p className="text-base flex gap-1 items-center"><img width="16" height="16" src="https://img.icons8.com/material/24/iso.png" alt="iso"/><span className="font-bold"> ISO: </span> {photo.exif_data?.iso || 'No proporcionado'}</p>
                                 </div>
                             </div>
                         ) : (

@@ -5,11 +5,11 @@ import { ToastContainer } from "react-toastify";
 
 export default function Layout() {
     return (
-        <main className="flex flex-col w-full h-full">
+        <main className="flex flex-col w-full h-auto">
             <header>
                 <Navbar />
             </header>
-            <section className="flex flex-col justify-center items-center h-full w-full">
+            <section className="flex flex-col justify-center items-center h-full w-full mt-48">
                 <ToastContainer 
                     position="top-right" 
                     autoClose={3000} 

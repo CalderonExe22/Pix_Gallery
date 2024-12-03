@@ -5,7 +5,8 @@ export default function ManageAcount() {
     return (
         <div className="flex w-full h-full">
             <aside className="w-1/4 h-full">
-                <nav className="flex flex-col justify-start ps-16">
+                <nav className="flex flex-col justify-start ps-16 gap-10">
+                    <h1 className="font-semibold text-3xl p-4">Administrar cuenta</h1>
                     <NavLink className={'p-4 transition-colors duration-300 hover:bg-[#3a0ca3] hover:text-white'} to={'/manage-account/editar-perfil/'+id}>
                         Editar perfil
                     </NavLink>

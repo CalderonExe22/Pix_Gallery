@@ -46,7 +46,7 @@ function PaymentCollections({ onPayment }) {
     return (
         <div>
             <button 
-                className="text-white py-2 px-4 bg-blue-600 rounded-md"
+                className="p-2 bg-[#b5179e] text-white rounded-lg font-bold"
                 onClick={handleOpenModal}>
                 Pagar Licencia
             </button>

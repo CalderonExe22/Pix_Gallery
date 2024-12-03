@@ -64,7 +64,7 @@ export default function NewComment({ photoId = null, collectionId = null }) {
                                     <div className='flex justify-between items-center'>
                                         <div className="flex justify-center items-center gap-1">
                                             <div className="flex w-10 h-10 rounded-full">
-                                                <img className="object-cover w-full h-full" src={comment.user.profile.profile_photo} alt="profile photo"/>
+                                                <img className="object-cover w-full h-full" src={comment.user.profile.profile_image_url} alt="profile photo"/>
                                             </div>
                                             <div>
                                                 <p className="font-medium">{comment.user?.username}</p>

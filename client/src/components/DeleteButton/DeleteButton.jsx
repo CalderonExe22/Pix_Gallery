@@ -5,6 +5,7 @@ import PropTypes from "prop-types"
 import { toast, Bounce } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 import style from './DeleteButton.module.css'
+import { Tooltip } from "flowbite-react";
 
 export default function DeleteButton({id, type}) {
     const [showModal, setShowModal] = useState(false)
@@ -62,10 +63,12 @@ export default function DeleteButton({id, type}) {
         }
     }
     return (
-        <>       
-            <button className={style.delete_animation} onClick={() => setShowModal(true)}>
-                <i className="fa-solid fa-trash"></i>
-            </button>
+        <>  
+            <Tooltip content='Eliminar' style="dark" placement="bottom">
+                <button className={style.delete_animation} onClick={() => setShowModal(true)}>
+                    <i className="fa-solid fa-trash"></i>
+                </button>
+            </Tooltip>
             <Modal show={showModal} onClose={() => setShowModal(false)}>
                 <Modal.Header>Confirmar eliminación</Modal.Header>
                 <Modal.Body>

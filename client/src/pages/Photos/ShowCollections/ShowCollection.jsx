@@ -103,7 +103,7 @@ export default function ShowCollection() {
     },[id])
     console.log(collection)
     return (
-        <div className="grid grid-cols-3 justify-center items-center w-full h-screen py-32">
+        <div className="grid grid-cols-3 justify-center items-center w-full h-screen">
             {collection && user ? (
                 <>
                 <div className="flex col-span-2 justify-center items-center h-full w-full">
@@ -215,8 +215,8 @@ export default function ShowCollection() {
                         <>
                             <div className="flex justify-between w-full">
                                 <div className="flex justify-center items-center gap-3">
-                                    <div className="flex w-10 h-10 rounded-full">
-                                        <img className="object-cover w-full h-full" src={collection.user?.profile.profile_photo} alt="profile photo" />                                    </div>
+                                    <div className="flex">
+                                        <img className="object-cover w-10 h-10 rounded-full" src={collection.user?.profile.profile_image_url} alt="profile photo" />                                    </div>
                                     <div>
                                         <Link to={'/perfil/'+collection.user?.id} className="font-medium">{collection.user?.username}</Link>
                                         <p>{collection.user?.followers_count} {collection.user?.followers_count > 1 ? <span>Seguidores</span> : <span>Seguidor</span> }</p>

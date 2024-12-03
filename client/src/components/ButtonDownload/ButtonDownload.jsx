@@ -1,4 +1,5 @@
 import PropTypes from "prop-types";
+import { Tooltip } from "flowbite-react";
 
 export default function ButtonDownload({ image_url, title }) {
     const handleDownload = async () => {
@@ -18,11 +19,13 @@ export default function ButtonDownload({ image_url, title }) {
     };
 
     return (
-        <button
-            onClick={handleDownload}
-            className="text-3xl relative p-2 transform transition-transform hover:scale-110">
-            <i className="fa-solid fa-download"></i>
-        </button> 
+        <Tooltip content='Descargar' style="dark" placement="bottom">
+            <button
+                onClick={handleDownload}
+                className="text-3xl relative p-2 transform transition-transform hover:scale-110">
+                <i className="fa-solid fa-download"></i>
+            </button> 
+        </Tooltip>
     )
 }
 

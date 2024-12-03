@@ -6,11 +6,13 @@ import { useForm } from 'react-hook-form';
 import Input from '../Input/Input';
 import { Bounce, toast } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
+import { Spinner } from "flowbite-react"
 
 export default function FormEditPhoto({photoData}) {
     const navigate = useNavigate()
     const [categories, setCategories] = useState([]);
     const [tags, setTags] = useState(photoData?.tags_photo || [])
+    const [isLoading, setIsLoading] = useState(false)
     console.log(tags)
     const handleAddTag = (tagName) => {
         if (tagName && !tags.some(tag => tag.name === tagName)) { 
@@ -59,7 +61,7 @@ export default function FormEditPhoto({photoData}) {
     const isFree = watch('is_free', true)
 
     const onSubmit = async (data) => {
-        console.log(data)
+        setIsLoading(true)
         const dataPhoto = {
             title: data.title,
             description: data.description,
@@ -118,6 +120,8 @@ export default function FormEditPhoto({photoData}) {
                     transition: Bounce,
                     });
             }
+        }finally{
+            setIsLoading(false)
         }
     }
     return (
@@ -215,7 +219,17 @@ export default function FormEditPhoto({photoData}) {
                     }}
                 /> 
             )}
-            <button type="submit" className="p-2 bg-[#b5179e] text-white w-52 font-bold">Editar fotografia</button>
+            <button type="submit" 
+                className={`p-2 w-48 bg-[#b5179e] rounded-xl text-white font-bold flex justify-center items-center ${
+                isLoading ? 'opacity-50 cursor-not-allowed' : ''
+                }`}
+                    disabled={isLoading}>
+                    {isLoading ? (
+                    <Spinner color="purple" size="sm" /> // Mostrar el spinner de Flowbite
+                ) : (
+                    'Guardar cambios'
+                )}
+            </button>
         </form>
         </>
     )

@@ -5,6 +5,7 @@ import style from './LikeButton.module.css';
 import { useSelector } from 'react-redux';
 import { Modal } from 'flowbite-react';
 import { useNavigate } from 'react-router-dom';
+import { Tooltip } from "flowbite-react";
 
 export default function LikeButton({ id , type, showLike }) {
 
@@ -99,15 +100,17 @@ export default function LikeButton({ id , type, showLike }) {
 
     return (
         <div>
-            <button
-                className='relative p-2'
-                onClick={() => isAuthenticated ? 
-                (isInLikes ? handleRemoveToLike() : handleAddToLike()) : handleOpenModal()}>
-                {showLike && (
-                    <span className='absolute top-0 right-0 z-10 text-white font-semibold'>{likeCount}</span>
-                )}
-                <i className={`fa-solid fa-heart ${isLikeAnimation ? style.like_animation : isDislikeAnimation ? style.dislike_animation : '' } ${isInLikes ? style.likeStyle : style.dislikeStyle }`} />
-            </button>
+            <Tooltip content='Me gusta' style='dark' placement='bottom' >
+                <button
+                    className='relative p-2'
+                    onClick={() => isAuthenticated ? 
+                    (isInLikes ? handleRemoveToLike() : handleAddToLike()) : handleOpenModal()}>
+                    {showLike && (
+                        <span className='absolute top-0 right-0 z-10 text-white font-semibold'>{likeCount}</span>
+                    )}
+                    <i className={`fa-solid fa-heart ${isLikeAnimation ? style.like_animation : isDislikeAnimation ? style.dislike_animation : '' } ${isInLikes ? style.likeStyle : style.dislikeStyle }`} />
+                </button>
+            </Tooltip>
             <Modal show={openModal} onClose={handleCloseModal}>
                 <Modal.Header>PixGallery</Modal.Header>
                 <Modal.Body>

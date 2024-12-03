@@ -100,7 +100,7 @@ class PhotographyAPIView(ModelViewSet):
                     message=f'{self.request.user.username} ha subido una nueva fotografia',
                     photography=photography
                 )
-        return Response(data=photography)
+        return Response(data=photography,status=status.HTTP_201_CREATED)
     
     def destroy(self, request, *args, **kwargs):
         photo = self.get_object()

@@ -5,6 +5,7 @@ import style from './NewWishList.module.css';
 import { useSelector } from 'react-redux';
 import { Modal } from 'flowbite-react';
 import { useNavigate } from 'react-router-dom';
+import { Tooltip } from "flowbite-react";
 
 export default function NewWishList({ id, type }) {
 
@@ -86,11 +87,13 @@ export default function NewWishList({ id, type }) {
 
     return (
         <div>
-            <button className='relative p-2' onClick={() => isAuthenticated ?
-                (isInWishlist ? handleRemoveFromWishlist() : handleAddToWishlist()) : handleOpenModal()
-            }>
-                <i className={`fa-solid fa-star ${isWishlistAnimation ? style.wishlist_animation : isNoWishlistAnimation ? style.noWishlist_animation : '' } ${isInWishlist ? style.wishlistStyle : style.noWishlistStyle }`} />
-            </button>
+            <Tooltip content='WishList' style='dark' placement='bottom' >
+                <button className='relative p-2' onClick={() => isAuthenticated ?
+                    (isInWishlist ? handleRemoveFromWishlist() : handleAddToWishlist()) : handleOpenModal()
+                }>
+                    <i className={`fa-solid fa-star ${isWishlistAnimation ? style.wishlist_animation : isNoWishlistAnimation ? style.noWishlist_animation : '' } ${isInWishlist ? style.wishlistStyle : style.noWishlistStyle }`} />
+                </button>
+            </Tooltip>
             <Modal show={openModal} onClose={handleCloseModal}>
                 <Modal.Header>PixGallery</Modal.Header>
                 <Modal.Body>

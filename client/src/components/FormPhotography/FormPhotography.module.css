@@ -1,5 +1,4 @@
 
 .inputs{
-    
-    @apply h-11 w-full p-1; 
+    @apply h-11 w-full p-1 rounded-xl duration-300 outline-none hover:border-[#3a0ca3] focus:border-[#3a0ca3]; 
 }

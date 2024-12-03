@@ -41,8 +41,8 @@ export default function CardPhoto({data,show,gridRowEndOption, idUser, showLike}
             </div>
             <div className="absolute bottom-0 left-0 w-full flex items-center justify-between gap-2 px-5 pb-4 transform translate-y-full transition-all duration-300 group-hover:translate-y-0">
                 <div className="flex justify-center items-center gap-3">
-                    <img className="object-cover rounded-full cursor-pointer w-8 h-8" src={data?.user.profile?.profile_photo} alt="foto de perfil" />
-                    <span className="text-sm font-semibold text-white">{data?.user?.username}</span>
+                    <img className="object-cover rounded-full cursor-pointer w-10 h-10" src={data?.user.profile?.profile_image_url} alt="foto de perfil" />
+                    <span className="text-base font-semibold text-white">{data?.user?.username}</span>
                 </div>
                 <div className="flex items-center gap-5 text-white ">
                     <NewWishList id={data?.id} type="photo" />

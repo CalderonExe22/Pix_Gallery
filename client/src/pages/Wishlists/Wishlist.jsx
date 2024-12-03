@@ -37,16 +37,26 @@ export default function Wishlist() {
                 <h1 className="font-semibold text-2xl">Explora y añade imágenes a tu WishList</h1>
             </div>
             {wishlist?.length > 0 ? (
-                <Tabs>
-                    <Tab title={'fotografias'}>
-                        <ListsPhotos gridRowEndOption={true} layoutStyle={'grid'} type={'photos'} data={photos} />
+                <Tabs styleButtonTab={'w-[200px] text-xl font-semibold'}>
+                    <Tab title={'fotografias ('+photos.length+')'}>
+                        {photos.length > 0 ? (
+                            <ListsPhotos gridRowEndOption={true} layoutStyle={'grid'} type={'photos'} data={photos} />
+                        ):(
+                            <h1 className="font-semibold text-2xl">Cuanto espacio!. Explora y añade Colecciones a tu WishList</h1>
+                        )}
                     </Tab>
-                    <Tab title={'Colecciones'}>
-                        <ListsPhotos gridRowEndOption={true} layoutStyle={'grid'} type={'collections'} data={collections} />    
+                    <Tab title={'Colecciones ('+collections.length+')'}>
+                        {collections.length > 0 ? (
+                            <ListsPhotos gridRowEndOption={true} layoutStyle={'grid'} type={'collections'} data={collections} />    
+                        ):(
+                            <h1 className="font-semibold text-2xl">Cuanto espacio!. Explora y añade Colecciones a tu WishList</h1>
+                        )}
                     </Tab>
                 </Tabs>
             ) : (
-                <h1>No tienes colecciones o fotografias añadidas</h1>
+                <div className="flex justify-center items-center">
+                    <h1 className="font-semibold text-2xl">Cuanto espacio!. Explora y añade imágenes a tu WishList</h1>
+                </div>
             )}
             
         </div>

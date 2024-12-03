@@ -46,7 +46,7 @@ function PaymentPhoto({ onPayment }) {
 
     return (
         <>
-            {onPayment.is_free || !isPayment ? 
+            {onPayment.is_free || isPayment ? 
                 <ButtonDownload title={onPayment?.title} image_url={onPayment?.image_url} />
                 :
                 <button 

@@ -70,6 +70,7 @@ export default function FormPhoto({updatePhotoData, selectedPhoto}) {
                 onChange={handleChange('title')}
                 value={selectedPhoto?.title || ''}
                 required
+                className="h-11 w-full p-1 rounded-xl duration-300 outline-none hover:border-[#3a0ca3] focus:border-[#3a0ca3]"
             />
             <input 
                 type="text"
@@ -78,7 +79,8 @@ export default function FormPhoto({updatePhotoData, selectedPhoto}) {
                 placeholder='Ingrese titulo de su foto'
                 onChange={handleChange('description')}
                 value={selectedPhoto?.description || ''}
-                required={true}
+                required
+                className="h-11 w-full p-1 rounded-xl duration-300 outline-none hover:border-[#3a0ca3] focus:border-[#3a0ca3]"
             />
             <select 
                 id="category" 
@@ -86,6 +88,7 @@ export default function FormPhoto({updatePhotoData, selectedPhoto}) {
                 onChange={handleChange('category')}
                 value={selectedPhoto?.category || ''}
                 required
+                className="h-11 w-full p-1 rounded-xl duration-300 outline-none hover:border-[#3a0ca3] focus:border-[#3a0ca3]"
                 >
                 <option value="">Selecciona una categoría</option>
                 {categories.map(category => (
@@ -94,7 +97,7 @@ export default function FormPhoto({updatePhotoData, selectedPhoto}) {
             </select>
             <div className="flex flex-col gap-3">
                 <label id="tags" htmlFor="tags">Tags</label>
-                <input id="tags" type="text" name='tags' placeholder="Ingrese tags adicionales"
+                <input className="h-11 w-full p-1 rounded-xl duration-300 outline-none hover:border-[#3a0ca3] focus:border-[#3a0ca3]" id="tags" type="text" name='tags' placeholder="Ingrese tags adicionales"
                     onKeyDown={(e) => {
                         if(e.key === 'Enter'){
                             e.preventDefault()
@@ -129,42 +132,40 @@ export default function FormPhoto({updatePhotoData, selectedPhoto}) {
                 <h1 className="text-2xl col-span-2 w-full">Informacio EXIF</h1>
                 <p>(No es obligatoria)</p>
                 <div className="w-full col-span-2">
-                    <input type="text" name='camera' placeholder="Camara" className="w-full"
+                    <input type="text" name='camera' placeholder="Camara" className="h-11 w-full p-1 rounded-xl duration-300 outline-none hover:border-[#3a0ca3] focus:border-[#3a0ca3]"
                         onChange={handleChange('camera')}
                         value={selectedPhoto?.camera || ''}
-                        required={true}/>
+                        />
+                        
                 </div>
                 <div className="w-full col-span-2">
-                    <input type="text" name='lens' placeholder="lente" className="w-full"
+                    <input type="text" name='lens' placeholder="lente" className="h-11 w-full p-1 rounded-xl duration-300 outline-none hover:border-[#3a0ca3] focus:border-[#3a0ca3]"
                     onChange={handleChange('lens')}
                     value={selectedPhoto?.lens || ''}
-                    required={true}/>
-                </div>
-                <div className="w-full">
-                    <input type="number" name='focal_length' placeholder="Distancia focal" className="w-full"
-                    onChange={handleChange('focal_length')}
-                    value={selectedPhoto?.focal_length || ''}
-                    required={true}/>
-                </div>
-                <div className="w-full">
-                    <input type="number" name='shutter_speed' placeholder="velocidad de abturacion" className="w-full"
-                    onChange={handleChange('shutter_speed')}
-                    value={selectedPhoto?.shutter_speed || ''}
-                    required={true}
                     />
                 </div>
                 <div className="w-full">
-                    <input type="number" name='aperture' placeholder="Apertura" className="w-full"
+                    <input type="number" name='focal_length' placeholder="Distancia focal" className="h-11 w-full p-1 rounded-xl duration-300 outline-none hover:border-[#3a0ca3] focus:border-[#3a0ca3]"
+                    onChange={handleChange('focal_length')}
+                    value={selectedPhoto?.focal_length || ''}
+                    />
+                </div>
+                <div className="w-full">
+                    <input type="number" name='shutter_speed' placeholder="velocidad de abturacion" className="h-11 w-full p-1 rounded-xl duration-300 outline-none hover:border-[#3a0ca3] focus:border-[#3a0ca3]"
+                    onChange={handleChange('shutter_speed')}
+                    value={selectedPhoto?.shutter_speed || ''}
+                    />
+                </div>
+                <div className="w-full">
+                    <input type="number" name='aperture' placeholder="Apertura" className="h-11 w-full p-1 rounded-xl duration-300 outline-none hover:border-[#3a0ca3] focus:border-[#3a0ca3]"
                     onChange={handleChange('aperture')}
                     value={selectedPhoto?.aperture || ''}
-                    required={true}
                     />
                 </div>
                 <div className="w-full ">
-                    <input type="number" name='iso' placeholder="ISO" className="w-full" 
+                    <input type="number" name='iso' placeholder="ISO" className="h-11 w-full p-1 rounded-xl duration-300 outline-none hover:border-[#3a0ca3] focus:border-[#3a0ca3]" 
                     onChange={handleChange('iso')}
                     value={selectedPhoto?.iso || ''}
-                    required={true}
                     />
                 </div>
             </div>    
@@ -184,6 +185,7 @@ export default function FormPhoto({updatePhotoData, selectedPhoto}) {
                     onChange={handleChange('precio')}
                     value={selectedPhoto?.precio || 0}
                     min="0"
+                    className="h-11 w-full p-1 rounded-xl duration-300 outline-none hover:border-[#3a0ca3] focus:border-[#3a0ca3]"
                 /> 
             )}
         </div>

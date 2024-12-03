@@ -34,10 +34,15 @@ class UserSerializer(ModelSerializer):
         return portafolio.id if portafolio else None  
     
 class ProfileSerializer(ModelSerializer):
+    profile_image_url = serializers.SerializerMethodField(read_only=True)
+
     class Meta: 
         model = Profile
-        fields = ['id','name','last_name','bio','country','profile_photo','website']
-        
+        fields = ['id','name','last_name','bio','country','profile_photo','website','profile_image_url']
+    
+    def get_profile_image_url(self, obj):
+        return obj.profile_photo.url if obj.profile_photo else None
+
 class UserRegistrationSerializar(ModelSerializer):
     password1 = serializers.CharField(write_only=True, required=True)
     password2 = serializers.CharField(write_only=True, required=True)

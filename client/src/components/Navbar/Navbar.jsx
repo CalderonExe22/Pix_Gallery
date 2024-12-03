@@ -9,6 +9,7 @@ import axiosApi from "../../services/axiosApi";
 import DropNotifications from "../DropNotifications/DropNotifications";
 import DropProfile from "../DropProfile/DropProfile";
 import logo from '../../assets/PG_N°1.svg'
+import { Tooltip } from "flowbite-react";
 
 export default function Navbar() {
     const location = useLocation()
@@ -43,7 +44,7 @@ export default function Navbar() {
                 </li>
             ))
         )
-    );
+    )
     return (
         <nav className={style.navbar}> 
             <ul className={style.itemsNav}>
@@ -62,12 +63,14 @@ export default function Navbar() {
                             <DropNotifications />
                         </li>
                         <li>
-                            <Link  className={`${style.links_icons} ${location.pathname === '/wishlist' ? style.active : ''}`} to={'/wishlist'}>
-                                <i aria-label="wishlist" className="fa-solid fa-star text-2xl"></i>
-                            </Link>
+                            <Tooltip content='WishList' style="dark" placement="bottom" >
+                                <Link  className={`${style.links_icons} ${location.pathname === '/wishlist' ? style.active : ''}`} to={'/wishlist'}>
+                                    <i aria-label="wishlist" className="fa-solid fa-star text-2xl"></i>
+                                </Link>
+                            </Tooltip>
                         </li>
                         <li>
-                            <DropProfile image_profile={user?.profile?.profile_photo} idProfile={user?.id}/>
+                            <DropProfile image_profile={user?.profile?.profile_image_url} idProfile={user?.id}/>
                         </li>
                     </>
                 ) : (

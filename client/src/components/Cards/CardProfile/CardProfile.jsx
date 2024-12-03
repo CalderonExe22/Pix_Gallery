@@ -12,7 +12,7 @@ export default function CardProfile({profile,gridRowEndOption}) {
     console.log(profile)
     return (
         <div onClick={() => showProfile(profile?.user.id)} className={`relative flex flex-col items-center group overflow-hidden rounded-xl shadow-xl cursor-pointer bg-gray-200 p-10`} style={{ gridRowEnd: gridRowEndOption ? `span ${Math.floor(Math.random() * 5) + 10}` : '' }} >
-            <img className='rounded-full w-[100px] h-[100px]' src={profile?.user?.profile?.profile_photo} />
+            <img className='rounded-full w-[100px] h-[100px]' src={profile?.user?.profile?.profile_image_url} />
             <div className="flex flex-col justify-center items-center gap-3">
                 {profile ? (
                     <>

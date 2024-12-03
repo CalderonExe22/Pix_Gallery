@@ -46,9 +46,9 @@ export default function Profile() {
     console.log(profile)
     console.log(collections)
     return (
-        <section className="flex flex-col items-center gap-4 h-full w-full py-28">
+        <section className="flex flex-col items-center gap-4 h-full w-full">
             <div className="">   
-                <img className='w-[250px] h-[250px] rounded-full' src={profile?.profile?.profile_photo} />
+                <img className='w-[250px] h-[250px] rounded-full' src={profile?.profile?.profile_image_url} />
             </div>
             <div className="flex justify-center">
                 <div className="flex gap-5">
