@@ -27,17 +27,19 @@ export default function LikeButton({ id , type, showLike }) {
     };
 
     const getLikes = async () => {
-        try {
-            const response = await axiosApi.get('likes/likes/get_user_likes/');
-            setLikes(response.data);
-            console.log(response.data);
-            setIsInLikes(
-                type === 'photo'
-                ? response.data.some(like => like.photo === id)
-                : response.data.some(like => like.collection === id)
-            );        
-        } catch (error) {
-            console.error('Error al obtener los Likes:', error);
+        if(isAuthenticated){
+            try {
+                const response = await axiosApi.get('likes/likes/get_user_likes/');
+                setLikes(response.data);
+                console.log(response.data);
+                setIsInLikes(
+                    type === 'photo'
+                    ? response.data.some(like => like.photo === id)
+                    : response.data.some(like => like.collection === id)
+                );        
+            } catch (error) {
+                console.error('Error al obtener los Likes:', error);
+            }
         }
     };
 

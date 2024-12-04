@@ -171,7 +171,7 @@ class PhotographyAPIView(ModelViewSet):
     def get_permissions(self):
         if self.action in ['update', 'destroy']:
             self.permission_classes = [IsAuthenticated, IsOwner]
-        elif self.action in ['get_all_photographies', 'get_photographies_by_user']:
+        elif self.action in ['get_all_photographies', 'get_photographies_by_user','get_all_tags','get_all_categories']:
             self.permission_classes = [AllowAny]
         else:
             self.permission_classes = [IsAuthenticated]

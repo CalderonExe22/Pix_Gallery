@@ -59,6 +59,7 @@ export const registerUser = createAsyncThunk(
                 localStorage.setItem('accessToken', response.data.tokens.access)
                 localStorage.setItem('refreshToken', response.data.tokens.refresh)
                 localStorage.setItem('userId', response.data.id)
+                localStorage.setItem('has_portafolio', response.data.has_portafolio)
                 return response.data
             }
         } catch (error) {
