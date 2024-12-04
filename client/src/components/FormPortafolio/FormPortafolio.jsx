@@ -72,6 +72,7 @@ export default function FormPortafolio() {
     }
 
     useEffect(()=>{
+        document.title = 'Crear portafolio'
         fechPhotos()
         fechCollections()
     }, [])

@@ -29,7 +29,6 @@ export default function NewWishList({ id, type }) {
         if (isAuthenticated){
             try {
                 const response = await axiosApi.get('wishlist/wishlist/get_user_wishlist/');
-                console.log(response.data);
                 setWishlist(response.data);
                 if (type === 'photo') {
                     setIsInWishlist(response.data.some(item => item.photo?.id === id));

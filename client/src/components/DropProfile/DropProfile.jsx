@@ -9,7 +9,7 @@ export default function DropProfile({image_profile, idProfile}) {
     const dropdownRef = useRef(null)
     const navigate = useNavigate()
     const location = useLocation()
-    console.log(location.pathname === '/perfil/'+idProfile+'')
+    
     const toggleDropdown = () => setIsOpen(!isOpen)
 
     const handleClickOutside = (e) => {

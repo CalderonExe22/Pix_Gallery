@@ -57,6 +57,7 @@ export default function SalesHistory() {
     }
 
     useEffect(() => {
+        document.title = 'Administrar cuenta - Historial de ventas'
         getUserInfo();
     }, []);
 

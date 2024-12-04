@@ -37,8 +37,7 @@ export default function SearchContainer({results}) {
 
                     {results?.profiles?.map((profile) => (
                     <CardProfile key={profile.user?.id} profile={profile} />
-                ))}
-                    
+                    ))}
                 </>
         }
     }
@@ -46,7 +45,7 @@ export default function SearchContainer({results}) {
         <div className="flex flex-col gap-10 h-full w-full py-36">
             <div className="flex justify-between w-full">
                 <span className="text-base font-medium">Resultados: {results?.photos?.length + results.collections?.length + results.profiles?.length}</span>
-                <Dropdown label="Filtrar resultados">
+                <Dropdown label="Filtrar resultados" inline>
                     <Dropdown.Item onClick={() => handleFilterChange("all")} >Todos</Dropdown.Item>
                     <Dropdown.Item onClick={() => handleFilterChange("photos")} >Fotografias</Dropdown.Item>
                     <Dropdown.Item onClick={() => handleFilterChange("collections")}>Colecciones</Dropdown.Item>

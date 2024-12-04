@@ -12,6 +12,7 @@ export default function Auth() {
     const hideFormLogin = () => setIsActive(false)
 
     useEffect(() => {
+        document.title = 'Registro || inicio sesión'
         setIsActive(mode === 'login')
     },[mode])
     

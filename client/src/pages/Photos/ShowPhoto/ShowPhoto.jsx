@@ -16,7 +16,8 @@ export default function ShowPhoto() {
     const [photo, setPhoto] = useState(null);
     const isMounted = useRef(false);
     const [user, setUser] = useState([]);
-    console.log(photo)
+    const [showExifData, setShowExifData] = useState(false)
+    console.log(showExifData)
     const getUserInfo = async () => {
         try {
             const response = await axiosApi.get('users/user/', { timeout: 5000 });
@@ -81,6 +82,7 @@ export default function ShowPhoto() {
     };
 
     useEffect(() => {
+        document.title = 'Ver foto'
         if (isMounted.current) return;
         isMounted.current = true;
         getViews();
@@ -143,23 +145,28 @@ export default function ShowPhoto() {
                         </div>
                         {photo?.exif_data ? (
                             <div className="flex flex-col justify-start w-full gap-5">
-                                <div className="flex justify-start items-center">
-                                    <p className="text-base flex items-center"><span className="font-bold"><i className="fa-solid fa-camera"></i> Camara: </span> {photo.exif_data?.camera || ' No proporcionado'}</p>
+                                <div onClick={() => setShowExifData(!showExifData)} className="w-auto p-2 cursor-pointer">
+                                    <h1 className="font-medium text-lg transition-colors duration-300 hover:text-[#b5179e]">Ver exif data de la fotografia {showExifData ? '-' : '+'}</h1>
                                 </div>
-                                <div className="flex justify-start items-center">
-                                    <p className="text-base flex items-center"><span className="font-bold"><i className="fa-brands fa-files-pinwheel"></i> Lente: </span> {photo.exif_data?.lens || ' No proporcionado'}</p>
-                                </div>
-                                <div className="flex justify-start items-center">
-                                    <p className="text-base flex gap-1 items-center"><img width="16" height="16" src="https://img.icons8.com/material-outlined/24/aperture.png" alt="aperture"/><span className="font-bold"> Apertura:</span> {photo.exif_data?.aperture || 'No proporcionado'}</p>
-                                </div>
-                                <div className="flex justify-start items-center">
-                                    <p className="text-base flex gap-1 items-center"><img width="16" height="16" src="https://img.icons8.com/material-outlined/24/focal-length.png" alt="focal-length"/><span className="font-bold"> Distancia focal:</span> {photo.exif_data?.focal_length || 'No proporcionado'}</p>
-                                </div>
-                                <div className="flex justify-start items-center">
-                                    <p className="text-base flex items-center"><span className="font-bold"><i className="fa-solid fa-gauge-high"></i> Velocidad de apertura: </span> {photo.exif_data?.shutter_speed || ' No proporcionado'}</p>
-                                </div>
-                                <div className="flex justify-start items-center">
-                                    <p className="text-base flex gap-1 items-center"><img width="16" height="16" src="https://img.icons8.com/material/24/iso.png" alt="iso"/><span className="font-bold"> ISO: </span> {photo.exif_data?.iso || 'No proporcionado'}</p>
+                                <div className={`flex flex-col justify-start w-full gap-5 ${showExifData ? 'h-full' : 'h-0 overflow-hidden'} transform transition-all duration-500`}>
+                                    <div className="flex justify-start items-center">
+                                        <p className="text-base flex items-center"><span className="font-bold"><i className="fa-solid fa-camera"></i> Camara: </span> {photo.exif_data?.camera || ' No proporcionado'}</p>
+                                    </div>
+                                    <div className="flex justify-start items-center">
+                                        <p className="text-base flex items-center"><span className="font-bold"><i className="fa-brands fa-files-pinwheel"></i> Lente: </span> {photo.exif_data?.lens || ' No proporcionado'}</p>
+                                    </div>
+                                    <div className="flex justify-start items-center">
+                                        <p className="text-base flex gap-1 items-center"><img width="16" height="16" src="https://img.icons8.com/material-outlined/24/aperture.png" alt="aperture"/><span className="font-bold"> Apertura:</span> {photo.exif_data?.aperture || 'No proporcionado'}</p>
+                                    </div>
+                                    <div className="flex justify-start items-center">
+                                        <p className="text-base flex gap-1 items-center"><img width="16" height="16" src="https://img.icons8.com/material-outlined/24/focal-length.png" alt="focal-length"/><span className="font-bold"> Distancia focal:</span> {photo.exif_data?.focal_length || 'No proporcionado'}</p>
+                                    </div>
+                                    <div className="flex justify-start items-center">
+                                        <p className="text-base flex items-center"><span className="font-bold"><i className="fa-solid fa-gauge-high"></i> Velocidad de apertura: </span> {photo.exif_data?.shutter_speed || ' No proporcionado'}</p>
+                                    </div>
+                                    <div className="flex justify-start items-center">
+                                        <p className="text-base flex gap-1 items-center"><img width="16" height="16" src="https://img.icons8.com/material/24/iso.png" alt="iso"/><span className="font-bold"> ISO: </span> {photo.exif_data?.iso || 'No proporcionado'}</p>
+                                    </div>
                                 </div>
                             </div>
                         ) : (

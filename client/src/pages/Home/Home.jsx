@@ -6,6 +6,7 @@ import Tab from '../../components/Tabs/Tab';
 import { useEffect, useState } from 'react';
 import axiosApi from '../../services/axiosApi';
 import Filter from '../../components/Filter/Filter'
+import { Spinner } from 'flowbite-react';
 
 export default function Home() {
     const [photos, setPhotos] = useState([])
@@ -13,8 +14,11 @@ export default function Home() {
     const [categoryId, setCategoryId] = useState('')
     const [tagId, setTagId] = useState('')
     const [isFree, setIsFree] = useState('')
-    console.log(isFree)
+    const [loadingPhotos, setLoadingPhotos] = useState(false)
+    const [loadingCollections, setLoadingCollections] = useState(false)
+
     const fetchPhotos = async (categoryId = '', tagId = '', isFree = '') => {
+        setLoadingPhotos(true)
         try {
             const response = await axiosApi.get('photos/photography/get_all_photographies/', {
                 params: { category: categoryId, tag: tagId, is_free: isFree }
@@ -24,10 +28,13 @@ export default function Home() {
             }
         } catch (error) {
             console.log(error)
+        }finally{
+            setLoadingPhotos(false)
         }
     }
     
     const fetchCollections = async (categoryId = '', tagId = '', isFree = '') => {
+        setLoadingCollections(true)
         try {
             const response = await axiosApi.get('photos/collections/all_collections/', {
                 params: { category: categoryId, tag: tagId, is_free: isFree }
@@ -35,10 +42,13 @@ export default function Home() {
             setCollections(response.data)
         } catch (error) {
             console.log(error)
+        }finally{
+            setLoadingCollections(false)
         }
     }
 
     useEffect(()=>{
+        document.title = 'Inicio'
         fetchPhotos(categoryId, tagId, isFree)
         fetchCollections(categoryId, tagId, isFree)
     },[categoryId, tagId, isFree])
@@ -49,18 +59,28 @@ export default function Home() {
         setIsFree(isFreeValue)
     };
 
-    console.log(photos)
     return (
         <div className={style.home_container}>
-            <Tabs styleButtonTab={'w-[170px] font-semibold text-2xl'} extraChildren={<Filter onFilterChange={handleFilterChange} />}>
+            <Tabs styleButtonTab={'w-[170px] font-semibold text-xl'} extraChildren={<Filter onFilterChange={handleFilterChange} />}>
                 <Tab title={'Fotografias'}>
-                    <ListsPhotos gridRowEndOption={true} layoutStyle={'grid'} type={'photos'} data={photos} />
+                    {loadingPhotos ? (
+                        <div className="flex justify-center w-full">
+                            <Spinner color="purple" aria-label="Extra large spinner example" size="xl" />
+                        </div>
+                    ) : (
+                        <ListsPhotos gridRowEndOption={true} layoutStyle={'grid'} type={'photos'} data={photos} />
+                    )}
                 </Tab>
                 <Tab title={'Colecciones'}>
-                    <ListsPhotos gridRowEndOption={true} layoutStyle={'grid'} type={'collections'} data={collections} />
+                    {loadingCollections ? (
+                        <div className="flex justify-center w-full">
+                            <Spinner color="purple" aria-label="Extra large spinner example" size="xl" />
+                        </div>
+                    ) : (
+                        <ListsPhotos gridRowEndOption={true} layoutStyle={'grid'} type={'collections'} data={collections} />
+                    )}
                 </Tab>
             </Tabs>
-            
         </div>
     )
 }

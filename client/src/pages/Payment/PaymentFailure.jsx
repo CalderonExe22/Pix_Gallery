@@ -70,6 +70,7 @@ function PaymentFailure() {
     }
 
     useEffect(() => {
+        document.title = 'Pago rechazado'
         const query = new URLSearchParams(location.search);
         const paymentId = query.get('payment_id');
         const [id_photo, type_payment] = query.get('external_reference').split('-');

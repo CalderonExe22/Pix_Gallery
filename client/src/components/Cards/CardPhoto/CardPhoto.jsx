@@ -20,7 +20,7 @@ export default function CardPhoto({data,show,gridRowEndOption, idUser, showLike}
                 <div className="absolute z-10 top-0 left-0 w-full flex items-center justify-between gap-2 px-5 pt-4 transform -translate-y-full transition-all duration-300 group-hover:-translate-y-0">
                     <div className="flex justify-center items-center gap-5 text-white">
                         {data?.is_free ===  false && (
-                            <i className="fa-solid fa-dollar-sign text-lg"></i>
+                            <i className="fa-solid fa-dollar-sign text-xl"></i>
                         )}
                     </div>
                     {show && (

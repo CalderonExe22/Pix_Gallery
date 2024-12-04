@@ -13,14 +13,28 @@ class SearchAPIView(APIView):
     def get(self, request, *args, **kwargs):
         query = request.query_params.get('q',None)
         if query:
-            photos = Photography.objects.filter(Q(title__icontains = query) | Q(description__icontains = query))
-            categories = Category.objects.filter(Q(name__icontains = query)) 
-            profiles = Profile.objects.filter(Q(user__username__icontains = query)) 
+            photos = Photography.objects.filter(
+                Q(title__icontains=query) | 
+                Q(description__icontains=query) |
+                Q(categoryphotography__category__name__icontains=query) |
+                Q(photography_tags__tag__name__icontains=query)
+            )
+            
+            categories = Category.objects.filter(
+                Q(name__icontains = query)
+            ) 
+            
+            profiles = Profile.objects.filter(
+                Q(user__username__icontains = query)
+            ) 
+            
             collections = Collection.objects.filter(
                 Q(name__icontains=query) | 
-                Q(collectionphotography__photography__title__icontains=query) | 
-                Q(collectionphotography__photography__description__icontains=query)
-            ).distinct()
+                Q(description__icontains=query) |
+                Q(categorycollection__category__name__icontains=query) |
+                Q(collectionphotography__photography__title__icontains=query)
+            )
+            
             photo_serializer = PhotographySerializer(photos, many=True)
             categories_serializer = CategorySerializer(categories, many=True)
             profiles_serializer = ProfileSerializer(profiles, many=True)

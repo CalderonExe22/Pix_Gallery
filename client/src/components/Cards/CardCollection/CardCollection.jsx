@@ -25,7 +25,6 @@ export default function CardCollection({ collection, show,gridRowEndOption, idUs
     }  
 
     const images = getImages();
-    console.log(collection)
     return (
         <div className="relative overflow-hidden rounded-lg shadow-xl group cursor-pointer w-full z-30" style={{ gridRowEnd: gridRowEndOption ? `span ${Math.floor(Math.random() * 5) + 15}` : '' }}>
             <div className="absolute z-30 top-0 left-0 w-full flex items-center justify-end gap-2 px-5 pt-4 transform -translate-y-full transition-all duration-300 group-hover:-translate-y-0">

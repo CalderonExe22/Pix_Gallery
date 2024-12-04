@@ -31,7 +31,6 @@ export default function LikeButton({ id , type, showLike }) {
             try {
                 const response = await axiosApi.get('likes/likes/get_user_likes/');
                 setLikes(response.data);
-                console.log(response.data);
                 setIsInLikes(
                     type === 'photo'
                     ? response.data.some(like => like.photo === id)

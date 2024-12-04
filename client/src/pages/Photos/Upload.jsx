@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import UploadPhoto from "../../components/UploadPhoto/UploadPhoto"
 import UploadCollection from "../../components/UploadCollection/UploadCollection"
 
@@ -7,6 +7,10 @@ export default function Upload() {
     const collectionOrPhotography = () =>{
         setShow(!show)
     }
+
+    useEffect(() => {
+        document.title = 'Subir'
+    })
 
     return (
         <div className={`flex flex-col sm:h-[300px] md:h-[550px] lg:h-[700px] w-full`}>

@@ -54,6 +54,7 @@ export default function PurchaseHistory() {
     }
 
     useEffect(() => {
+        document.title = 'Administrar cuenta - Historial de Compras'
         getPayments();
     }, []);
 

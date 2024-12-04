@@ -65,7 +65,7 @@ export default function ShowCollection() {
         }
     }
 
-    function DateFormatter( isoDate ) {
+    function DateFormatter({ isoDate }) {
         const formattedDate = new Date(isoDate).toLocaleDateString("es-ES", {
             year: "numeric",
             month: "long",
@@ -74,7 +74,9 @@ export default function ShowCollection() {
             minute: "2-digit",
             hour12: true,
         });
-    
+        DateFormatter.propTypes = {
+            isoDate: PropTypes.string.isRequired,
+        };
         return <span>{formattedDate}</span>;
     }
 
@@ -94,6 +96,7 @@ export default function ShowCollection() {
     }
 
     useEffect(()=>{
+        document.title = 'Ver coleccion'
         if (isMounted.current) return
         isMounted.current = true
         fechCollection(id)
@@ -169,7 +172,7 @@ export default function ShowCollection() {
                                     <p className="text-base flex gap-3 items-center"><i className="fa-regular fa-heart"></i>{collection.photos[activeIndex].likes_count} <span>Likes</span></p>
                                     <p className="text-base flex gap-3 items-center"><i className="fa-regular fa-comment"></i>{collection.photos[activeIndex].comments_count}<span>Comentarios</span></p>
                                     <p className="text-base flex gap-3 items-center"><i className="fa-regular fa-eye"></i>{collection.photos[activeIndex].view_count} <span>Vistas</span></p>
-                                    <p className="text-base flex gap-3 items-center"><i className="fa-solid fa-calendar-days"></i><DateFormatter isoDate={collection.photos[activeIndex]?.created_at} /></p>
+                                    <p className="text-base flex gap-3 items-center"><i className="fa-solid fa-calendar-days"></i>{<DateFormatter isoDate={collection.photos[activeIndex]?.created_at} />}</p>
                                 </div>
                                 {collection.photos[activeIndex]?.exif_data ? (
                                     <div className="flex flex-col justify-start w-full gap-5">

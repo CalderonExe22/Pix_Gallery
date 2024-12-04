@@ -124,6 +124,7 @@ export default function Profile() {
     }
 
     useEffect(() => {
+        document.title = 'Administrar cuenta - Editar perfil'
         fetchProfile()
         fetchCountries()
     }, [id]);
