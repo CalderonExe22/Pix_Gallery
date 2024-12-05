@@ -129,6 +129,7 @@ export default function FormEditCollection({ collection , indexPhoto = 0 }) {
             const collectionResponse = await axiosApi.patch(`photos/collections/${collection.id}/`, collectionData);
     
             if (collectionResponse.status === 200) {
+                
                 toast.success(`La colección se actualizo correctamente.`, {
                     position: "top-center",
                     autoClose: 5000,

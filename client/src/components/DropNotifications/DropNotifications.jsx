@@ -17,7 +17,8 @@ export default function DropNotifications() {
         try {
             const response = await axiosApi.get('notifications/notifications/');
             if (response.data) {
-                setNotifications(response.data);
+                const sortedNotifications = response.data.sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
+                setNotifications(sortedNotifications);
             }
         } catch (error) {
             console.log(error);

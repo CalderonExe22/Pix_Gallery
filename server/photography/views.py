@@ -85,7 +85,11 @@ class PhotographyAPIView(ModelViewSet):
         except User.DoesNotExist:
             return Response({"detail": "Usuario no encontrado."}, status=status.HTTP_404_NOT_FOUND)
         
-        user_photographies = Photography.objects.filter(user=user).distinct()
+        if request.user == user:
+            user_photographies = Photography.objects.filter(user=user).distinct()
+        else:
+            user_photographies = Photography.objects.filter(user=user, is_public=True).distinct()
+        
         serializer = self.get_serializer(user_photographies, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
     
@@ -257,13 +261,19 @@ class CollectionAPIView(ModelViewSet):
     
     @action(detail=False, methods=['get'], url_path='user-collections/(?P<user_id>[^/.]+)')
     def get_collections_by_user(self, request, user_id=None):
-        """Endpoint para obtener las colecciones y fotografías de un usuario específico."""
+        """Endpoint para obtener las colecciones públicas y privadas de un usuario específico según el contexto."""
         try:
             user = User.objects.get(id=user_id)
         except User.DoesNotExist:
             return Response({"detail": "Usuario no encontrado."}, status=status.HTTP_404_NOT_FOUND)
 
-        user_collections = Collection.objects.filter(collectionphotography__user=user).distinct()
+        if request.user == user:
+            # Si es el propietario, mostrar todas las colecciones
+            user_collections = Collection.objects.filter(collectionphotography__user=user).distinct()
+        else:
+            # Si no es el propietario, mostrar solo las colecciones públicas
+            user_collections = Collection.objects.filter(collectionphotography__user=user, is_public=True).distinct()
+
         serializer = CollectionSerializer(user_collections, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
     
