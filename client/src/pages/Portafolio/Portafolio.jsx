@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import axiosApi from '../../services/axiosApi';
 import PropTypes from "prop-types";
 import CardPhoto from '../../components/Cards/CardPhoto/CardPhoto';
+import { Spinner } from 'flowbite-react';
 
 export default function Portafolio({idUser}) {
     //const { id } = useParams(); // Obtener el ID del portafolio de la URL
@@ -23,7 +24,9 @@ export default function Portafolio({idUser}) {
     }, [idUser]);
   
     if (loading) {
-      return <div>Cargando...</div>;
+      return <div className="flex justify-center w-full">
+      <Spinner color="purple" aria-label="Extra large spinner example" size="xl" />
+      </div>
     }
   
     if (!portafolio) {
