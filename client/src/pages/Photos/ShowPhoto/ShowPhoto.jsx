@@ -18,6 +18,16 @@ export default function ShowPhoto() {
     const isMounted = useRef(false);
     const [user, setUser] = useState([]);
     const [showExifData, setShowExifData] = useState(false)
+
+    const [imageSize, setImageSize] = useState({ width: null, height: null });
+
+    const handleImageLoad = (event) => {
+    setImageSize({
+        width: event.target.naturalWidth,
+        height: event.target.naturalHeight,
+    });
+    }
+
     console.log(showExifData)
     const getUserInfo = async () => {
         try {
@@ -95,8 +105,20 @@ export default function ShowPhoto() {
         <div className="grid grid-cols-3 justify-center items-center w-full h-screen">
             {photo && user ? (
                 <>
-                    <div className="flex col-span-2 justify-center items-center h-full w-full">
-                        <img className="max-w-full max-h-full object-contain" src={photo.image_url} alt={photo.title} />
+                    <div className="flex col-span-2 justify-center items-center w-full h-screen">
+                        <img
+                            className="responsive-image"
+                            src={photo.image_url}
+                            alt={photo.title}
+                            onLoad={handleImageLoad}
+                            style={{
+                                maxWidth: "100%",
+                                maxHeight: "100%",
+                                objectFit: "contain",
+                                width: imageSize.width && imageSize.width < 800 ? `${imageSize.width}px` : "auto",
+                                height: imageSize.height && imageSize.height < 600 ? `${imageSize.height}px` : "auto",
+                            }}
+                        />
                     </div>
                     <div className="relative flex flex-col col-span-1 justify-start items-start w-full h-[900px] overflow-hidden overflow-y-auto px-10 gap-20 pb-10">
                         <div className="sticky top-0 left-0 bg-white flex justify-start items-center gap-10 py-5 w-full">

@@ -199,7 +199,7 @@ export default function ShowCollection() {
                                 ) : (
                                     <p>No se proporciono exif data</p>
                                 )}        
-                                {collection.photos[activeIndex]?.tags_photo > 0 ? (
+                                {collection.photos[activeIndex]?.tags_photo.length > 0 ? (
                                     <div className="flex flex-wrap w-full h-auto gap-2">
                                         {collection.photos[activeIndex]?.tags_photo.map((tag, index) => (    
                                             <div  key={index} className="flex justify-center items-center gap-2 p-2 w-auto h-auto rounded-md border-solid border-2 border-[#b5179e] text-[#b5179e]">
