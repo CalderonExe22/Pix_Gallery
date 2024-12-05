@@ -76,7 +76,7 @@ export default function FormPhoto({updatePhotoData, selectedPhoto}) {
                 type="text"
                 name='description'
                 label='Descripción de la fotografia'
-                placeholder='Ingrese titulo de su foto'
+                placeholder='Ingrese descripcion de su foto'
                 onChange={handleChange('description')}
                 value={selectedPhoto?.description || ''}
                 required

@@ -117,7 +117,7 @@ export default function ShowCollection() {
                     </Carousel>
                 </div>
                 <div className="relative flex flex-col col-span-1 justify-start items-start w-full h-[900px] overflow-hidden overflow-y-auto px-10 gap-16 pb-10">
-                    <div className="sticky top-0 left-0 bg-white flex justify-start gap-7 w-full h-full">
+                    <div className="sticky top-0 left-0 bg-white flex justify-start items-center gap-7 w-full h-full">
                         {collection?.id ? (
                             <>
                                 <LikeButton type="collection" id={collection?.id} />
@@ -140,6 +140,7 @@ export default function ShowCollection() {
                             <ButtonDownload title={collection.photos[activeIndex].title} image_url={collection.photos[activeIndex].image_url} />
                         :
                             <PaymentCollections onPayment={collection} />)
+                        
                     }
                     </div>
                     <div className="flex flex-col justify-start w-full gap-7">

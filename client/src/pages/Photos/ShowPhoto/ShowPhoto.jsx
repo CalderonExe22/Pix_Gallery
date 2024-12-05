@@ -10,6 +10,7 @@ import PropsTypes from 'prop-types';
 import EditPhoto from "../../../components/EditPhoto/EditPhoto";
 import DeleteButton from "../../../components/DeleteButton/DeleteButton";
 import PrivacyButton from "../../../components/PrivacyButton/PrivacyButton";
+import { Tooltip } from "flowbite-react";
 
 export default function ShowPhoto() {
     const { id } = useParams();
@@ -98,10 +99,11 @@ export default function ShowPhoto() {
                         <img className="max-w-full max-h-full object-contain" src={photo.image_url} alt={photo.title} />
                     </div>
                     <div className="relative flex flex-col col-span-1 justify-start items-start w-full h-[900px] overflow-hidden overflow-y-auto px-10 gap-20 pb-10">
-                        <div className="sticky top-0 left-0 bg-white flex justify-start gap-10 py-5 w-full">
+                        <div className="sticky top-0 left-0 bg-white flex justify-start items-center gap-10 py-5 w-full">
                             <LikeButton type="photo" id={photo.id} showLike={false} />
                             <NewWishList type="photo" id={photo?.id} />
                             {photo?.user?.id !== user.id && <PaymentPhoto onPayment={photo} />}
+                            {photo?.user?.id === user.id && !photo.is_free && <Tooltip content={photo?.precio}><i className="fa-solid fa-dollar-sign text-3xl"></i></Tooltip>}
                             { photo.user?.id === user.id && (
                                 <>
                                     <EditPhoto photoData={photo} />

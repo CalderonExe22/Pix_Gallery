@@ -28,7 +28,22 @@ export default function SalesHistory() {
     const getPayments = async (userId) => {
         try {
             const response = await axiosApi.get('payments/success/get_all_payments/');
-            const filteredPayments = response.data.filter(payment => payment?.photo_user === userId || payment?.collection_user_id === userId);
+            const paymentData = response.data;
+            const paymentsWithCollections = await Promise.all(
+                paymentData.map(async (payment) => {
+                    if (payment.type_payment === 'collection') {
+                        try {
+                            const collectionResponse = await axiosApi.get(`photos/collections/${payment.collection}`);
+                            return { ...payment, collectionPhotos: collectionResponse.data.photos || [] };
+                        } catch (error) {
+                            console.error('Error al cargar la colección:', error);
+                            return { ...payment, collectionPhotos: [] };
+                        }
+                    }
+                    return payment;
+                })
+            );
+            const filteredPayments = paymentsWithCollections.filter(payment => payment?.photo_user === userId || payment?.collection_user_id === userId);
             console.log('Pagos Antes del Filtro:', response.data);
             console.log('Pagos:', filteredPayments);
             setPayments(filteredPayments);
@@ -102,12 +117,16 @@ export default function SalesHistory() {
                         {payments.map((payment, index) => (
                             <tr key={index}>
                                 <td className="border px-4 py-2 text-center">
-                                    <div className="w-[75x] h-[75px] flex justify-center">
+                                    <div className="w-[250px] h-[250px] flex justify-center">
                                     {
                                         payment.type_payment === 'photo' ?
                                             <img src={payment.photo_image} alt={payment.photo_title} />
                                         :
-                                            <p>Collection Photo</p>
+                                        <Carousel rightControl={<div className="flex justify-center items-center p-2 rounded-full text-4xl border-2 border-solid border-[#3a0ca3] bg-[#3a0ca3] text-white transition-colors duration-300 hover:bg-[#fff] hover:text-[#3a0ca3]"><i className="fa-solid fa-chevron-right"></i></div>} leftControl={<div className="flex justify-center items-center p-2 rounded-full text-4xl border-2 border-solid border-[#3a0ca3] bg-[#3a0ca3] text-white transition-colors duration-300 hover:bg-[#fff] hover:text-[#3a0ca3]"><i className="fa-solid fa-chevron-left"></i></div>}>
+                                            {payment?.collectionPhotos?.map((photo) => (
+                                                <img className="max-w-full max-h-full object-contain" key={photo.id} src={photo.image_url} alt={photo.title} />
+                                            ))}
+                                        </Carousel>
                                     }
                                     </div>
                                 </td>
